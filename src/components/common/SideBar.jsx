@@ -7,7 +7,6 @@ import {
     Icon,
     useColorMode,
     useColorModeValue,
-    Link,
     Drawer,
     DrawerContent,
     Text,
@@ -94,6 +93,19 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     {link.name}
                 </NavItem>
             ))}
+            {/* <Flex justifyContent={'start'} mt='auto'> */}
+            <Button
+                width='90%'
+                position={'absolute'}
+                _hover={{
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'lg',
+                }}
+                left='5%'
+                bottom='1rem'>
+                Logout
+            </Button>
+            {/* </Flex> */}
         </Box>
     );
 };
