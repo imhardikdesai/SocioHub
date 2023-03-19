@@ -1,0 +1,23 @@
+.main-content {
+    header {
+        @media (max-width:605px) {
+            flex-direction: column-reverse;
+        }
+
+
+        .header-profile {
+            @media (max-width:605px) {
+                width: 70% !important;
+                margin: 10px auto !important;
+                justify-content: space-between !important;
+            }
+
+        }
+
+        #dark-btn {
+            @media (max-width:605px) {
+                display: none;
+            }
+        }
+    }
+}

@@ -19,7 +19,7 @@ const SearchBar = () => {
                         </InputRightElement>
                     </InputGroup>
                 </FormControl>
-                <Button className='ms-2' onClick={toggleColorMode}>
+                <Button id='dark-btn' className='ms-2' onClick={toggleColorMode}>
                     {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                 </Button>
             </div>

@@ -1,5 +1,6 @@
 import { Heading } from '@chakra-ui/react'
 import React from 'react'
+import DummyPostData from '../../constant/DummyPostData'
 import PostCard from './PostCard'
 
 const PostGallery = () => {
@@ -10,7 +11,11 @@ const PostGallery = () => {
             </nav>
             <div className="container-fluid mt-4">
                 <div className='row'>
-                    <PostCard />
+                    {
+                        DummyPostData && DummyPostData.map(item => {
+                            return <PostCard key={item.id} item={item}/>
+                        })
+                    }
                 </div>
             </div>
         </>
