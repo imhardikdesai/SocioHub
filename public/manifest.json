@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "SocioHub",
+  "name": "Connect with your friends and family",
+  "description": "SocioHub is a social media platform where you can connect with your friends and family. You can share your thoughts, photos, videos, and more.",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,10 +1,9 @@
-import './App.css';
-import SideBar from './view/SideBar';
+import Home from './view/home/Home';
 
 function App() {
   return (
     <div className="App">
-      <SideBar/>
+      <Home />
     </div>
   );
 }

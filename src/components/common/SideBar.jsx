@@ -26,9 +26,8 @@ import {
 import {
     FaRegUserCircle
 } from 'react-icons/fa';
-import logo from './../assets/img/Logo.png'
+import logo from '../../assets/img/Logo.png'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-
 
 const LinkItems = [
     { name: 'Home', icon: FiHome },
@@ -41,7 +40,7 @@ const LinkItems = [
 export default function SideBar({ children }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
-        <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+        <Box className='sidebar-box' minH="100vh" width={'239px'} bg={useColorModeValue('gray.100', 'gray.900')}>
             <SidebarContent
                 onClose={() => onClose}
                 display={{ base: 'none', md: 'block' }}
@@ -133,29 +132,31 @@ const NavItem = ({ icon, children, ...rest }) => {
 const MobileNav = ({ onOpen, ...rest }) => {
     const { colorMode, toggleColorMode } = useColorMode();
     return (
-        <Flex
-            ml={{ base: 0, md: 60 }}
-            px={{ base: 4, md: 24 }}
-            height="20"
-            alignItems="center"
-            bg={useColorModeValue('white', 'gray.900')}
-            borderBottomWidth="1px"
-            borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-            justifyContent="flex-start"
-            {...rest}>
-            <IconButton
-                variant="outline"
-                onClick={onOpen}
-                aria-label="open menu"
-                icon={<FiMenu />}
-            />
+        <>
+            <Flex
+                ml={{ base: 0, md: 60 }}
+                px={{ base: 4, md: 24 }}
+                height="20"
+                alignItems="center"
+                bg={useColorModeValue('white', 'gray.900')}
+                borderBottomWidth="1px"
+                borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+                justifyContent="flex-start"
+                {...rest}>
+                <IconButton
+                    variant="outline"
+                    onClick={onOpen}
+                    aria-label="open menu"
+                    icon={<FiMenu />}
+                />
 
-            <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-                SocioHub
-            </Text>
-            <Button className='ms-auto' onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-            </Button>
-        </Flex>
+                <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
+                    SocioHub
+                </Text>
+                <Button className='ms-auto' onClick={toggleColorMode}>
+                    {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                </Button>
+            </Flex>
+        </>
     );
 };
