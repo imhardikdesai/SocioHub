@@ -30,7 +30,7 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { NavLink } from 'react-router-dom';
 
 const LinkItems = [
-    { name: 'Home', icon: FiHome, path: '/' },
+    { name: 'Home', icon: FiHome, path: '/posts' },
     { name: 'Profile', icon: FaRegUserCircle, path: '/profile' },
     { name: 'Explore', icon: FiCompass, path: '/explore' },
     { name: 'Activity', icon: AiOutlineHeart, path: '/activity' },
@@ -93,19 +93,19 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     {link.name}
                 </NavItem>
             ))}
-            {/* <Flex justifyContent={'start'} mt='auto'> */}
-            <Button
-                width='90%'
-                position={'absolute'}
-                _hover={{
-                    transform: 'translateY(-2px)',
-                    boxShadow: 'lg',
-                }}
-                left='5%'
-                bottom='1rem'>
-                Logout
-            </Button>
-            {/* </Flex> */}
+            <NavLink to={'/login'}>
+                <Button
+                    width='90%'
+                    position={'absolute'}
+                    _hover={{
+                        transform: 'translateY(-2px)',
+                        boxShadow: 'lg',
+                    }}
+                    left='5%'
+                    bottom='1rem'>
+                    Logout
+                </Button>
+            </NavLink>
         </Box>
     );
 };
