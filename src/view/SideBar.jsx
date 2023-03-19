@@ -5,11 +5,13 @@ import {
     CloseButton,
     Flex,
     Icon,
+    useColorMode,
     useColorModeValue,
     Link,
     Drawer,
     DrawerContent,
     Text,
+    Button,
     useDisclosure,
 } from '@chakra-ui/react';
 import {
@@ -25,6 +27,7 @@ import {
     FaRegUserCircle
 } from 'react-icons/fa';
 import logo from './../assets/img/Logo.png'
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 
 const LinkItems = [
@@ -77,8 +80,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
             h="full"
             {...rest}>
             <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-                <div className='d-flex align-items-center justify-content-evenly w-sm-100'>
-                    <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+                <div className='d-flex align-items-center justify-content-md-evenly w-100 justify-content-sm-start'>
+                    <Text className='me-2' fontSize="2xl" fontFamily="monospace" fontWeight="bold">
                         SocioHub
                     </Text>
                     <img className='logo' src={logo} alt="LOGO" />
@@ -128,6 +131,7 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 
 const MobileNav = ({ onOpen, ...rest }) => {
+    const { colorMode, toggleColorMode } = useColorMode();
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -149,6 +153,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
             <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
                 SocioHub
             </Text>
+            <Button className='ms-auto' onClick={toggleColorMode}>
+                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            </Button>
         </Flex>
     );
 };
