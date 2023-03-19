@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from '../../components/common/SideBar'
 import SearchBar from '../../components/common/SearchBar'
+import { Outlet } from 'react-router-dom'
 
 const Home = () => {
     return (
@@ -9,6 +10,7 @@ const Home = () => {
                 <Sidebar />
                 <section className='main-content p-4'>
                     <SearchBar />
+                    <Outlet />
                 </section>
             </main>
         </>
