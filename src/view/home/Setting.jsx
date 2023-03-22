@@ -1,10 +1,13 @@
 import React from 'react'
+import SettingProfile from '../../components/SettingProfile'
 
 const Setting = () => {
     return (
-        <div>
-            Setting
-        </div>
+        <>
+            <div>
+                <SettingProfile />
+            </div>
+        </>
     )
 }
 

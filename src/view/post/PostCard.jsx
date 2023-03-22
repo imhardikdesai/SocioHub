@@ -10,7 +10,7 @@ const PostCard = ({ item }) => {
         <>
             <div className="col">
 
-                <Card my={2} maxW='sm'>
+                <Card my={2} maxW='sm' className='post-card'>
                     <CardBody p={2}>
                         <Image
                             src={image}
@@ -23,7 +23,7 @@ const PostCard = ({ item }) => {
                             borderRadius='lg'
                         /> */}
                         <Text className='p-3'>
-                            {caption}
+                            {caption.substr(0,70)}...
                         </Text>
                     </CardBody>
                     <CardFooter p={2}>

@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import ErrorPage from './components/common/ErrorPage';
 import Login from './view/auth/Login';
@@ -10,6 +11,7 @@ import PostGallery from './view/post/PostGallery';
 function App() {
   return (
     <div className="App">
+      <Toaster />
       {/* <Home /> */}
       <Routes>
         <Route exact path='/' element={<Home />} >
