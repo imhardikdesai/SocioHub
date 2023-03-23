@@ -1,3 +1,11 @@
-.post-card{
-    height: 450px;
+.post-card {
+    height: 400px;
+}
+
+.popover {
+    border: 0 !important;
+
+    :nth-child(2) {
+        padding: 8px !important;
+    }
 }

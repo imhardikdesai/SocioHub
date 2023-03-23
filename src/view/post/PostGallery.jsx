@@ -4,6 +4,8 @@ import DummyPostData from '../../constant/DummyPostData'
 import PostCard from './PostCard'
 
 const PostGallery = () => {
+
+
     return (
         <>
             <nav>
@@ -13,7 +15,7 @@ const PostGallery = () => {
                 <div className='row'>
                     {
                         DummyPostData && DummyPostData.map(item => {
-                            return <PostCard key={item.id} item={item}/>
+                            return <PostCard key={item.id} item={item} />
                         })
                     }
                 </div>
