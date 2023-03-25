@@ -19,32 +19,25 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import LoginSchema from '../../validation/LoginSchema'
 import { auth } from '../../config/firbase-config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function Login() {
+    const { currentUser, setCurrentUser } = useContext(AuthContext)
     const navigate = useNavigate()
     const initialValues = {
-        email: '',
-        password: ''
+        email: 'demo@gmail.com',
+        password: 'Hardik@123'
     }
     const handleLogin = async (values) => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+            setCurrentUser(userCredential.user)
             toast.success('Login Successfully !!')
-            const user = userCredential.user;
-            console.log(user);
             navigate('/posts')
         } catch (err) {
             toast.error(err.message)
         }
-        // auth.signInWithEmailAndPassword(values.email, values.password)
-        //     .then((userCredential) => {
-        //         toast.success('Login Successfully !!')
-        //         const user = userCredential.user;
-        //         navigate('/')
-        //     })
-        //     .catch(error => {
-        //         toast.error(error.message)
-        //     });
     }
 
     const formik = useFormik({
@@ -52,6 +45,12 @@ export default function Login() {
         onSubmit: handleLogin,
         validationSchema: LoginSchema
     })
+
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/posts')
+        }
+    }, [navigate, currentUser])
     return (
         <Flex
             minH={'100vh'}

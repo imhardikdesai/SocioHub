@@ -14,7 +14,7 @@ import {
     useColorModeValue,
     FormErrorMessage,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -24,15 +24,16 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, database } from '../../config/firbase-config';
 import { ref, set } from 'firebase/database';
 import { toast } from 'react-hot-toast';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function SignUp() {
-    auth.signOut()
+    const { currentUser, setCurrentUser } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
     const initialValues = {
         firstName: 'Hardik',
         lastName: 'Desai',
-        email: 'demo@gmail.cvom',
+        email: 'demo@gmail.com',
         password: 'Hardik@123',
     }
     const handleSubmit = async (values) => {
@@ -42,6 +43,7 @@ export default function SignUp() {
                 firstName: values.firstName,
                 lastName: values.lastName
             });
+            setCurrentUser(userCredential.user)
             navigate('/posts')
             toast.success("Signup Successfully !!")
         } catch (error) {
@@ -54,6 +56,11 @@ export default function SignUp() {
         onSubmit: handleSubmit,
         validationSchema: SignupSchema
     })
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/posts')
+        }
+    }, [currentUser, navigate])
 
     return (
         <Flex

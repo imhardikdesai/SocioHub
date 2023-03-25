@@ -18,12 +18,14 @@ const RouteLinks = () => {
                         <Route path='/' element={<Navigate to="/posts" />} />
                         <Route path='/posts' element={<PostGallery />} />
                         <Route path='/profile' element={<Profile />} />
+                        <Route path='/explore' element={<ErrorPage />} />
+                        <Route path='/activity' element={<ErrorPage />} />
                         <Route path='/setting' element={<Setting />} />
-                        <Route path='*' element={<ErrorPage />} />
                     </Route>
                 </Route>
                 <Route path='/login' element={<Login />} />
                 <Route path='/signup' element={<SignUp />} />
+                <Route path='*' element={<ErrorPage />} />
             </Routes>
         </>
     )
