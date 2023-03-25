@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, SimpleGrid,Avatar,Select,Divider,VisuallyHidden,InputLeftAddon,FormHelperText,Radio,RadioGroup, Button, FormControl, Flex, Text, Heading, Input, Icon, FormLabel, Textarea, Stack, chakra, Checkbox, GridItem, InputGroup } from '@chakra-ui/react'
+import { Box, SimpleGrid, Avatar, Select, Divider, VisuallyHidden, FormHelperText, Button, FormControl, Flex, Text, Heading, Input, Icon, FormLabel, Textarea, Stack, chakra, GridItem } from '@chakra-ui/react'
 import { FaUser } from 'react-icons/fa'
 const SettingProfile = () => {
     return (
@@ -7,7 +7,7 @@ const SettingProfile = () => {
             <Box
                 bg="#edf3f8"
                 _dark={{
-                    bg: "#111",
+                    bg: "#1d2432",
                 }}
                 p={10}
             >
@@ -72,39 +72,6 @@ const SettingProfile = () => {
                                         sm: 6,
                                     }}
                                 >
-                                    <SimpleGrid columns={3} spacing={6}>
-                                        <FormControl as={GridItem} colSpan={[3, 2]}>
-                                            <FormLabel
-                                                fontSize="sm"
-                                                fontWeight="md"
-                                                color="gray.700"
-                                                _dark={{
-                                                    color: "gray.50",
-                                                }}
-                                            >
-                                                Website
-                                            </FormLabel>
-                                            <InputGroup size="sm">
-                                                <InputLeftAddon
-                                                    bg="gray.50"
-                                                    _dark={{
-                                                        bg: "gray.800",
-                                                    }}
-                                                    color="gray.500"
-                                                    rounded="md"
-                                                >
-                                                    http://
-                                                </InputLeftAddon>
-                                                <Input
-                                                    type="tel"
-                                                    placeholder="www.example.com"
-                                                    focusBorderColor="brand.400"
-                                                    rounded="md"
-                                                />
-                                            </InputGroup>
-                                        </FormControl>
-                                    </SimpleGrid>
-
                                     <div>
                                         <FormControl id="email" mt={1}>
                                             <FormLabel
@@ -164,8 +131,9 @@ const SettingProfile = () => {
                                                     />
                                                 }
                                             />
-                                            <Button
-                                                type="button"
+
+                                            <Input
+                                                type='file'
                                                 ml={5}
                                                 variant="outline"
                                                 size="sm"
@@ -173,9 +141,18 @@ const SettingProfile = () => {
                                                 _focus={{
                                                     shadow: "none",
                                                 }}
-                                            >
-                                                Change
-                                            </Button>
+                                            />
+                                            {/* <Button
+                                                type='button'
+                                                ml={5}
+                                                variant="outline"
+                                                size="sm"
+                                                fontWeight="medium"
+                                                _focus={{
+                                                    shadow: "none",
+                                                }}
+                                            >Change
+                                            </Button> */}
                                         </Flex>
                                     </FormControl>
 
@@ -612,263 +589,9 @@ const SettingProfile = () => {
                     </SimpleGrid>
                 </Box>
 
-                <Divider
-                    my="5"
-                    borderColor="gray.300"
-                    _dark={{
-                        borderColor: "whiteAlpha.300",
-                    }}
-                    visibility={{
-                        base: "hidden",
-                        sm: "visible",
-                    }}
-                />
 
-                <Box mt={[10, 0]}>
-                    <SimpleGrid
-                        display={{
-                            base: "initial",
-                            md: "grid",
-                        }}
-                        columns={{
-                            md: 3,
-                        }}
-                        spacing={{
-                            md: 6,
-                        }}
-                    >
-                        <GridItem
-                            colSpan={{
-                                md: 1,
-                            }}
-                        >
-                            <Box px={[4, 0]}>
-                                <Heading fontSize="lg" fontWeight="medium" lineHeight="6">
-                                    Notifications
-                                </Heading>
-                                <Text
-                                    mt={1}
-                                    fontSize="sm"
-                                    color="gray.600"
-                                    _dark={{
-                                        color: "gray.400",
-                                    }}
-                                >
-                                    Decide which communications you'd like to receive and how.
-                                </Text>
-                            </Box>
-                        </GridItem>
-                        <GridItem
-                            mt={[5, null, 0]}
-                            colSpan={{
-                                md: 2,
-                            }}
-                        >
-                            <chakra.form
-                                method="POST"
-                                shadow="base"
-                                rounded={[null, "md"]}
-                                overflow={{
-                                    sm: "hidden",
-                                }}
-                            >
-                                <Stack
-                                    px={4}
-                                    py={5}
-                                    p={[null, 6]}
-                                    bg="white"
-                                    _dark={{
-                                        bg: "#141517",
-                                    }}
-                                    spacing={6}
-                                >
-                                    <chakra.fieldset>
-                                        <Box
-                                            as="legend"
-                                            fontSize="md"
-                                            color="gray.900"
-                                            _dark={{
-                                                color: "gray.50",
-                                            }}
-                                        >
-                                            By Email
-                                        </Box>
-                                        <Stack mt={4} spacing={4}>
-                                            <Flex alignItems="start">
-                                                <Flex alignItems="center" h={5}>
-                                                    <Checkbox
-                                                        colorScheme="brand"
-                                                        borderColor="brand.700"
-                                                        _dark={{
-                                                            borderColor: "gray.50",
-                                                        }}
-                                                        id="comments"
-                                                        rounded="md"
-                                                    />
-                                                </Flex>
-                                                <Box ml={3} fontSize="sm">
-                                                    <chakra.label
-                                                        htmlFor="comments"
-                                                        fontWeight="md"
-                                                        color="gray.700"
-                                                        _dark={{
-                                                            color: "gray.50",
-                                                        }}
-                                                    >
-                                                        Comments
-                                                    </chakra.label>
-                                                    <Text
-                                                        color="gray.500"
-                                                        _dark={{
-                                                            color: "gray.400",
-                                                        }}
-                                                    >
-                                                        Get notified when someones posts a comment on a posting.
-                                                    </Text>
-                                                </Box>
-                                            </Flex>
-                                            <Flex alignItems="start">
-                                                <Flex alignItems="center" h={5}>
-                                                    <Checkbox
-                                                        colorScheme="brand"
-                                                        borderColor="brand.700"
-                                                        _dark={{
-                                                            borderColor: "gray.50",
-                                                        }}
-                                                        id="candidates"
-                                                        rounded="md"
-                                                    />
-                                                </Flex>
-                                                <Box ml={3} fontSize="sm">
-                                                    <chakra.label
-                                                        htmlFor="candidates"
-                                                        fontWeight="md"
-                                                        color="gray.700"
-                                                        _dark={{
-                                                            color: "gray.50",
-                                                        }}
-                                                    >
-                                                        Candidates
-                                                    </chakra.label>
-                                                    <Text
-                                                        color="gray.500"
-                                                        _dark={{
-                                                            color: "gray.400",
-                                                        }}
-                                                    >
-                                                        Get notified when a candidate applies for a job.
-                                                    </Text>
-                                                </Box>
-                                            </Flex>
-                                            <Flex alignItems="start">
-                                                <Flex alignItems="center" h={5}>
-                                                    <Checkbox
-                                                        colorScheme="brand"
-                                                        borderColor="brand.700"
-                                                        _dark={{
-                                                            borderColor: "gray.50",
-                                                        }}
-                                                        id="offers"
-                                                        rounded="md"
-                                                    />
-                                                </Flex>
-                                                <Box ml={3} fontSize="sm">
-                                                    <chakra.label
-                                                        htmlFor="offers"
-                                                        fontWeight="md"
-                                                        color="gray.700"
-                                                        _dark={{
-                                                            color: "gray.50",
-                                                        }}
-                                                    >
-                                                        Offers
-                                                    </chakra.label>
-                                                    <Text
-                                                        color="gray.500"
-                                                        _dark={{
-                                                            color: "gray.400",
-                                                        }}
-                                                    >
-                                                        Get notified when a candidate accepts or rejects an offer.
-                                                    </Text>
-                                                </Box>
-                                            </Flex>
-                                        </Stack>
-                                    </chakra.fieldset>
-                                    <chakra.fieldset>
-                                        <Box
-                                            as="legend"
-                                            fontSize="md"
-                                            color="gray.900"
-                                            _dark={{
-                                                color: "gray.50",
-                                            }}
-                                        >
-                                            Push Notifications
-                                            <Text
-                                                fontSize="sm"
-                                                color="gray.500"
-                                                _dark={{
-                                                    color: "gray.400",
-                                                }}
-                                            >
-                                                These are delivered via SMS to your mobile phone.
-                                            </Text>
-                                        </Box>
-                                        <RadioGroup
-                                            fontSize="sm"
-                                            color="gray.700"
-                                            _dark={{
-                                                color: "gray.50",
-                                                borderColor: "gray.50",
-                                            }}
-                                            colorScheme="brand"
-                                            mt={4}
-                                            defaultValue="1"
-                                            borderColor="brand.700"
-                                        >
-                                            <Stack spacing={4}>
-                                                <Radio spacing={3} value="1">
-                                                    Everything
-                                                </Radio>
-                                                <Radio spacing={3} value="2">
-                                                    Same as email
-                                                </Radio>
-                                                <Radio spacing={3} value="3">
-                                                    No push notifications
-                                                </Radio>
-                                            </Stack>
-                                        </RadioGroup>
-                                    </chakra.fieldset>
-                                </Stack>
-                                <Box
-                                    px={{
-                                        base: 4,
-                                        sm: 6,
-                                    }}
-                                    py={3}
-                                    bg="gray.50"
-                                    _dark={{
-                                        bg: "#121212",
-                                    }}
-                                    textAlign="right"
-                                >
-                                    <Button
-                                        type="submit"
-                                        colorScheme="brand"
-                                        _focus={{
-                                            shadow: "",
-                                        }}
-                                        fontWeight="md"
-                                    >
-                                        Save
-                                    </Button>
-                                </Box>
-                            </chakra.form>
-                        </GridItem>
-                    </SimpleGrid>
-                </Box>
-            </Box>;
+
+            </Box>
         </>
     )
 }

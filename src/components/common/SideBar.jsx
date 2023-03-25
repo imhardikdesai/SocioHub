@@ -27,7 +27,9 @@ import {
 } from 'react-icons/fa';
 import logo from '../../assets/img/Logo.png'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { auth } from '../../config/firbase-config';
+import { toast } from 'react-hot-toast';
 
 const LinkItems = [
     { name: 'Home', icon: FiHome, path: '/posts' },
@@ -69,6 +71,17 @@ export default function SideBar({ children }) {
 
 
 const SidebarContent = ({ onClose, ...rest }) => {
+    const navigate = useNavigate()
+    const handleLogOut = () => {
+        auth.signOut()
+            .then(() => {
+                toast.success('Successfully Logged out')
+                navigate('/login')
+            })
+            .catch(error => {
+                toast.error(error.message)
+            });
+    }
     return (
         <Box
             bg={useColorModeValue('white', 'gray.900')}
@@ -95,6 +108,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             ))}
             <NavLink to={'/login'}>
                 <Button
+                    onClick={handleLogOut}
                     width='90%'
                     position={'absolute'}
                     _hover={{
