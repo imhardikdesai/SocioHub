@@ -138,9 +138,11 @@ import {
     Button,
     useColorModeValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function ProfileView() {
+    const { userDetails } = useContext(AuthContext)
     const [isFollow, setIsFollow] = useState(false)
     const handleFollow = () => {
         setIsFollow(prev => !prev)
@@ -178,7 +180,7 @@ export default function ProfileView() {
                 <Box p={6}>
                     <Stack spacing={0} align={'center'} mb={5}>
                         <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
-                            John Doe
+                            {userDetails ? userDetails.firstName + ' ' + userDetails.lastName : "loading..."}
                         </Heading>
                         <Text color={'gray.500'}>Frontend Developer</Text>
                     </Stack>

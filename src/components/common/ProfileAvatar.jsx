@@ -1,6 +1,9 @@
+import { useContext } from 'react';
 import { Avatar, Box, Heading, keyframes } from '@chakra-ui/react';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function ProfileAvatar() {
+    const { userDetails } = useContext(AuthContext)
     const size = '50px';
     const color = 'teal';
 
@@ -17,9 +20,10 @@ export default function ProfileAvatar() {
   }
 	`;
 
+
     return (
         <div className="header-profile d-flex mx-5 w-50 align-items-center justify-content-evenly">
-            <Heading size='md'>Hi, Michael</Heading>
+            <Heading size='md'>{userDetails ? 'Hii, ' + userDetails.firstName + ' ' + userDetails.lastName : "loading..."}</Heading>
             <Box
                 as="div"
                 position="relative"
