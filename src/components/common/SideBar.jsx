@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import {
     IconButton,
     Box,
@@ -30,6 +30,9 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firbase-config';
 import { toast } from 'react-hot-toast';
+import { AuthContext } from '../../context/AuthContext';
+import { showRelevantErrorMessage } from '../../utility/utils';
+import Loader from './Loader';
 
 const LinkItems = [
     { name: 'Home', icon: FiHome, path: '/posts' },
@@ -71,42 +74,48 @@ export default function SideBar({ children }) {
 
 
 const SidebarContent = ({ onClose, ...rest }) => {
+    const [loading, setLoading] = useState(false)
+    const { setCurrentUser } = useContext(AuthContext)
     const navigate = useNavigate()
-    const handleLogOut = () => {
-        auth.signOut()
-            .then(() => {
-                toast.success('Successfully Logged out')
-                navigate('/login')
-            })
-            .catch(error => {
-                toast.error(error.message)
-            });
+    const handleLogOut = async () => {
+        setLoading(true)
+        try {
+            await auth.signOut()
+            setCurrentUser(null)
+            toast.success('Successfully Logged out')
+            navigate('/login')
+            setLoading(false)
+        } catch (error) {
+            showRelevantErrorMessage(error)
+            setLoading(false)
+        }
     }
     return (
-        <Box
-            bg={useColorModeValue('white', 'gray.900')}
-            borderRight="1px"
-            borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-            w={{ base: 'full', md: 60 }}
-            pos="fixed"
-            h="full"
-            {...rest}>
-            <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-                <div className='d-flex align-items-center justify-content-md-evenly w-100 justify-content-sm-start'>
-                    <Text className='me-2' fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-                        SocioHub
-                    </Text>
-                    <img className='logo' src={logo} alt="LOGO" />
-                </div>
+        <>
+            {loading && <Loader />}
+            <Box
+                bg={useColorModeValue('white', 'gray.900')}
+                borderRight="1px"
+                borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+                w={{ base: 'full', md: 60 }}
+                pos="fixed"
+                h="full"
+                {...rest}>
+                <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+                    <div className='d-flex align-items-center justify-content-md-evenly w-100 justify-content-sm-start'>
+                        <Text className='me-2' fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+                            SocioHub
+                        </Text>
+                        <img className='logo' src={logo} alt="LOGO" />
+                    </div>
 
-                <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
-            </Flex>
-            {LinkItems.map((link) => (
-                <NavItem path={link.path} key={link.name} icon={link.icon}>
-                    {link.name}
-                </NavItem>
-            ))}
-            <NavLink to={'/login'}>
+                    <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+                </Flex>
+                {LinkItems.map((link) => (
+                    <NavItem path={link.path} key={link.name} icon={link.icon}>
+                        {link.name}
+                    </NavItem>
+                ))}
                 <Button
                     onClick={handleLogOut}
                     width='90%'
@@ -119,8 +128,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     bottom='1rem'>
                     Logout
                 </Button>
-            </NavLink>
-        </Box>
+            </Box>
+        </>
     );
 };
 
