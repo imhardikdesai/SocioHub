@@ -58,7 +58,7 @@ const SearchBar = () => {
                 justifyContent="center"
             >
                 <AutoComplete rollNavigation>
-                    <AutoCompleteInput placeholder="Search..." autoFocus />
+                    <AutoCompleteInput placeholder="Search..." />
                     <AutoCompleteList>
                         {people.map((person, oid) => (
                             <AutoCompleteItem

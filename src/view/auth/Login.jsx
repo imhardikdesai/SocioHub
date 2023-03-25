@@ -18,7 +18,7 @@ import { useFormik } from 'formik';
 import { toast } from 'react-hot-toast';
 import { NavLink, useNavigate } from 'react-router-dom';
 import LoginSchema from '../../validation/LoginSchema'
-import { auth } from '../../config/firbase-config';
+import { auth } from '../../firebase/firebase-config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { AuthContext } from '../../context/AuthContext';
 import { showRelevantErrorMessage } from '../../utility/utils';

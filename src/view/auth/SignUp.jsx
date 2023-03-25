@@ -21,7 +21,7 @@ import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import SignupSchema from '../../validation/SignupSchema';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, database } from '../../config/firbase-config';
+import { auth, database } from '../../firebase/firebase-config';
 import { ref, set } from 'firebase/database';
 import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';

@@ -28,7 +28,7 @@ import {
 import logo from '../../assets/img/Logo.png'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { auth } from '../../config/firbase-config';
+import { auth } from '../../firebase/firebase-config';
 import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { showRelevantErrorMessage } from '../../utility/utils';
