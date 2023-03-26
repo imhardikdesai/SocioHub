@@ -19,7 +19,8 @@ export default function ProfileAvatar() {
                 h={size}
             >
                 <Avatar
-                    src="https://i.pravatar.cc/300"
+                    src="https://firebasestorage.googleapis.com/v0/b/socio-hub-1d1d1.appspot.com/o/IMG_1392%20(2).JPG?alt=media&token=a22b376c-8edc-42b9-ab1e-d61b6ee5fb6f"
+                    // src="https://i.pravatar.cc/300"
                     size="full"
                     position="absolute"
                     top={0}

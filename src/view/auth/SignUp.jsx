@@ -46,7 +46,8 @@ export default function SignUp() {
             if (userCredential) {
                 await set(ref(database, 'users/' + userCredential.user.uid), {
                     firstName: values.firstName,
-                    lastName: values.lastName
+                    lastName: values.lastName,
+                    isOnboarding: false
                 });
                 setCurrentUser(userCredential.user)
                 toast.success("Signup Successfully !!")

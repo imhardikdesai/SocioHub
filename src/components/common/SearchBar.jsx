@@ -3,6 +3,7 @@ import { useColorMode, Avatar, Button, Flex, Text } from '@chakra-ui/react';
 import { AutoComplete, AutoCompleteInput, AutoCompleteItem, AutoCompleteList } from '@choc-ui/chakra-autocomplete';
 import React from 'react'
 import { toast } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const SearchBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -38,7 +39,7 @@ const SearchBar = () => {
             background: "#333",
             color: "#fff"
         } : {
-            borderRadius: "10px",   
+            borderRadius: "10px",
             background: "#fff",
             color: "#333",
         }
@@ -61,15 +62,17 @@ const SearchBar = () => {
                     <AutoCompleteInput placeholder="Search..." />
                     <AutoCompleteList>
                         {people.map((person, oid) => (
-                            <AutoCompleteItem
-                                key={`option-${oid}`}
-                                value={person.name}
-                                textTransform="capitalize"
-                                align="center"
-                            >
-                                <Avatar size="sm" name={person.name} src={person.image} />
-                                <Text ml="4">{person.name}</Text>
-                            </AutoCompleteItem>
+                            <Link to={`/profile/${person.name}`}>
+                                <AutoCompleteItem
+                                    key={`option-${oid}`}
+                                    value={person.name}
+                                    textTransform="capitalize"
+                                    align="center"
+                                >
+                                    <Avatar size="sm" name={person.name} src={person.image} />
+                                    <Text ml="4">{person.name}</Text>
+                                </AutoCompleteItem>
+                            </Link>
                         ))}
                     </AutoCompleteList>
                 </AutoComplete>

@@ -82,7 +82,7 @@ const SettingProfile = () => {
                                                     color: "gray.50",
                                                 }}
                                             >
-                                                About
+                                                Bio
                                             </FormLabel>
                                             <Textarea
                                                 placeholder="you@example.com"
@@ -131,7 +131,6 @@ const SettingProfile = () => {
                                                     />
                                                 }
                                             />
-
                                             <Input
                                                 type='file'
                                                 ml={5}
@@ -142,20 +141,9 @@ const SettingProfile = () => {
                                                     shadow: "none",
                                                 }}
                                             />
-                                            {/* <Button
-                                                type='button'
-                                                ml={5}
-                                                variant="outline"
-                                                size="sm"
-                                                fontWeight="medium"
-                                                _focus={{
-                                                    shadow: "none",
-                                                }}
-                                            >Change
-                                            </Button> */}
                                         </Flex>
                                     </FormControl>
-
+                                    {/* Drag and Drop Cover Photo  */}
                                     <FormControl>
                                         <FormLabel
                                             fontSize="sm"
