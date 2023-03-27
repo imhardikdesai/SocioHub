@@ -20,53 +20,95 @@ import {
     chakra,
     VisuallyHidden,
     Text,
-    Icon
+    Icon,
+    FormErrorMessage
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
-import { useToast } from '@chakra-ui/react';
 import CountryData from '../../constant/CountryData';
+import { useFormik } from 'formik';
+import SignupSchema from '../../validation/SignupSchema';
+
 
 // First Name , Last name , Email and Password
-const Form1 = () => {
-    const [show, setShow] = React.useState(false);
+const Form1 = (props) => {
+    const { values, handleChange, handleBlur, errors, touched } = props.action
+    const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
+
+
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
                 User Registration
             </Heading>
+            {/* <Form> */}
             <Flex>
-                <FormControl mr="5%">
-                    <FormLabel htmlFor="first-name" fontWeight={'normal'}>
-                        First name
-                    </FormLabel>
-                    <Input id="first-name" placeholder="First name" />
+                <FormControl
+                    mr='5%'
+                    id="firstName"
+                    isInvalid={errors.firstName && touched.firstName}>
+                    <FormLabel>First Name</FormLabel>
+                    <Input
+                        name='firstName'
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.firstName}
+                        type="text"
+                        placeholder='First Name' />
+                    {touched.firstName && (
+                        <FormErrorMessage>{errors.firstName}</FormErrorMessage>
+                    )}
                 </FormControl>
 
-                <FormControl>
-                    <FormLabel htmlFor="last-name" fontWeight={'normal'}>
-                        Last name
-                    </FormLabel>
-                    <Input id="last-name" placeholder="First name" />
+                <FormControl
+                    id="lastName"
+                    isInvalid={errors.lastName && touched.lastName}>
+                    <FormLabel>Last Name</FormLabel>
+                    <Input
+                        name='lastName'
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.lastName}
+                        type="text"
+                        placeholder='Last Name' />
+                    {touched.lastName && (
+                        <FormErrorMessage>{errors.lastName}</FormErrorMessage>
+                    )}
                 </FormControl>
             </Flex>
-            <FormControl mt="2%">
-                <FormLabel htmlFor="email" fontWeight={'normal'}>
-                    Email address
-                </FormLabel>
-                <Input id="email" type="email" />
+
+            <FormControl
+                mt={'2%'}
+                id="email"
+                isInvalid={errors.email && touched.email}>
+                <FormLabel>Email address</FormLabel>
+                <Input
+                    name='email'
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    type="email"
+                />
                 <FormHelperText>We'll never share your email.</FormHelperText>
+                {touched.email && (
+                    <FormErrorMessage>{errors.email}</FormErrorMessage>
+                )}
             </FormControl>
 
-            <FormControl>
+            <FormControl
+                id="password"
+                isInvalid={errors.password && touched.password}>
                 <FormLabel htmlFor="password" fontWeight={'normal'} mt="2%">
                     Password
                 </FormLabel>
-                <InputGroup size="md">
+                <InputGroup>
                     <Input
-                        pr="4.5rem"
+                        pr='4%'
                         type={show ? 'text' : 'password'}
-                        placeholder="Enter password"
+                        name='password'
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                     />
                     <InputRightElement width="4.5rem">
                         <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -74,13 +116,18 @@ const Form1 = () => {
                         </Button>
                     </InputRightElement>
                 </InputGroup>
+                {touched.password && (
+                    <FormErrorMessage>{errors.password}</FormErrorMessage>
+                )}
             </FormControl>
+            {/* </Form> */}
         </>
     );
 };
 
 // Personal Residence Details
-const Form2 = () => {
+const Form2 = (props) => {
+    const { handleChange, handleBlur, errors, touched } = props.action
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
@@ -88,7 +135,7 @@ const Form2 = () => {
             </Heading>
 
             {/* Country  */}
-            <FormControl as={GridItem} colSpan={[6, 3]}>
+            <FormControl as={GridItem} colSpan={[6, 3]} isInvalid={errors.country && touched.country} >
                 <FormLabel
                     htmlFor="country"
                     fontSize="sm"
@@ -101,6 +148,7 @@ const Form2 = () => {
                 </FormLabel>
 
                 <Select
+                    onChange={handleChange}
                     id='country'
                     name="country"
                     autoComplete="country"
@@ -116,11 +164,13 @@ const Form2 = () => {
                         })
                     }
                 </Select>
-
+                {touched.country && (
+                    <FormErrorMessage>{errors.country}</FormErrorMessage>
+                )}
             </FormControl>
 
             {/* City  */}
-            <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
+            <FormControl as={GridItem} colSpan={[6, 6, null, 2]} isInvalid={errors.city && touched.city}>
                 <FormLabel
                     htmlFor="city"
                     fontSize="sm"
@@ -133,6 +183,8 @@ const Form2 = () => {
                     City
                 </FormLabel>
                 <Input
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     type="text"
                     name="city"
                     id="city"
@@ -143,10 +195,13 @@ const Form2 = () => {
                     w="full"
                     rounded="md"
                 />
+                {touched.city && (
+                    <FormErrorMessage>{errors.city}</FormErrorMessage>
+                )}
             </FormControl>
 
             {/* State  */}
-            <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
+            <FormControl as={GridItem} colSpan={[6, 3, null, 2]} isInvalid={errors.state && touched.state}>
                 <FormLabel
                     htmlFor="state"
                     fontSize="sm"
@@ -159,6 +214,8 @@ const Form2 = () => {
                     State / Province
                 </FormLabel>
                 <Input
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     type="text"
                     name="state"
                     id="state"
@@ -169,6 +226,9 @@ const Form2 = () => {
                     w="full"
                     rounded="md"
                 />
+                {touched.state && (
+                    <FormErrorMessage>{errors.state}</FormErrorMessage>
+                )}
             </FormControl>
 
         </>
@@ -326,9 +386,37 @@ const Form3 = () => {
 };
 
 export default function OnBoarding() {
-    const toast = useToast();
     const [step, setStep] = useState(1);
     const [progress, setProgress] = useState(33.33);
+    const initialValues = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        country: '',
+        city: '',
+        state: '',
+        bio: ''
+    }
+    const initialErrors = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        country: '',
+        city: '',
+        state: '',
+        bio: ''
+    }
+    const handleSubmit = (values) => {
+        console.log(values);
+    }
+    const formik = useFormik({
+        initialValues,
+        onSubmit: handleSubmit,
+        validationSchema: SignupSchema,
+        initialErrors
+    })
     return (
         <>
             <Box
@@ -338,14 +426,15 @@ export default function OnBoarding() {
                 maxWidth={800}
                 p={6}
                 m="100px auto"
-                as="form">
+                as="form"
+                onSubmit={formik.handleSubmit}>
                 <Progress
                     hasStripe
                     value={progress}
                     mb="5%"
                     mx="5%"
                     isAnimated></Progress>
-                {step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />}
+                {step === 1 ? <Form1 action={formik} /> : step === 2 ? <Form2 action={formik} /> : <Form3 action={formik} />}
                 <ButtonGroup mt="5%" w="100%">
                     <Flex w="100%" justifyContent="space-between">
                         <Flex>
@@ -363,7 +452,9 @@ export default function OnBoarding() {
                             </Button>
                             <Button
                                 w="7rem"
-                                isDisabled={step === 3}
+                                isDisabled={
+                                    (step === 3)
+                                }
                                 onClick={() => {
                                     setStep(step + 1);
                                     if (step === 3) {
@@ -377,23 +468,16 @@ export default function OnBoarding() {
                                 Next
                             </Button>
                         </Flex>
-                        {step === 3 ? (
+                        {step === 3 && (
                             <Button
+                                isDisabled={Object.keys(formik.errors).length !== 0}
                                 w="7rem"
                                 colorScheme="red"
                                 variant="solid"
-                                onClick={() => {
-                                    toast({
-                                        title: 'Account created.',
-                                        description: "We've created your account for you.",
-                                        status: 'success',
-                                        duration: 3000,
-                                        isClosable: true,
-                                    });
-                                }}>
+                                type='submit'>
                                 Submit
                             </Button>
-                        ) : null}
+                        )}
                     </Flex>
                 </ButtonGroup>
             </Box>
