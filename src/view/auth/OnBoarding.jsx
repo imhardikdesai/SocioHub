@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Progress,
     Box,
@@ -21,12 +21,14 @@ import {
     VisuallyHidden,
     Text,
     Icon,
-    FormErrorMessage
+    FormErrorMessage,
+    Avatar
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import CountryData from '../../constant/CountryData';
 import { useFormik } from 'formik';
 import SignupSchema from '../../validation/SignupSchema';
+import { FaUser } from 'react-icons/fa';
 
 
 // First Name , Last name , Email and Password
@@ -127,7 +129,7 @@ const Form1 = (props) => {
 
 // Personal Residence Details
 const Form2 = (props) => {
-    const { handleChange, handleBlur, errors, touched } = props.action
+    const { values, handleChange, handleBlur, errors, touched } = props.action
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
@@ -155,6 +157,7 @@ const Form2 = (props) => {
                     placeholder="Select option"
                     focusBorderColor="brand.400"
                     shadow="sm"
+                    value={values.country}
                     size="sm"
                     w="full"
                     rounded="md">
@@ -183,6 +186,7 @@ const Form2 = (props) => {
                     City
                 </FormLabel>
                 <Input
+                    value={values.city}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="text"
@@ -218,6 +222,7 @@ const Form2 = (props) => {
                     onBlur={handleBlur}
                     type="text"
                     name="state"
+                    value={values.state}
                     id="state"
                     autoComplete="state"
                     focusBorderColor="brand.400"
@@ -236,19 +241,29 @@ const Form2 = (props) => {
 };
 
 // Account Profile Details ==> Bio, Image
-const Form3 = () => {
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-        accept: {
-            'image/png': ['.png', '.jpg'],
-        },
-        maxFiles: 1
+const Form3 = (props) => {
+    const { values, handleChange, handleBlur, errors, touched } = props.action
+    const [file1, setFile1] = useState(null);
+    const [file2, setFile2] = useState(null);
+    const { acceptedFiles: acceptedFiles1, getRootProps: getRootProps1, getInputProps: getInputProps1 } = useDropzone({
+        accept: 'image/jpeg, image/png, image/jpg',
+        maxFiles: 1,
+        onDrop: (acceptedFiles) => {
+            setFile1(acceptedFiles[0]);
+        }
     });
-    const files = acceptedFiles.map(file => (
-        <li key={file.path}>
-            {file.path} - {file.size} bytes
-        </li>
-    ));
+    const { acceptedFiles: acceptedFiles2, getRootProps: getRootProps2, getInputProps: getInputProps2 } = useDropzone({
+        accept: 'image/jpeg, image/png,, image/jpg',
+        maxFiles: 1,
+        onDrop: (acceptedFiles) => {
+            setFile2(acceptedFiles[0]);
+        }
+    });
 
+    useEffect(() => {
+        values.profileImage = file1
+        values.coverImage = file2
+    }, [file1, file2, values])
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal">
@@ -256,7 +271,7 @@ const Form3 = () => {
             </Heading>
             <SimpleGrid columns={1} spacing={6}>
                 {/* Bio Area  */}
-                <FormControl id="bio" mt={1}>
+                <FormControl id="bio" mt={1} isInvalid={errors.bio && touched.bio} >
                     <FormLabel
                         fontSize="sm"
                         fontWeight="md"
@@ -270,15 +285,69 @@ const Form3 = () => {
                         placeholder="I am Passionate about..."
                         rows={3}
                         shadow="sm"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.bio}
                         focusBorderColor="brand.400"
                         fontSize={{
                             sm: 'sm',
                         }}
                     />
+                    {touched.bio && (
+                        <FormErrorMessage>{errors.bio}</FormErrorMessage>
+                    )}
+                </FormControl>
+                {/* Profile Pic */}
+                <FormControl>
+                    <FormLabel
+                        fontSize="sm"
+                        fontWeight="md"
+                        color="gray.700"
+                        _dark={{
+                            color: "gray.50",
+                        }}
+                    >
+                        Profile Photo
+                    </FormLabel>
+                    <Flex alignItems="center" mt={1}>
+
+                        {
+                            acceptedFiles1.length !== 0 ?
+                                <Avatar
+                                    boxSize={12}
+                                    src={URL.createObjectURL(acceptedFiles1[0])}
+                                /> :
+                                < Avatar
+                                    boxSize={12}
+                                    bg="gray.100"
+                                    _dark={{
+                                        bg: "gray.800",
+                                    }}
+                                    icon={
+                                        <Icon as={FaUser} boxSize={9} mt={3} rounded="full" color="gray.300" _dark={{ color: "gray.700", }}
+                                        />
+                                    }
+                                />
+                        }
+                        <Button
+                            {...getRootProps1({ className: 'dropzone' })}
+                            type="button"
+                            ml={5}
+                            variant="outline"
+                            size="sm"
+                            fontWeight="medium"
+                            _focus={{
+                                shadow: "none",
+                            }}
+                        >
+                            <input {...getInputProps1()} />
+                            Choose Profile
+                        </Button>
+                    </Flex>
                 </FormControl>
 
                 {/* Cover Photo */}
-                <FormControl  {...getRootProps({ className: 'dropzone' })}>
+                <FormControl  {...getRootProps2({ className: 'dropzone' })}>
                     <FormLabel
                         fontSize="sm"
                         fontWeight="md"
@@ -289,9 +358,9 @@ const Form3 = () => {
                     >
                         Cover photo
                     </FormLabel>
-                    <input {...getInputProps()} />
+                    <input {...getInputProps2()} />
                     <Flex
-                        backgroundImage={acceptedFiles.length !== 0 && URL.createObjectURL(acceptedFiles[0])}
+                        backgroundImage={acceptedFiles2.length !== 0 && URL.createObjectURL(acceptedFiles2[0])}
                         backgroundSize='cover'
                         backgroundPosition={'center center'}
                         mt={1}
@@ -306,9 +375,9 @@ const Form3 = () => {
                         borderStyle="dashed"
                         rounded="md"
                     >
-                        <Stack spacing={1} textAlign="center" height={acceptedFiles.length !== 0 && '13rem'}>
+                        <Stack spacing={1} textAlign="center" height={acceptedFiles2.length !== 0 && '13rem'}>
                             {
-                                acceptedFiles.length === 0 &&
+                                acceptedFiles2.length === 0 &&
                                 <>
                                     <Icon
                                         mx="auto"
@@ -378,7 +447,6 @@ const Form3 = () => {
                             }
                         </Stack>
                     </Flex>
-                    {files}
                 </FormControl>
             </SimpleGrid>
         </>
@@ -396,7 +464,9 @@ export default function OnBoarding() {
         country: '',
         city: '',
         state: '',
-        bio: ''
+        bio: '',
+        coverImage: [],
+        profileImage: []
     }
     const initialErrors = {
         firstName: '',
@@ -417,6 +487,8 @@ export default function OnBoarding() {
         validationSchema: SignupSchema,
         initialErrors
     })
+    console.log(formik.values.profileImage);
+    console.log(formik.values.coverImage);
     return (
         <>
             <Box
