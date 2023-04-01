@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Progress,
     Box,
@@ -29,6 +29,14 @@ import CountryData from '../../constant/CountryData';
 import { useFormik } from 'formik';
 import SignupSchema from '../../validation/SignupSchema';
 import { FaUser } from 'react-icons/fa';
+import { showRelevantErrorMessage } from '../../utility/utils';
+import { toast } from 'react-hot-toast';
+import { auth, database } from '../../firebase/firebase-config';
+import { ref, set } from 'firebase/database';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+import Loader from '../../components/common/Loader';
 
 
 // First Name , Last name , Email and Password
@@ -246,14 +254,18 @@ const Form3 = (props) => {
     const [file1, setFile1] = useState(null);
     const [file2, setFile2] = useState(null);
     const { acceptedFiles: acceptedFiles1, getRootProps: getRootProps1, getInputProps: getInputProps1 } = useDropzone({
-        accept: 'image/jpeg, image/png, image/jpg',
+        accept: {
+            'image/png': ['.png', '.jpg'],
+        },
         maxFiles: 1,
         onDrop: (acceptedFiles) => {
             setFile1(acceptedFiles[0]);
         }
     });
     const { acceptedFiles: acceptedFiles2, getRootProps: getRootProps2, getInputProps: getInputProps2 } = useDropzone({
-        accept: 'image/jpeg, image/png,, image/jpg',
+        accept: {
+            'image/png': ['.png', '.jpg'],
+        },
         maxFiles: 1,
         onDrop: (acceptedFiles) => {
             setFile2(acceptedFiles[0]);
@@ -340,7 +352,7 @@ const Form3 = (props) => {
                                 shadow: "none",
                             }}
                         >
-                            <input {...getInputProps1()} />
+                            <input {...getInputProps1()} type='file' accept="image/png,image/jpeg,image/jpg" />
                             Choose Profile
                         </Button>
                     </Flex>
@@ -358,7 +370,7 @@ const Form3 = (props) => {
                     >
                         Cover photo
                     </FormLabel>
-                    <input {...getInputProps2()} />
+                    <input {...getInputProps2()} type='file' accept="image/png,image/jpeg,image/jpg" />
                     <Flex
                         backgroundImage={acceptedFiles2.length !== 0 && URL.createObjectURL(acceptedFiles2[0])}
                         backgroundSize='cover'
@@ -456,6 +468,9 @@ const Form3 = (props) => {
 export default function OnBoarding() {
     const [step, setStep] = useState(1);
     const [progress, setProgress] = useState(33.33);
+    const [loading, setLoading] = useState(false)
+    const { currentUser, setCurrentUser } = useContext(AuthContext)
+    const navigate = useNavigate()
     const initialValues = {
         firstName: '',
         lastName: '',
@@ -465,8 +480,8 @@ export default function OnBoarding() {
         city: '',
         state: '',
         bio: '',
-        coverImage: [],
-        profileImage: []
+        coverImage: 'https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg',
+        profileImage: 'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png'
     }
     const initialErrors = {
         firstName: '',
@@ -478,19 +493,44 @@ export default function OnBoarding() {
         state: '',
         bio: ''
     }
-    const handleSubmit = (values) => {
-        console.log(values);
+    const handleSubmit = async (values) => {
+        const { firstName, lastName, email, password, country, city, state, bio } = values
+        setLoading(true)
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+            if (userCredential) {
+                await set(ref(database, 'users/' + userCredential.user.uid), {
+                    firstName, lastName, email, password, country, city, state, bio
+                });
+                setCurrentUser(userCredential.user)
+                toast.success("Signup Successfully !!")
+                navigate('/posts')
+                setLoading(false)
+            } else {
+                toast.error("Something went wrong, please try again later")
+                setLoading(false)
+            }
+        } catch (error) {
+            showRelevantErrorMessage(error)
+            setLoading(false)
+        }
     }
+
     const formik = useFormik({
         initialValues,
         onSubmit: handleSubmit,
         validationSchema: SignupSchema,
         initialErrors
     })
-    console.log(formik.values.profileImage);
-    console.log(formik.values.coverImage);
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/posts')
+        }
+    }, [currentUser, navigate])
+
     return (
         <>
+            {loading && <Loader />}
             <Box
                 borderWidth="1px"
                 rounded="lg"

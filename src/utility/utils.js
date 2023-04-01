@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
 
-
+// For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
     switch (error.code) {
         case 'auth/invalid-email':
@@ -37,3 +37,4 @@ export const showRelevantErrorMessage = (error) => {
             toast.error("Something went wrong")
     }
 }
+
