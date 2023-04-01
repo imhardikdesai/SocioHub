@@ -18,7 +18,6 @@ export function AuthProvider({ children }) {
 
             //For Get Details of user from Firebase
             const userId = user.uid;
-            console.log(user.uid)
             const userRef = ref(database, 'users/' + userId);
             get(userRef).then((snapshot) => {
                 const userData = snapshot.val();

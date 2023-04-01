@@ -529,25 +529,48 @@ export default function OnBoarding() {
         bio: '',
         occupation: ''
     }
+
     const handleSubmit = async (values) => {
-        const { firstName, lastName, email, password, country, city, state, bio, occupation, coverImage, profileImage } = values
-        // const [profileURL, coverURL] = UploadProfileCoverImage(profileImage, coverImage, currentUser)
+        let profileURL, coverURL = ''
+        let coverImage, profileImage;
+        const { firstName, lastName, email, password, country, city, state, bio, occupation } = values
 
         setLoading(true)
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
             if (userCredential) {
-                //Upload Images
-                const profilePicRef = storageRef(storage, `profile_pics/${userCredential.user.uid}/${profileImage.name.replace(/\./g, '-')}`);
-                const coverImageRef = storageRef(storage, `cover_images/${userCredential.user.uid}/${coverImage.name.replace(/\./g, '-')}`);
-                // Upload profile picture
-                await uploadBytes(profilePicRef, profileImage);
-                console.log('Profile picture uploaded successfully!');
-
-                // Get profile picture download URL
-                const profileURL = await getDownloadURL(profilePicRef);
-                await uploadBytes(coverImageRef, coverImage);
-                const coverURL = await getDownloadURL(coverImageRef);
+                if ((values.coverImage && values.profileImage) === null) {
+                    console.log('zero');
+                    profileURL = 'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png';
+                    coverURL = 'https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg';
+                } else if (values.coverImage === null) {
+                    console.log('first');
+                    coverURL = 'https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg';
+                    profileImage = values.profileImage
+                    const profilePicRef = storageRef(storage, `profile_pics/${userCredential.user.uid}/${profileImage.name.replace(/\./g, '-')}`);
+                    await uploadBytes(profilePicRef, profileImage);
+                    profileURL = await getDownloadURL(profilePicRef);
+                } else if (values.profileImage === null) {
+                    console.log('sec');
+                    profileURL = 'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png'
+                    coverImage = values.coverImage
+                    const coverImageRef = storageRef(storage, `cover_images/${userCredential.user.uid}/${coverImage.name.replace(/\./g, '-')}`);
+                    await uploadBytes(coverImageRef, coverImage);
+                    coverURL = await getDownloadURL(coverImageRef);
+                } else {
+                    console.log('third');
+                    profileImage = values.profileImage
+                    coverImage = values.coverImage
+                    //Upload Images
+                    const profilePicRef = storageRef(storage, `profile_pics/${userCredential.user.uid}/${profileImage.name.replace(/\./g, '-')}`);
+                    const coverImageRef = storageRef(storage, `cover_images/${userCredential.user.uid}/${coverImage.name.replace(/\./g, '-')}`);
+                    // Upload profile picture
+                    await uploadBytes(profilePicRef, profileImage);
+                    profileURL = await getDownloadURL(profilePicRef);
+                    // Get profile picture download URL
+                    await uploadBytes(coverImageRef, coverImage);
+                    coverURL = await getDownloadURL(coverImageRef);
+                }
                 //End Upload Images
                 await set(ref(database, 'users/' + userCredential.user.uid), {
                     firstName, lastName, email, password, country, city, state, bio, occupation, profileURL, coverURL
@@ -632,14 +655,16 @@ export default function OnBoarding() {
                             </Button>
                         </Flex>
                         {step === 3 && (
-                            <Button
-                                isDisabled={Object.keys(formik.errors).length !== 0}
-                                w="7rem"
-                                colorScheme="red"
-                                variant="solid"
-                                type='submit'>
-                                Submit
-                            </Button>
+                            <>
+                                <Button
+                                    isDisabled={(Object.keys(formik.errors).length !== 0)}
+                                    w="7rem"
+                                    colorScheme="red"
+                                    variant="solid"
+                                    type='submit'>
+                                    Submit
+                                </Button>
+                            </>
                         )}
                     </Flex>
                 </ButtonGroup>
