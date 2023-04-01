@@ -1,4 +1,8 @@
 import { toast } from "react-hot-toast";
+import { ref } from 'firebase/database';
+import { getDownloadURL, uploadBytes } from 'firebase/storage';
+import { useState } from "react";
+import { storage } from "../firebase/firebase-config";
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -38,3 +42,42 @@ export const showRelevantErrorMessage = (error) => {
     }
 }
 
+export const UploadProfileCoverImage = (profileImage, coverImage, user) => {
+    const [profileURL, setProfileURL] = useState('')
+    const [coverURL, setCoverURL] = useState('')
+
+    const profilePicRef = ref(storage, `profile_pics/${user.uid}/${profileImage.name}`);
+    const coverImageRef = ref(storage, `cover_images/${user.uid}/${coverImage.name}`);
+
+    // Upload profile picture
+    uploadBytes(profilePicRef, profileImage)
+        .then(() => {
+            getDownloadURL(profilePicRef)
+                .then((profilePicUrl) => {
+                    setProfileURL(profilePicUrl)
+                    uploadBytes(coverImageRef, coverImage)
+                        .then(() => {
+                            getDownloadURL(coverImageRef)
+                                .then((coverImageUrl) => {
+                                    setCoverURL(coverImageUrl)
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    return {
+        profileURL,
+        coverURL
+    }
+}

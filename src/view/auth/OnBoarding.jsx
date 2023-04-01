@@ -31,12 +31,14 @@ import SignupSchema from '../../validation/SignupSchema';
 import { FaUser } from 'react-icons/fa';
 import { showRelevantErrorMessage } from '../../utility/utils';
 import { toast } from 'react-hot-toast';
-import { auth, database } from '../../firebase/firebase-config';
+import { auth, database, storage } from '../../firebase/firebase-config';
+import { ref as storageRef } from 'firebase/storage'
 import { ref, set } from 'firebase/database';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Loader from '../../components/common/Loader';
+import { getDownloadURL, uploadBytes } from 'firebase/storage';
 
 
 // First Name , Last name , Email and Password
@@ -309,6 +311,37 @@ const Form3 = (props) => {
                         <FormErrorMessage>{errors.bio}</FormErrorMessage>
                     )}
                 </FormControl>
+                {/* Occupation  */}
+                <FormControl as={GridItem} isInvalid={errors.occupation && touched.occupation}>
+                    <FormLabel
+                        htmlFor="occupation"
+                        fontSize="sm"
+                        fontWeight="md"
+                        color="gray.700"
+                        _dark={{
+                            color: 'gray.50',
+                        }}
+                        mt="2%">
+                        Occupation
+                    </FormLabel>
+                    <Input
+                        value={values.occupation}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        type="text"
+                        name="occupation"
+                        id="occupation"
+                        autoComplete="occupation"
+                        focusBorderColor="brand.400"
+                        shadow="sm"
+                        size="sm"
+                        w="full"
+                        rounded="md"
+                    />
+                    {touched.occupation && (
+                        <FormErrorMessage>{errors.occupation}</FormErrorMessage>
+                    )}
+                </FormControl>
                 {/* Profile Pic */}
                 <FormControl>
                     <FormLabel
@@ -470,6 +503,7 @@ export default function OnBoarding() {
     const [progress, setProgress] = useState(33.33);
     const [loading, setLoading] = useState(false)
     const { currentUser, setCurrentUser } = useContext(AuthContext)
+
     const navigate = useNavigate()
     const initialValues = {
         firstName: '',
@@ -480,8 +514,9 @@ export default function OnBoarding() {
         city: '',
         state: '',
         bio: '',
-        coverImage: 'https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg',
-        profileImage: 'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png'
+        occupation: '',
+        coverImage: [],
+        profileImage: []
     }
     const initialErrors = {
         firstName: '',
@@ -491,26 +526,42 @@ export default function OnBoarding() {
         country: '',
         city: '',
         state: '',
-        bio: ''
+        bio: '',
+        occupation: ''
     }
     const handleSubmit = async (values) => {
-        const { firstName, lastName, email, password, country, city, state, bio } = values
+        const { firstName, lastName, email, password, country, city, state, bio, occupation, coverImage, profileImage } = values
+        // const [profileURL, coverURL] = UploadProfileCoverImage(profileImage, coverImage, currentUser)
+
         setLoading(true)
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
             if (userCredential) {
+                //Upload Images
+                const profilePicRef = storageRef(storage, `profile_pics/${userCredential.user.uid}/${profileImage.name.replace(/\./g, '-')}`);
+                const coverImageRef = storageRef(storage, `cover_images/${userCredential.user.uid}/${coverImage.name.replace(/\./g, '-')}`);
+                // Upload profile picture
+                await uploadBytes(profilePicRef, profileImage);
+                console.log('Profile picture uploaded successfully!');
+
+                // Get profile picture download URL
+                const profileURL = await getDownloadURL(profilePicRef);
+                await uploadBytes(coverImageRef, coverImage);
+                const coverURL = await getDownloadURL(coverImageRef);
+                //End Upload Images
                 await set(ref(database, 'users/' + userCredential.user.uid), {
-                    firstName, lastName, email, password, country, city, state, bio
+                    firstName, lastName, email, password, country, city, state, bio, occupation, profileURL, coverURL
                 });
                 setCurrentUser(userCredential.user)
                 toast.success("Signup Successfully !!")
-                navigate('/posts')
+                // navigate('/posts')
                 setLoading(false)
             } else {
                 toast.error("Something went wrong, please try again later")
                 setLoading(false)
             }
         } catch (error) {
+            console.log(error.message);
             showRelevantErrorMessage(error)
             setLoading(false)
         }

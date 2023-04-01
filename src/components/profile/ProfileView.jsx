@@ -33,7 +33,7 @@ export default function ProfileView() {
                     //     'https://source.unsplash.com/420x120/'
                     // }
                     src={
-                        'https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
+                        userDetails ? userDetails.coverURL : 'https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
                     }
                     objectFit={'cover'}
                 />
@@ -41,7 +41,8 @@ export default function ProfileView() {
                     <Avatar
                         size={'xl'}
                         src={
-                            'https://i.pravatar.cc/300'
+                            userDetails ? userDetails.profileURL : 'https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg'
+                            // 'https://i.pravatar.cc/300'
                         }
                         alt={'Author'}
                         css={{
@@ -84,8 +85,7 @@ export default function ProfileView() {
                             color: "gray.400",
                         }}
                     >
-                        Full Stack maker & UI / UX Designer , love hip hop music Author of
-                        Building UI.
+                        {userDetails ? userDetails.bio : "loading..."}
                     </chakra.p>
 
                     <Flex
@@ -99,7 +99,7 @@ export default function ProfileView() {
                         <Icon as={BsFillBriefcaseFill} h={6} w={6} mr={2} />
 
                         <chakra.h1 px={2} fontSize="sm">
-                            Fronted Developer
+                            {userDetails ? userDetails.occupation : 'loading...'}
                         </chakra.h1>
                     </Flex>
 
@@ -114,7 +114,7 @@ export default function ProfileView() {
                         <Icon as={MdLocationOn} h={6} w={6} mr={2} />
 
                         <chakra.h1 px={2} fontSize="sm">
-                            India
+                            {userDetails ? userDetails.city + ', ' + userDetails.state + ', ' + userDetails.country : "Loading..."}
                         </chakra.h1>
                     </Flex>
                     <Flex
@@ -128,7 +128,7 @@ export default function ProfileView() {
                         <Icon as={MdEmail} h={6} w={6} mr={2} />
 
                         <chakra.h1 px={2} fontSize="sm">
-                            patterson@example.com
+                            {userDetails ? userDetails.email : 'loading...'}
                         </chakra.h1>
                     </Flex>
                 </Box>

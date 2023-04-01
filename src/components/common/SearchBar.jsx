@@ -62,7 +62,7 @@ const SearchBar = () => {
                     <AutoCompleteInput placeholder="Search..." />
                     <AutoCompleteList>
                         {people.map((person, oid) => (
-                            <Link to={`/profile/${person.name}`}>
+                            <Link key={oid} to={`/profile/${person.name}`}>
                                 <AutoCompleteItem
                                     key={`option-${oid}`}
                                     value={person.name}
