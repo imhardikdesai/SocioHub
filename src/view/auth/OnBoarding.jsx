@@ -272,7 +272,7 @@ const Form3 = (props) => {
     getInputProps: getInputProps1,
   } = useDropzone({
     accept: {
-      "image/png": [".png", ".jpg"],
+      "image/png": [".png", ".jpg", ".jpeg"],
     },
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
@@ -285,7 +285,7 @@ const Form3 = (props) => {
     getInputProps: getInputProps2,
   } = useDropzone({
     accept: {
-      "image/png": [".png", ".jpg"],
+      "image/png": [".png", ".jpg", ".jpeg"],
     },
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
@@ -666,6 +666,7 @@ export default function OnBoarding() {
           occupation,
           profileURL,
           coverURL,
+          posts: "",
         });
         setCurrentUser(userCredential.user);
         toast.success("Signup Successfully !!");

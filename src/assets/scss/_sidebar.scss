@@ -1,24 +1,29 @@
 .css-jfo9gg {
-    display: none !important;
+  display: none !important;
 }
 
 .logo {
-    height: 40px;
+  height: 40px;
 }
 
 .sidebar-box {
-
-    @media (max-width: 768px) {
-        width: 100% !important;
-        min-height: 0px !important;
-    }
-
+  @media (max-width: 768px) {
+    width: 100% !important;
+    min-height: 0px !important;
+  }
 }
 
 .main-content {
-    width: 73%;
+  width: 73%;
 
-    @media (max-width: 768px) {
-        width: 100%;
-    }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+#logout {
+  top: 94vh;
+  @media (max-width: 768px) {
+    top: 85vh;
+  }
 }

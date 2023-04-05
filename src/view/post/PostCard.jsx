@@ -10,14 +10,18 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ButtonToolbar, OverlayTrigger, Popover } from "react-bootstrap";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext";
 
 const PostCard = ({ item }) => {
-  const { image, text, likes, comments, owner } = item;
+  const { title, description, url, likes = 0 } = item;
+  const { userDetails } = useContext(AuthContext);
+  const { firstName, lastName, occupation, profileURL } = userDetails;
   const [like, setLike] = useState(false);
+
   const popoverHoverFocus = (
     <Popover id="popover-trigger-hover-focus" title="Popover bottom">
       <Flex p={50} w="full" alignItems="center" justifyContent="center">
@@ -34,7 +38,7 @@ const PostCard = ({ item }) => {
         >
           <Image
             fit="cover"
-            src={owner.picture}
+            src={profileURL}
             alt="avatar"
             mx={"auto"}
             borderRadius="57px"
@@ -50,7 +54,7 @@ const PostCard = ({ item }) => {
               }}
               fontWeight="bold"
             >
-              {owner.firstName + " " + owner.lastName}
+              {firstName + " " + lastName}
             </Link>
             <chakra.span
               fontSize="sm"
@@ -59,7 +63,7 @@ const PostCard = ({ item }) => {
                 color: "gray.200",
               }}
             >
-              Software Engineer
+              {occupation}
             </chakra.span>
           </Box>
         </Box>
@@ -69,17 +73,22 @@ const PostCard = ({ item }) => {
 
   return (
     <>
-      <div className="col">
-        <Card my={2} maxW="sm" className="post-card">
+      <div className="col-sm-12 col-lg-6 col-xl-4">
+        <Card maxW={"sm"} my={2} className="post-card mx-sm-auto">
           <CardBody p={2}>
             <Image
               width={"100%"}
               height={"230px"}
-              src={image}
+              src={url}
               alt="Green double couch with wooden legs"
               borderRadius="lg"
             />
-            <Text className="p-3">{text.substr(0, 70)}...</Text>
+            <Text className="px-3 py-2" fontSize="xl">
+              {title}
+            </Text>
+            <Text fontSize="sm" as="i" className="px-3 py-1">
+              {description.substr(0, 70)}...
+            </Text>
           </CardBody>
           <CardFooter p={2}>
             <div className="flex justify-content-between w-100 px-3">
@@ -93,13 +102,12 @@ const PostCard = ({ item }) => {
                     <Avatar
                       size="sm"
                       name="Prosper Otemuyiwa"
-                      src={owner.picture}
+                      src={profileURL}
+                      // src={"https://i.pravatar.cc/300"}
                     />
                   </OverlayTrigger>
                 </ButtonToolbar>
-                <Text className="mx-2">
-                  {owner.firstName + " " + owner.lastName}
-                </Text>
+                <Text className="mx-2">{firstName + " " + lastName}</Text>
               </div>
               <div className="flex">
                 <div className="like flex mx-2">
@@ -114,7 +122,7 @@ const PostCard = ({ item }) => {
                 </div>
                 <div className="comment flex mx-2">
                   <FaRegCommentDots color="green" size={18} />
-                  <span className="px-1">{comments}</span>
+                  <span className="px-1">{20}</span>
                 </div>
               </div>
             </div>

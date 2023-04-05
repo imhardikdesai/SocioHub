@@ -1,11 +1,18 @@
-.post-card {
-    height: 400px;
-}
+// .post-card {
+//     height: 400px;
+// }
 
 .popover {
-    border: 0 !important;
+  border: 0 !important;
 
-    :nth-child(2) {
-        padding: 8px !important;
-    }
+  :nth-child(2) {
+    padding: 8px !important;
+  }
+}
+.recent-post-header {
+  @media (max-width: 416px) {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 10px;
+  }
 }
