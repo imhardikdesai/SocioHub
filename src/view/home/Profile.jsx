@@ -1,12 +1,19 @@
-import React from 'react'
-import ProfileView from '../../components/profile/ProfileView'
+import React, { useState } from "react";
+import ProfileView from "../../components/profile/ProfileView";
+import EditUserProfile from "../../components/profile/EditUserProfile";
 
 const Profile = () => {
+  const [isEditProfile, setisEditProfile] = useState(true);
+
   return (
     <>
-      <ProfileView />
+      {isEditProfile ? (
+        <ProfileView setisEditProfile={setisEditProfile} />
+      ) : (
+        <EditUserProfile setisEditProfile={setisEditProfile} />
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

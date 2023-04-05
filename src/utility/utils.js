@@ -1,8 +1,9 @@
 import { toast } from "react-hot-toast";
-import { ref } from 'firebase/database';
-import { getDownloadURL, uploadBytes } from 'firebase/storage';
-import { useState } from "react";
-import { storage } from "../firebase/firebase-config";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage, database } from "../firebase/firebase-config";
+
+
+import { ref as dbRef, push } from 'firebase/database';
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -42,42 +43,30 @@ export const showRelevantErrorMessage = (error) => {
     }
 }
 
-export const UploadProfileCoverImage = (profileImage, coverImage, user) => {
-    const [profileURL, setProfileURL] = useState('')
-    const [coverURL, setCoverURL] = useState('')
 
-    const profilePicRef = ref(storage, `profile_pics/${user.uid}/${profileImage.name}`);
-    const coverImageRef = ref(storage, `cover_images/${user.uid}/${coverImage.name}`);
 
-    // Upload profile picture
-    uploadBytes(profilePicRef, profileImage)
-        .then(() => {
-            getDownloadURL(profilePicRef)
-                .then((profilePicUrl) => {
-                    setProfileURL(profilePicUrl)
-                    uploadBytes(coverImageRef, coverImage)
-                        .then(() => {
-                            getDownloadURL(coverImageRef)
-                                .then((coverImageUrl) => {
-                                    setCoverURL(coverImageUrl)
-                                })
-                                .catch((error) => {
-                                    console.error(error);
-                                });
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        })
-        .catch((error) => {
-            console.error(error);
+
+// Define the function that uploads the file and returns a download URL
+export async function UploadFileAndGetDownloadUrl(file, currentUser, userDetails) {
+    const { postImage, title, description } = file
+    // Create a reference to the file in Firebase Storage
+    const storageRef = ref(storage, `post_images/${currentUser.uid}/${postImage.name.replace(/\./g, "-")}`);
+
+    try {
+        await uploadBytes(storageRef, postImage);
+        const downloadUrl = await getDownloadURL(storageRef);
+        const postsRef = dbRef(database, `users/${currentUser.uid}/posts`);
+        const postId = new Date().getTime();
+        await push(postsRef, {
+            postId,
+            title,
+            description,
+            url: downloadUrl
         });
-    return {
-        profileURL,
-        coverURL
+        toast.success('Post Uploaded Successflly !!!')
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        toast.error('Post Upload failed')
+        throw error;
     }
 }
