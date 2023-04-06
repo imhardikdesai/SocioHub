@@ -1,9 +1,7 @@
 import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
-
-
-import { ref as dbRef, push } from 'firebase/database';
+import { ref as dbRef, equalTo, get, orderByChild, push, query, update } from 'firebase/database';
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -43,11 +41,8 @@ export const showRelevantErrorMessage = (error) => {
     }
 }
 
-
-
-
 // Define the function that uploads the file and returns a download URL
-export async function UploadFileAndGetDownloadUrl(file, currentUser, userDetails) {
+export async function UploadFileAndGetDownloadUrl(file, currentUser, setLoading) {
     const { postImage, title, description } = file
     // Create a reference to the file in Firebase Storage
     const storageRef = ref(storage, `post_images/${currentUser.uid}/${postImage.name.replace(/\./g, "-")}`);
@@ -64,9 +59,73 @@ export async function UploadFileAndGetDownloadUrl(file, currentUser, userDetails
             url: downloadUrl
         });
         toast.success('Post Uploaded Successflly !!!')
+        setLoading(false)
     } catch (error) {
         console.error('Error uploading file:', error);
         toast.error('Post Upload failed')
+        setLoading(false)
         throw error;
+    }
+}
+
+// Define the function that update User existing Profile
+export async function UpdateProfileWithData(values, currentUser, setLoading, setisEditProfile) {
+    const { firstName, lastName, bio, occupation, profileFile } = values
+    try {
+        if (profileFile) {
+            const profilePicRef = ref(storage, `profile_pics/${currentUser.uid}/${profileFile.name.replace(/\./g, "-")}`);
+            await uploadBytes(profilePicRef, profileFile);
+            const downloadUrl = await getDownloadURL(profilePicRef);
+            await update(dbRef(database, "users/" + currentUser.uid), {
+                firstName,
+                lastName,
+                bio,
+                occupation,
+                profileURL: downloadUrl,
+            });
+            toast.success('Profile Updated Successflly !!!')
+            setLoading(false)
+            setisEditProfile(prev => !prev)
+        } else {
+            await update(dbRef(database, "users/" + currentUser.uid), {
+                firstName,
+                lastName,
+                bio,
+                occupation,
+            });
+            toast.success('Profile Updated Successflly !!!')
+            setLoading(false)
+            setisEditProfile(prev => !prev)
+        }
+    } catch (error) {
+        console.error('Failed to update Profile', error);
+        toast.error('Failed to update Profile')
+        setLoading(false)
+        throw error;
+    }
+}
+
+
+// Define the function that get user details from URL params
+export async function UserDetailsFromURL(username) {
+    try {
+        const usersRef = query(
+            dbRef(database, "users"),
+            orderByChild("username"),
+            equalTo(username)
+        );
+        const snapshot = await get(usersRef);
+        if (snapshot.exists()) {
+            const users = snapshot.val();
+            const { firstName, lastName, email, occupation, bio, city, country, state, profileURL, coverURL, username, posts } = Object.values(users)[0];
+            const user = {
+                firstName, lastName, email, occupation, bio, city, country, state, profileURL, coverURL, username, posts
+            }
+            return user;
+        } else {
+            return null;
+        }
+    } catch (error) {
+
     }
 }

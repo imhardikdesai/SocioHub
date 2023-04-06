@@ -20,7 +20,7 @@ const RouteLinks = () => {
                         <Route path='/' element={<Navigate to="/posts" />} />
                         <Route path='/posts' element={<PostGallery />} />
                         <Route path='/profile' element={<Profile />} />
-                        <Route path='/profile/:userId' element={<Profile />} />
+                        <Route path='/profile/:username' element={<Profile />} />
                         <Route path='/explore' element={<ErrorPage />} />
                         <Route path='/activity' element={<ErrorPage />} />
                         <Route path='/setting' element={<Setting />} />

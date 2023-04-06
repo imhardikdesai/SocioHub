@@ -12,6 +12,7 @@ import PostCard from "./PostCard";
 import { HiDocumentAdd } from "react-icons/hi";
 import PostModal from "../../components/common/PostModal";
 import { AuthContext } from "../../context/AuthContext";
+import { InfinitySpin } from "react-loader-spinner";
 const PostGallery = () => {
   const { userDetails } = useContext(AuthContext);
   const OverlayOne = () => (
@@ -23,7 +24,6 @@ const PostGallery = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = useState(<OverlayOne />);
-
   return (
     <>
       <PostModal isOpen={isOpen} overlay={overlay} onClose={onClose} />
@@ -52,14 +52,19 @@ const PostGallery = () => {
       </Flex>
       <div className="container-fluid mt-4">
         <div className="row">
-          {userDetails &&
-            (userDetails.posts !== "" ? (
-              Object.values(userDetails.posts).map((item) => {
-                return <PostCard key={item.id} item={item} />;
-              })
+          {userDetails ? (
+            userDetails.posts !== "" ? (
+              Object.values(userDetails.posts)
+                .reverse()
+                .map((item) => {
+                  return <PostCard key={item.postId} item={item} />;
+                })
             ) : (
               <h1>No Posts Avalible</h1>
-            ))}
+            )
+          ) : (
+            <InfinitySpin width="200" color="#3182CE" />
+          )}
         </div>
       </div>
     </>

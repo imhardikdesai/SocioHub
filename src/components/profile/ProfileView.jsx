@@ -12,11 +12,15 @@ import {
 } from "@chakra-ui/react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { BsFillBriefcaseFill } from "react-icons/bs";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { RiWhatsappFill } from "react-icons/ri";
+import { BASE_URL } from "../../constant/base";
+import { WhatsappShareButton } from "react-share";
 
-export default function ProfileView({ setisEditProfile }) {
-  const { userDetails } = useContext(AuthContext);
+export default function ProfileView({
+  setisEditProfile,
+  userDetails,
+  isPublic,
+}) {
   return (
     <>
       <Center py={6}>
@@ -53,7 +57,11 @@ export default function ProfileView({ setisEditProfile }) {
               }}
             />
           </Flex>
-
+          <Box my={2} textAlign={"center"}>
+            <Text as={"b"}>
+              {userDetails ? "@" + userDetails.username : "loading..."}
+            </Text>
+          </Box>
           {/* Followers Box  */}
           <Box px={6} py={4}>
             <Stack direction={"row"} justify={"center"} spacing={6}>
@@ -77,29 +85,38 @@ export default function ProfileView({ setisEditProfile }) {
           </Box>
           {/* Edit Profile  */}
           <Flex justifyContent={"space-around"}>
-            <Button
-              onClick={() => setisEditProfile((prev) => !prev)}
-              width="150px"
-              height="27px"
-              bg={"blue.400"}
-              color={"white"}
-              _hover={{
-                bg: "blue.500",
-              }}
+            {!isPublic && (
+              <Button
+                isDisabled={!userDetails}
+                onClick={() => setisEditProfile((prev) => !prev)}
+                width="150px"
+                height="27px"
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+              >
+                Edit Profile
+              </Button>
+            )}
+            <WhatsappShareButton
+              url={BASE_URL + "/" + (userDetails && userDetails.username)}
             >
-              Edit Profile
-            </Button>
-            <Button
-              width="150px"
-              height="27px"
-              bg={"red.400"}
-              color={"white"}
-              _hover={{
-                bg: "red.500",
-              }}
-            >
-              Share Profile
-            </Button>
+              <Button
+                as="p"
+                isDisabled={!userDetails}
+                width="150px"
+                height="27px"
+                bg={"red.400"}
+                color={"white"}
+                _hover={{
+                  bg: "red.500",
+                }}
+              >
+                Share Profile <RiWhatsappFill />
+              </Button>
+            </WhatsappShareButton>
           </Flex>
 
           {/* Details Box  */}
