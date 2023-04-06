@@ -39,6 +39,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Loader from "../../components/common/Loader";
 import { getDownloadURL, uploadBytes } from "firebase/storage";
+import { generateUsername } from "../../utility/functions";
 
 // First Name , Last name , Email and Password
 const Form1 = (props) => {
@@ -606,8 +607,7 @@ export default function OnBoarding() {
           profileImage = values.profileImage;
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${
-              userCredential.user.uid
+            `profile_pics/${userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           await uploadBytes(profilePicRef, profileImage);
@@ -631,8 +631,7 @@ export default function OnBoarding() {
           //Upload Images
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${
-              userCredential.user.uid
+            `profile_pics/${userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           const coverImageRef = storageRef(
@@ -650,7 +649,9 @@ export default function OnBoarding() {
           coverURL = await getDownloadURL(coverImageRef);
         }
         //End Upload Images
+        const username = generateUsername(firstName, lastName);
         await set(ref(database, "users/" + userCredential.user.uid), {
+          username,
           firstName,
           lastName,
           email,

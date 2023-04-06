@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <ChakraProvider>
+        <ChakraProvider toastOptions={{ defaultOptions: { position: 'top-right' } }}>
           <App />
         </ChakraProvider>
       </AuthProvider>

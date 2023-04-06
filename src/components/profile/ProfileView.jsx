@@ -14,6 +14,8 @@ import { MdEmail, MdLocationOn } from "react-icons/md";
 import { BsFillBriefcaseFill } from "react-icons/bs";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { NavLink } from "react-router-dom";
+import { BASE_URL } from "../../constant/base";
 
 export default function ProfileView({ setisEditProfile }) {
   const { userDetails } = useContext(AuthContext);
@@ -53,7 +55,11 @@ export default function ProfileView({ setisEditProfile }) {
               }}
             />
           </Flex>
-
+          <Box my={2} textAlign={"center"}>
+            <Text as={"b"}>
+              {userDetails ? "@" + userDetails.username : "loading..."}
+            </Text>
+          </Box>
           {/* Followers Box  */}
           <Box px={6} py={4}>
             <Stack direction={"row"} justify={"center"} spacing={6}>
@@ -90,18 +96,22 @@ export default function ProfileView({ setisEditProfile }) {
             >
               Edit Profile
             </Button>
-            <Button
-              isDisabled={!userDetails}
-              width="150px"
-              height="27px"
-              bg={"red.400"}
-              color={"white"}
-              _hover={{
-                bg: "red.500",
-              }}
+            <NavLink
+              to={BASE_URL + "/" + (userDetails && userDetails.username)}
             >
-              Share Profile
-            </Button>
+              <Button
+                isDisabled={!userDetails}
+                width="150px"
+                height="27px"
+                bg={"red.400"}
+                color={"white"}
+                _hover={{
+                  bg: "red.500",
+                }}
+              >
+                Share Profile
+              </Button>
+            </NavLink>
           </Flex>
 
           {/* Details Box  */}

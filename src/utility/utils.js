@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
-import { ref as dbRef, push, set, update } from 'firebase/database';
+import { ref as dbRef, push, update } from 'firebase/database';
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -41,9 +41,6 @@ export const showRelevantErrorMessage = (error) => {
     }
 }
 
-
-
-
 // Define the function that uploads the file and returns a download URL
 export async function UploadFileAndGetDownloadUrl(file, currentUser, setLoading) {
     const { postImage, title, description } = file
@@ -76,7 +73,6 @@ export async function UpdateProfileWithData(values, currentUser, setLoading, set
     const { firstName, lastName, bio, occupation, profileFile } = values
     try {
         if (profileFile) {
-            console.log('with profile');
             const profilePicRef = ref(storage, `profile_pics/${currentUser.uid}/${profileFile.name.replace(/\./g, "-")}`);
             await uploadBytes(profilePicRef, profileFile);
             const downloadUrl = await getDownloadURL(profilePicRef);
@@ -91,7 +87,6 @@ export async function UpdateProfileWithData(values, currentUser, setLoading, set
             setLoading(false)
             setisEditProfile(prev => !prev)
         } else {
-            console.log('with no profile');
             await update(dbRef(database, "users/" + currentUser.uid), {
                 firstName,
                 lastName,
