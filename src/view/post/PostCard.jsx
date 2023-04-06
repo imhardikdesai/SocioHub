@@ -37,6 +37,7 @@ const PostCard = ({ item }) => {
           mx="auto"
         >
           <Image
+            height={"84px"}
             fit="cover"
             src={profileURL}
             alt="avatar"
@@ -73,7 +74,7 @@ const PostCard = ({ item }) => {
 
   return (
     <>
-      <div className="col-sm-12 col-lg-6 col-xl-4">
+      <div className="col-sm-12 col-lg-6 col-xxl-4">
         <Card maxW={"sm"} my={2} className="post-card mx-sm-auto">
           <CardBody p={2}>
             <Image
@@ -86,7 +87,7 @@ const PostCard = ({ item }) => {
             <Text className="px-3 py-2" fontSize="xl">
               {title}
             </Text>
-            <Text fontSize="sm" as="i" className="px-3 py-1">
+            <Text fontSize="sm" className="px-3 py-1">
               {description.substr(0, 70)}...
             </Text>
           </CardBody>

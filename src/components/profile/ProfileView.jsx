@@ -78,6 +78,7 @@ export default function ProfileView({ setisEditProfile }) {
           {/* Edit Profile  */}
           <Flex justifyContent={"space-around"}>
             <Button
+              isDisabled={!userDetails}
               onClick={() => setisEditProfile((prev) => !prev)}
               width="150px"
               height="27px"
@@ -90,6 +91,7 @@ export default function ProfileView({ setisEditProfile }) {
               Edit Profile
             </Button>
             <Button
+              isDisabled={!userDetails}
               width="150px"
               height="27px"
               bg={"red.400"}

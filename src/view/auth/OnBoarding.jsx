@@ -596,13 +596,11 @@ export default function OnBoarding() {
       );
       if (userCredential) {
         if ((values.coverImage && values.profileImage) === null) {
-          console.log("zero");
           profileURL =
             "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png";
           coverURL =
             "https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg";
         } else if (values.coverImage === null) {
-          console.log("first");
           coverURL =
             "https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg";
           profileImage = values.profileImage;
@@ -615,7 +613,6 @@ export default function OnBoarding() {
           await uploadBytes(profilePicRef, profileImage);
           profileURL = await getDownloadURL(profilePicRef);
         } else if (values.profileImage === null) {
-          console.log("sec");
           profileURL =
             "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png";
           coverImage = values.coverImage;
@@ -629,7 +626,6 @@ export default function OnBoarding() {
           await uploadBytes(coverImageRef, coverImage);
           coverURL = await getDownloadURL(coverImageRef);
         } else {
-          console.log("third");
           profileImage = values.profileImage;
           coverImage = values.coverImage;
           //Upload Images

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import PicDropZone from "./PicDropZone";
 import { useFormik } from "formik";
+import Loader from "../common/Loader";
 import {
   FormControl,
   FormErrorMessage,
@@ -21,8 +22,9 @@ import { UploadFileAndGetDownloadUrl } from "../../utility/utils";
 import { AuthContext } from "../../context/AuthContext";
 
 const PostModal = ({ isOpen, onClose, overlay }) => {
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
-  const { currentUser, userDetails } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const initialValues = {
     title: "",
     description: "",
@@ -30,8 +32,10 @@ const PostModal = ({ isOpen, onClose, overlay }) => {
   };
 
   const handleFormSubmit = (values) => {
-    UploadFileAndGetDownloadUrl(values, currentUser, userDetails);
+    setLoading(true);
+    UploadFileAndGetDownloadUrl(values, currentUser, setLoading);
     onClose();
+    handleReset();
   };
 
   const {
@@ -52,6 +56,7 @@ const PostModal = ({ isOpen, onClose, overlay }) => {
   }, [file, values]);
   return (
     <>
+      {loading && <Loader />}
       <Modal
         closeOnOverlayClick={false}
         blockScrollOnMount={false}
@@ -62,6 +67,7 @@ const PostModal = ({ isOpen, onClose, overlay }) => {
         }}
       >
         {overlay}
+
         <ModalContent>
           <ModalHeader>Create your Post</ModalHeader>
           <ModalCloseButton />
