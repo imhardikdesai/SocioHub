@@ -10,7 +10,6 @@ import {
   Avatar,
   Center,
   Textarea,
-  useToast,
 } from "@chakra-ui/react";
 // import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Form } from "react-bootstrap";
@@ -38,17 +37,9 @@ export default function EditUserProfile({ setisEditProfile }) {
       setFile1(acceptedFiles[0]);
     },
   });
-  const toast = useToast();
   const handleFormSubmit = (values) => {
     setLoading(true);
     UpdateProfileWithData(values, currentUser, setLoading, setisEditProfile);
-    toast({
-      title: "Please refresh the page for updated changes",
-      variant: "solid",
-      isClosable: true,
-      duration: 2000,
-      status: "warning",
-    });
   };
   const initialValues = {
     firstName,

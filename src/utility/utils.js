@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
-import { ref as dbRef, push, update } from 'firebase/database';
+import { ref as dbRef, equalTo, get, orderByChild, push, query, update } from 'firebase/database';
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -103,5 +103,29 @@ export async function UpdateProfileWithData(values, currentUser, setLoading, set
         setLoading(false)
         throw error;
     }
+}
 
+
+// Define the function that get user details from URL params
+export async function UserDetailsFromURL(username) {
+    try {
+        const usersRef = query(
+            dbRef(database, "users"),
+            orderByChild("username"),
+            equalTo(username)
+        );
+        const snapshot = await get(usersRef);
+        if (snapshot.exists()) {
+            const users = snapshot.val();
+            const { firstName, lastName, email, occupation, bio, city, country, state, profileURL, coverURL, username, posts } = Object.values(users)[0];
+            const user = {
+                firstName, lastName, email, occupation, bio, city, country, state, profileURL, coverURL, username, posts
+            }
+            return user;
+        } else {
+            return null;
+        }
+    } catch (error) {
+
+    }
 }

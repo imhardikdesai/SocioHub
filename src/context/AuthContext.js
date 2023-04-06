@@ -24,11 +24,11 @@ export function AuthProvider({ children }) {
                 setUserDetails(userData);
             });
         });
-    }, []);
+    });
 
 
     return (
-        <AuthContext.Provider value={{ currentUser, setCurrentUser, userDetails,loading }}>
+        <AuthContext.Provider value={{ currentUser, setCurrentUser, userDetails, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );

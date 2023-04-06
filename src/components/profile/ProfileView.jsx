@@ -12,13 +12,15 @@ import {
 } from "@chakra-ui/react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { BsFillBriefcaseFill } from "react-icons/bs";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { NavLink } from "react-router-dom";
+import { RiWhatsappFill } from "react-icons/ri";
 import { BASE_URL } from "../../constant/base";
+import { WhatsappShareButton } from "react-share";
 
-export default function ProfileView({ setisEditProfile }) {
-  const { userDetails } = useContext(AuthContext);
+export default function ProfileView({
+  setisEditProfile,
+  userDetails,
+  isPublic,
+}) {
   return (
     <>
       <Center py={6}>
@@ -83,23 +85,26 @@ export default function ProfileView({ setisEditProfile }) {
           </Box>
           {/* Edit Profile  */}
           <Flex justifyContent={"space-around"}>
-            <Button
-              isDisabled={!userDetails}
-              onClick={() => setisEditProfile((prev) => !prev)}
-              width="150px"
-              height="27px"
-              bg={"blue.400"}
-              color={"white"}
-              _hover={{
-                bg: "blue.500",
-              }}
-            >
-              Edit Profile
-            </Button>
-            <NavLink
-              to={BASE_URL + "/" + (userDetails && userDetails.username)}
+            {!isPublic && (
+              <Button
+                isDisabled={!userDetails}
+                onClick={() => setisEditProfile((prev) => !prev)}
+                width="150px"
+                height="27px"
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+              >
+                Edit Profile
+              </Button>
+            )}
+            <WhatsappShareButton
+              url={BASE_URL + "/" + (userDetails && userDetails.username)}
             >
               <Button
+                as="p"
                 isDisabled={!userDetails}
                 width="150px"
                 height="27px"
@@ -109,9 +114,9 @@ export default function ProfileView({ setisEditProfile }) {
                   bg: "red.500",
                 }}
               >
-                Share Profile
+                Share Profile <RiWhatsappFill />
               </Button>
-            </NavLink>
+            </WhatsappShareButton>
           </Flex>
 
           {/* Details Box  */}
