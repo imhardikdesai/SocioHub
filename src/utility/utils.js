@@ -127,7 +127,7 @@ export async function UserDetailsFromURL(username) {
             return user;
         }
     } catch (error) {
-        console.log(error.message)
+        // console.log(error.message)
     }
 }
 
