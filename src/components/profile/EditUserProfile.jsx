@@ -11,7 +11,6 @@ import {
   Center,
   Textarea,
 } from "@chakra-ui/react";
-// import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import { AuthContext } from "../../context/AuthContext";

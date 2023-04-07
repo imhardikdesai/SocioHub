@@ -2,6 +2,8 @@ import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
 import { ref as dbRef, equalTo, get, orderByChild, push, query, update } from 'firebase/database';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -105,7 +107,6 @@ export async function UpdateProfileWithData(values, currentUser, setLoading, set
     }
 }
 
-
 // Define the function that get user details from URL params
 export async function UserDetailsFromURL(username) {
     try {
@@ -117,15 +118,28 @@ export async function UserDetailsFromURL(username) {
         const snapshot = await get(usersRef);
         if (snapshot.exists()) {
             const users = snapshot.val();
-            const { firstName, lastName, email, occupation, bio, city, country, state, profileURL, coverURL, username, posts } = Object.values(users)[0];
+            const userId = Object.keys(users)[0]
+            const { firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts } = Object.values(users)[0];
             const user = {
-                firstName, lastName, email, occupation, bio, city, country, state, profileURL, coverURL, username, posts
+                userId, firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts
             }
             return user;
-        } else {
-            return null;
         }
     } catch (error) {
-
+        console.log(error.message)
     }
+}
+
+// Define the function that update User Followers and Following
+export async function UpdateUserFollower(currentUserDetail, targetUserDetails) {
+    const { userDetails } = useContext(AuthContext)
+    UserDetailsFromURL(targetUserDetails.username).then(user => {
+        update(dbRef(database, 'users/' + user.userId), {
+            followers: targetUserDetails.followers
+        });
+    })
+    update(dbRef(database, 'users/' + currentUserDetail.userId), {
+        // followers: targetUserDetails.followers
+        following: userDetails.following + 1
+    });
 }

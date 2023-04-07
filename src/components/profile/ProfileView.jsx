@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -13,14 +14,41 @@ import {
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { BsFillBriefcaseFill } from "react-icons/bs";
 import { RiWhatsappFill } from "react-icons/ri";
-import { BASE_URL } from "../../constant/base";
+import { BASE_URL } from "../../constant/URL";
 import { WhatsappShareButton } from "react-share";
+import { UpdateUserFollower, updateUserFollower } from "../../utility/utils";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function ProfileView({
   setisEditProfile,
   userDetails,
   isPublic,
 }) {
+  const { currentUser } = useContext(AuthContext);
+  const [currentFollowState, setCurrentFollowState] = useState(null);
+  const [isFollow, setIsFollow] = useState(true);
+  const handleFollowButton = () => {
+    setIsFollow((prev) => !prev);
+    if (isFollow) {
+      setCurrentFollowState((prev) => prev + 1);
+    } else {
+      setCurrentFollowState((prev) => prev - 1);
+    }
+  };
+  useEffect(() => {
+    if (userDetails) {
+      setCurrentFollowState(userDetails.followers);
+    }
+  }, [userDetails]);
+
+  useEffect(() => {
+    if (userDetails) {
+      UpdateUserFollower(currentUser, {
+        username: userDetails.username,
+        followers: currentFollowState,
+      });
+    }
+  }, [currentFollowState, currentUser, userDetails]);
   return (
     <>
       <Center py={6}>
@@ -57,6 +85,7 @@ export default function ProfileView({
               }}
             />
           </Flex>
+          {/* Username  */}
           <Box my={2} textAlign={"center"}>
             <Text as={"b"}>
               {userDetails ? "@" + userDetails.username : "loading..."}
@@ -67,7 +96,7 @@ export default function ProfileView({
             <Stack direction={"row"} justify={"center"} spacing={6}>
               <Stack spacing={0} align={"center"}>
                 <Text fontSize={"2xl"} fontWeight={600}>
-                  569
+                  {userDetails ? userDetails.followers : "loading..."}
                 </Text>
                 <Text fontSize={"sm"} color={"gray.500"}>
                   Followers
@@ -75,7 +104,7 @@ export default function ProfileView({
               </Stack>
               <Stack spacing={0} align={"center"}>
                 <Text fontSize={"2xl"} fontWeight={600}>
-                  744
+                  {userDetails ? userDetails.following : "loading..."}
                 </Text>
                 <Text fontSize={"sm"} color={"gray.500"}>
                   Following
@@ -85,7 +114,7 @@ export default function ProfileView({
           </Box>
           {/* Edit Profile  */}
           <Flex justifyContent={"space-around"}>
-            {!isPublic && (
+            {!isPublic ? (
               <Button
                 isDisabled={!userDetails}
                 onClick={() => setisEditProfile((prev) => !prev)}
@@ -98,6 +127,20 @@ export default function ProfileView({
                 }}
               >
                 Edit Profile
+              </Button>
+            ) : (
+              <Button
+                isDisabled={!userDetails}
+                onClick={handleFollowButton}
+                width="150px"
+                height="27px"
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+              >
+                {isFollow ? "Follow" : "Unfollow"}
               </Button>
             )}
             <WhatsappShareButton
@@ -179,6 +222,7 @@ export default function ProfileView({
                   : "Loading..."}
               </chakra.h1>
             </Flex>
+
             <Flex
               alignItems="center"
               mt={4}

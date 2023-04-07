@@ -544,7 +544,7 @@ export default function OnBoarding() {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
   const [loading, setLoading] = useState(false);
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { currentUser, userDetails, setCurrentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const initialValues = {
@@ -607,7 +607,8 @@ export default function OnBoarding() {
           profileImage = values.profileImage;
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${userCredential.user.uid
+            `profile_pics/${
+              userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           await uploadBytes(profilePicRef, profileImage);
@@ -631,7 +632,8 @@ export default function OnBoarding() {
           //Upload Images
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${userCredential.user.uid
+            `profile_pics/${
+              userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           const coverImageRef = storageRef(
@@ -664,11 +666,13 @@ export default function OnBoarding() {
           profileURL,
           coverURL,
           posts: "",
+          followers: 0,
+          following: 0,
         });
-        setCurrentUser(userCredential.user);
         toast.success("Signup Successfully !!");
-        // navigate('/posts')
         setLoading(false);
+        setCurrentUser(userCredential.user);
+        navigate("/posts");
       } else {
         toast.error("Something went wrong, please try again later");
         setLoading(false);
@@ -687,10 +691,10 @@ export default function OnBoarding() {
     initialErrors,
   });
   useEffect(() => {
-    if (currentUser) {
+    if (userDetails) {
       navigate("/posts");
     }
-  }, [currentUser, navigate]);
+  }, [userDetails, navigate]);
 
   return (
     <>

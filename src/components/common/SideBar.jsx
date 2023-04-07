@@ -70,13 +70,14 @@ export default function SideBar({ children }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const [loading, setLoading] = useState(false);
-  const { setCurrentUser } = useContext(AuthContext);
+  const { setCurrentUser, setUserDetails } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogOut = async () => {
     setLoading(true);
     try {
       await auth.signOut();
       setCurrentUser(null);
+      setUserDetails(null);
       toast.success("Successfully Logged out");
       navigate("/login");
       setLoading(false);
