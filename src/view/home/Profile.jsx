@@ -34,20 +34,23 @@ const Profile = () => {
           <EditUserProfile setisEditProfile={setisEditProfile} />
         )
       ) : // if paramter have username then that user profile
-        publicUser ? (
-          isEditProfile ? <ProfileView
+      publicUser ? (
+        isEditProfile ? (
+          <ProfileView
             isPublic={userDetails.username !== publicUser.username}
             userDetails={publicUser}
             setisEditProfile={setisEditProfile}
           />
-            : <EditUserProfile setisEditProfile={setisEditProfile} />
-        ) : !notFound ? (
-          <div className="d-flex justify-content-center">
-            <InfinitySpin width="200" color="#3182CE" />
-          </div>
         ) : (
-          <UserNotFound />
-        )}
+          <EditUserProfile setisEditProfile={setisEditProfile} />
+        )
+      ) : !notFound ? (
+        <div className="d-flex justify-content-center">
+          <InfinitySpin width="200" color="#3182CE" />
+        </div>
+      ) : (
+        <UserNotFound />
+      )}
     </>
   );
 };
