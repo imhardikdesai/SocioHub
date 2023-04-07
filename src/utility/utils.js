@@ -1,9 +1,9 @@
 import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
-import { ref as dbRef, equalTo, get, orderByChild, push, query, update } from 'firebase/database';
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { ref as dbRef, equalTo, get, orderByChild, push, query, update, onValue } from 'firebase/database';
+// import { useContext } from "react";
+// import { AuthContext } from "../context/AuthContext";
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -109,6 +109,7 @@ export async function UpdateProfileWithData(values, currentUser, setLoading, set
 
 // Define the function that get user details from URL params
 export async function UserDetailsFromURL(username) {
+
     try {
         const usersRef = query(
             dbRef(database, "users"),
@@ -131,15 +132,32 @@ export async function UserDetailsFromURL(username) {
 }
 
 // Define the function that update User Followers and Following
-export async function UpdateUserFollower(currentUserDetail, targetUserDetails) {
-    const { userDetails } = useContext(AuthContext)
-    UserDetailsFromURL(targetUserDetails.username).then(user => {
-        update(dbRef(database, 'users/' + user.userId), {
-            followers: targetUserDetails.followers
+// export async function UpdateUserFollower(currentUserDetail, targetUserDetails) {
+//     // const { userDetails } = useContext(AuthContext)
+//     // UserDetailsFromURL(targetUserDetails.username).then(user => {
+//     //     update(dbRef(database, 'users/' + user.userId), {
+//     //         followers: targetUserDetails.followers
+//     //     });
+//     // })
+//     // update(dbRef(database, 'users/' + currentUserDetail.userId), {
+//     //     // followers: targetUserDetails.followers
+//     //     following: userDetails.following + 1
+//     // });
+// }
+
+export async function GetAllUserList() {
+    return new Promise((resolve) => {
+        const starCountRef = dbRef(database, 'users');
+        onValue(starCountRef, (snapshot) => {
+            const users = snapshot.val();
+
+            // if (!users) {
+            //     resolve([]);
+            // } else {
+            //     const userList = Object.values(users);
+            //     resolve(userList);
+            // }
+            resolve(users)
         });
-    })
-    update(dbRef(database, 'users/' + currentUserDetail.userId), {
-        // followers: targetUserDetails.followers
-        following: userDetails.following + 1
     });
 }

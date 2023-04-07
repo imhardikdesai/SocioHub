@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import {  useState } from "react";
 import {
   Avatar,
   Box,
@@ -16,39 +16,39 @@ import { BsFillBriefcaseFill } from "react-icons/bs";
 import { RiWhatsappFill } from "react-icons/ri";
 import { BASE_URL } from "../../constant/URL";
 import { WhatsappShareButton } from "react-share";
-import { UpdateUserFollower, updateUserFollower } from "../../utility/utils";
-import { AuthContext } from "../../context/AuthContext";
+// import { UpdateUserFollower } from "../../utility/utils";
+// import { AuthContext } from "../../context/AuthContext";
 
 export default function ProfileView({
   setisEditProfile,
   userDetails,
   isPublic,
 }) {
-  const { currentUser } = useContext(AuthContext);
-  const [currentFollowState, setCurrentFollowState] = useState(null);
+  // const { currentUser } = useContext(AuthContext);
+  // const [currentFollowState, setCurrentFollowState] = useState(null);
   const [isFollow, setIsFollow] = useState(true);
-  const handleFollowButton = () => {
-    setIsFollow((prev) => !prev);
-    if (isFollow) {
-      setCurrentFollowState((prev) => prev + 1);
-    } else {
-      setCurrentFollowState((prev) => prev - 1);
-    }
-  };
-  useEffect(() => {
-    if (userDetails) {
-      setCurrentFollowState(userDetails.followers);
-    }
-  }, [userDetails]);
+  // const handleFollowButton = () => {
+  //   setIsFollow((prev) => !prev);
+  //   if (isFollow) {
+  //     setCurrentFollowState((prev) => prev + 1);
+  //   } else {
+  //     setCurrentFollowState((prev) => prev - 1);
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (userDetails) {
+  //     setCurrentFollowState(userDetails.followers);
+  //   }
+  // }, [userDetails]);
 
-  useEffect(() => {
-    if (userDetails) {
-      UpdateUserFollower(currentUser, {
-        username: userDetails.username,
-        followers: currentFollowState,
-      });
-    }
-  }, [currentFollowState, currentUser, userDetails]);
+  // useEffect(() => {
+  //   if (userDetails) {
+  //     UpdateUserFollower(currentUser, {
+  //       username: userDetails.username,
+  //       followers: currentFollowState,
+  //     });
+  //   }
+  // }, [currentFollowState, currentUser, userDetails]);
   return (
     <>
       <Center py={6}>
@@ -131,7 +131,8 @@ export default function ProfileView({
             ) : (
               <Button
                 isDisabled={!userDetails}
-                onClick={handleFollowButton}
+                onClick={() => setIsFollow((prev) => !prev)}
+                // onClick={handleFollowButton}
                 width="150px"
                 height="27px"
                 bg={"blue.400"}

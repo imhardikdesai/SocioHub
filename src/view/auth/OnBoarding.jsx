@@ -544,7 +544,7 @@ export default function OnBoarding() {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
   const [loading, setLoading] = useState(false);
-  const { currentUser, userDetails, setCurrentUser } = useContext(AuthContext);
+  const { userDetails, setCurrentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const initialValues = {
