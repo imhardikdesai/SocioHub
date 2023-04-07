@@ -14,17 +14,12 @@ const Profile = () => {
   const [publicUser, setPublicUser] = useState(null);
   const { username } = useParams();
   useEffect(() => {
-    UserDetailsFromURL(username)
-      .then((user) => {
-        setPublicUser(user);
-        console.log(user);
-        if (!user) {
-          setNotFound(true);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    UserDetailsFromURL(username).then((user) => {
+      setPublicUser(user);
+      if (!user) {
+        setNotFound(true);
+      }
+    });
   }, [username]);
   return (
     <>
@@ -39,19 +34,20 @@ const Profile = () => {
           <EditUserProfile setisEditProfile={setisEditProfile} />
         )
       ) : // if paramter have username then that user profile
-      publicUser ? (
-        <ProfileView
-          isPublic={true}
-          userDetails={publicUser}
-          setisEditProfile={setisEditProfile}
-        />
-      ) : !notFound ? (
-        <div className="d-flex justify-content-center">
-          <InfinitySpin width="200" color="#3182CE" />
-        </div>
-      ) : (
-        <UserNotFound />
-      )}
+        publicUser ? (
+          isEditProfile ? <ProfileView
+            isPublic={userDetails.username !== publicUser.username}
+            userDetails={publicUser}
+            setisEditProfile={setisEditProfile}
+          />
+            : <EditUserProfile setisEditProfile={setisEditProfile} />
+        ) : !notFound ? (
+          <div className="d-flex justify-content-center">
+            <InfinitySpin width="200" color="#3182CE" />
+          </div>
+        ) : (
+          <UserNotFound />
+        )}
     </>
   );
 };

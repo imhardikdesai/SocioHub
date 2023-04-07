@@ -15,6 +15,10 @@ export function AuthProvider({ children }) {
             //For set user object for private routes
             setCurrentUser(user);
             setLoading(false);
+            if (!user) {
+                setUserDetails(null)
+                return
+            }
 
             //For Get Details of user from Firebase
             const userId = user.uid;
@@ -28,7 +32,7 @@ export function AuthProvider({ children }) {
 
 
     return (
-        <AuthContext.Provider value={{ currentUser, setCurrentUser, userDetails, loading }}>
+        <AuthContext.Provider value={{ currentUser, setCurrentUser, setUserDetails, userDetails, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );
