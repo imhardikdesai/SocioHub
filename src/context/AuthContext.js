@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
                 setUserDetails(userData);
             });
         });
-    });
+    },[]);
 
 
     return (
