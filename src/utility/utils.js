@@ -2,8 +2,6 @@ import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
 import { ref as dbRef, equalTo, get, orderByChild, push, query, update, onValue } from 'firebase/database';
-// import { useContext } from "react";
-// import { AuthContext } from "../context/AuthContext";
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -60,7 +58,7 @@ export async function UploadFileAndGetDownloadUrl(file, currentUser, setLoading)
             description,
             url: downloadUrl
         });
-        toast.success('Post Uploaded Successflly !!!')
+        toast.success('Post Uploaded Successfully !!!')
         setLoading(false)
     } catch (error) {
         console.error('Error uploading file:', error);

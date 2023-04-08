@@ -17,10 +17,13 @@ import { AuthContext } from "../../context/AuthContext";
 import { useDropzone } from "react-dropzone";
 import { UpdateProfileWithData } from "../../utility/utils";
 import Loader from "../common/Loader";
+import { useDispatch } from "react-redux";
+import { updateChanges } from "../../redux/actions/authActions";
 
 export default function EditUserProfile({ setisEditProfile }) {
   const [loading, setLoading] = useState(false);
   const { userDetails, currentUser } = useContext(AuthContext);
+  const dispatch = useDispatch()
   const { firstName, lastName, occupation, bio, profileURL } = userDetails;
   const [file1, setFile1] = useState(null);
   const {
@@ -38,7 +41,9 @@ export default function EditUserProfile({ setisEditProfile }) {
   });
   const handleFormSubmit = (values) => {
     setLoading(true);
-    UpdateProfileWithData(values, currentUser, setLoading, setisEditProfile);
+    UpdateProfileWithData(values, currentUser, setLoading, setisEditProfile).then(() => {
+      dispatch(updateChanges())
+    })
   };
   const initialValues = {
     firstName,

@@ -1,11 +1,13 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, ref } from 'firebase/database';
 import { useState, useEffect, createContext } from 'react';
+import { useSelector } from 'react-redux';
 import { auth, database } from '../firebase/firebase-config';
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+    const status = useSelector(state => state.auth.status)
     const [currentUser, setCurrentUser] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -28,7 +30,7 @@ export function AuthProvider({ children }) {
                 setUserDetails(userData);
             });
         });
-    },[]);
+    }, [status]);
 
 
     return (

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Avatar, AvatarBadge, Box, Heading } from '@chakra-ui/react';
 import { AuthContext } from '../../context/AuthContext';
+import { NavLink } from 'react-router-dom';
 
 export default function ProfileAvatar() {
     const { userDetails } = useContext(AuthContext)
@@ -15,18 +16,20 @@ export default function ProfileAvatar() {
                 w={size}
                 h={size}
             >
-                <Avatar
-                    src={userDetails ? userDetails.profileURL : "https://i.pravatar.cc/300"}
-                    size="full"
-                    position="absolute"
-                    top={0}
-                >
-                    <AvatarBadge
-                        className='avatar-badge'
-                        boxSize='1.25em'
-                        bg='green.500'
-                    />
-                </Avatar>
+                <NavLink to='/profile'>
+                    <Avatar
+                        src={userDetails ? userDetails.profileURL : "https://i.pravatar.cc/300"}
+                        size="full"
+                        position="absolute"
+                        top={0}
+                    >
+                        <AvatarBadge
+                            className='avatar-badge'
+                            boxSize='1.25em'
+                            bg='green.500'
+                        />
+                    </Avatar>
+                </NavLink>
             </Box>
         </div>
     );
