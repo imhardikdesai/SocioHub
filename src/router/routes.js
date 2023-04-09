@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import ErrorPage from '../components/common/ErrorPage';
 import Login from '../view/auth/Login';
 import OnBoarding from '../view/auth/OnBoarding';
+import Explore from '../view/home/Explore';
 // import SignUp from '../view/auth/SignUp';
 import Home from '../view/home/Home';
 import Profile from '../view/home/Profile';
@@ -21,7 +22,7 @@ const RouteLinks = () => {
                         <Route path='/posts' element={<PostGallery />} />
                         <Route path='/profile' element={<Profile />} />
                         <Route path='/profile/:username' element={<Profile />} />
-                        <Route path='/explore' element={<ErrorPage />} />
+                        <Route path='/explore' element={<Explore />} />
                         <Route path='/activity' element={<ErrorPage />} />
                         <Route path='/setting' element={<Setting />} />
                     </Route>

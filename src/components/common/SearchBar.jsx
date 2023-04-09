@@ -40,11 +40,6 @@ const SearchBar = () => {
     });
   };
   useEffect(() => {
-    // const fetchPeople = async () => {
-    //   const users = await GetAllUserList();
-    //   setPeople(users);
-    // };
-    // fetchPeople();
     GetAllUserList().then((item) => setPeople(item));
   }, []);
   return (

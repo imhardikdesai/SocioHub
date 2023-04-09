@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
 import PostUploadSchema from "../../validation/PostUploadSchema";
-import { UploadFileAndGetDownloadUrl } from "../../utility/utils";
+import {  UploadFileAndGetDownloadUrl } from "../../utility/utils";
 import { AuthContext } from "../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";
@@ -27,7 +27,7 @@ const PostModal = ({ isOpen, onClose, overlay }) => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, userDetails } = useContext(AuthContext);
   const initialValues = {
     title: "",
     description: "",
@@ -36,7 +36,7 @@ const PostModal = ({ isOpen, onClose, overlay }) => {
 
   const handleFormSubmit = (values) => {
     setLoading(true);
-    UploadFileAndGetDownloadUrl(values, currentUser, setLoading).then(() => {
+    UploadFileAndGetDownloadUrl(values, currentUser, userDetails, setLoading).then(() => {
       dispatch(updateChanges())
     })
     onClose();

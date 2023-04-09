@@ -60,7 +60,7 @@ const PostGallery = () => {
                   return <PostCard key={item.postId} item={item} />;
                 })
             ) : (
-              <h1>No Posts Avalible</h1>
+              <h1>No Posts Available</h1>
             )
           ) : (
             <InfinitySpin width="200" color="#3182CE" />

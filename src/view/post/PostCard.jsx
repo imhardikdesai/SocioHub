@@ -104,7 +104,7 @@ const PostCard = ({ item }) => {
                       size="sm"
                       name="Prosper Otemuyiwa"
                       src={profileURL}
-                      // src={"https://i.pravatar.cc/300"}
+                    // src={"https://i.pravatar.cc/300"}
                     />
                   </OverlayTrigger>
                 </ButtonToolbar>
