@@ -1,14 +1,14 @@
-import React from 'react'
-import SettingProfile from '../../components/SettingProfile'
+import React from "react";
+import SettingProfile from "../../components/SettingProfile";
 
 const Setting = () => {
-    return (
-        <>
-            <div>
-                <SettingProfile />
-            </div>
-        </>
-    )
-}
+  return (
+    <>
+      <div>
+        <SettingProfile />
+      </div>
+    </>
+  );
+};
 
-export default Setting
+export default Setting;
