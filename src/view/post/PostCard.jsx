@@ -88,16 +88,19 @@ const PostCard = ({ item, isPublic }) => {
           my={2}
           className="post-card mx-sm-auto"
         >
-          <CardBody p={2}>
+          <CardBody p={2} className="card-image-parent">
             <Image
+              objectFit={"contain"}
               width={"100%"}
               height={"230px"}
               src={url}
               alt="Green double couch with wooden legs"
               borderRadius="lg"
+              className="card-image"
             />
+
             <Text className="px-3 py-2" fontSize="xl">
-              {title}
+              {title.substr(0, 30)}...
             </Text>
             <Text fontSize="sm" className="px-3 py-1">
               {description.substr(0, 70)}...
