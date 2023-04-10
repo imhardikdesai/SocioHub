@@ -57,7 +57,9 @@ const PostGallery = () => {
               Object.values(userDetails.posts)
                 .reverse()
                 .map((item) => {
-                  return <PostCard key={item.postId} item={item} />;
+                  return (
+                    <PostCard key={item.postId} item={item} isPublic={false} />
+                  );
                 })
             ) : (
               <h1>No Posts Available</h1>
