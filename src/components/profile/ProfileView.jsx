@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import {
   Avatar,
   Box,
@@ -12,10 +12,9 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
+import { AiTwotoneEdit } from "react-icons/ai";
 import { BsFillBriefcaseFill } from "react-icons/bs";
-import { RiWhatsappFill } from "react-icons/ri";
-import { BASE_URL } from "../../constant/URL";
-import { WhatsappShareButton } from "react-share";
+import ShareMenu from "../common/ShareMenu";
 // import { UpdateUserFollower } from "../../utility/utils";
 // import { AuthContext } from "../../context/AuthContext";
 
@@ -126,7 +125,7 @@ export default function ProfileView({
                   bg: "blue.500",
                 }}
               >
-                Edit Profile
+                Edit Profile <AiTwotoneEdit size={18} className='ms-1'/>
               </Button>
             ) : (
               <Button
@@ -144,23 +143,7 @@ export default function ProfileView({
                 {isFollow ? "Follow" : "Unfollow"}
               </Button>
             )}
-            <WhatsappShareButton
-              url={BASE_URL + "/" + (userDetails && userDetails.username)}
-            >
-              <Button
-                as="p"
-                isDisabled={!userDetails}
-                width="150px"
-                height="27px"
-                bg={"red.400"}
-                color={"white"}
-                _hover={{
-                  bg: "red.500",
-                }}
-              >
-                Share Profile <RiWhatsappFill />
-              </Button>
-            </WhatsappShareButton>
+            <ShareMenu />
           </Flex>
 
           {/* Details Box  */}

@@ -1,5 +1,5 @@
 import React from "react";
-import SettingProfile from "../../components/SettingProfile";
+import SettingProfile from "../../components/settings/SettingProfile";
 
 const Setting = () => {
   return (
