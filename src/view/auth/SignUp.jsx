@@ -78,6 +78,7 @@ export default function SignUp() {
     }
   }, [currentUser, navigate]);
 
+
   return (
     <>
       {loading && <Loader />}
