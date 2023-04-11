@@ -1,7 +1,8 @@
 import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
-import { ref as dbRef, equalTo, get, orderByChild, push, query, update, onValue } from 'firebase/database';
+import { ref as dbRef, equalTo, get, orderByChild, push, query, update, onValue, set } from 'firebase/database';
+// import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 // For Showing Relevant Messages 
 export const showRelevantErrorMessage = (error) => {
@@ -42,7 +43,7 @@ export const showRelevantErrorMessage = (error) => {
 }
 
 // Define the function that uploads the file and returns a download URL
-export async function UploadFileAndGetDownloadUrl(file, currentUser, setLoading) {
+export async function UploadFileAndGetDownloadUrl(file, currentUser, userDetails, setLoading) {
     const { postImage, title, description } = file
     // Create a reference to the file in Firebase Storage
     const storageRef = ref(storage, `post_images/${currentUser.uid}/${postImage.name.replace(/\./g, "-")}`);
@@ -52,12 +53,14 @@ export async function UploadFileAndGetDownloadUrl(file, currentUser, setLoading)
         const downloadUrl = await getDownloadURL(storageRef);
         const postsRef = dbRef(database, `users/${currentUser.uid}/posts`);
         const postId = new Date().getTime();
-        await push(postsRef, {
+        const postDetails = {
             postId,
             title,
             description,
             url: downloadUrl
-        });
+        }
+        await push(postsRef, postDetails);
+        AddPostToExplore(postDetails, userDetails)
         toast.success('Post Uploaded Successfully !!!')
         setLoading(false)
     } catch (error) {
@@ -159,3 +162,57 @@ export async function GetAllUserList() {
         });
     });
 }
+
+// For adding post to /post node for explore section of SocioHub
+
+export async function AddPostToExplore(postDetail, userDetails) {
+    const { username, firstName, profileURL, lastName, occupation } = userDetails
+    const { postId, title, description, url } = postDetail
+    set(dbRef(database, "explore/" + postDetail.postId), {
+        postId,
+        title,
+        profileURL,
+        description,
+        url,
+        name: firstName + ' ' + lastName,
+        username,
+        occupation
+    }).then(res => {
+        console.log(res)
+    })
+}
+
+// Get All Post data 
+export async function GetAllExploreList() {
+    return new Promise((resolve) => {
+        const starCountRef = dbRef(database, 'explore');
+        onValue(starCountRef, (snapshot) => {
+            const posts = snapshot.val();
+            resolve(posts)
+        });
+    });
+}
+
+//Google Sign in Providers
+
+// export const handleGoogleSignIn = async () => {
+//     signInWithPopup(auth, provider)
+//         .then((result) => {
+//             // This gives you a Google Access Token. You can use it to access the Google API.
+//             const credential = GoogleAuthProvider.credentialFromResult(result);
+//             const token = credential.accessToken;
+//             // The signed-in user info.
+//             const user = result.user;
+//             // IdP data available using getAdditionalUserInfo(result)
+//             // ...
+//         }).catch((error) => {
+//             // Handle Errors here.
+//             const errorCode = error.code;
+//             const errorMessage = error.message;
+//             // The email of the user's account used.
+//             const email = error.customData.email;
+//             // The AuthCredential type that was used.
+//             const credential = GoogleAuthProvider.credentialFromError(error);
+//             // ...
+//         });
+// }

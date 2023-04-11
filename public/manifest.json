@@ -1,7 +1,7 @@
 {
   "short_name": "SocioHub",
-  "name": "Connect with your friends and family",
-  "description": "SocioHub is a social media platform where you can connect with your friends and family. You can share your thoughts, photos, videos, and more.",
+  "name": "SocioHub - Connect with your friends and family",
+  "description": "SocioHub is a social media platform where you can connect with your friends and family. Share your thoughts, photos, videos, and more. Join now!",
   "icons": [
     {
       "src": "favicon.ico",
@@ -22,5 +22,24 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "scope": "/",
+  "lang": "en",
+  "orientation": "portrait",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [],
+  "categories": ["Social Media"],
+  "screenshots": [
+    {
+      "src": "screenshot-1.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    },
+    {
+      "src": "screenshot-2.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    }
+  ]
 }

@@ -1,11 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Progress,
-  Box,
-  ButtonGroup,
-  Button,
-  Flex,
-} from "@chakra-ui/react";
+import { Progress, Box, ButtonGroup, Button, Flex } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import SignupSchema from "../../validation/SignupSchema";
 import { showRelevantErrorMessage } from "../../utility/utils";
@@ -22,7 +16,8 @@ import { generateUsername } from "../../utility/functions";
 import Form1 from "../../components/forms/OnBoarding/Form1";
 import Form2 from "../../components/forms/OnBoarding/Form2";
 import Form3 from "../../components/forms/OnBoarding/Form3";
-
+import { useDispatch } from "react-redux";
+import { updateChanges } from "../../redux/actions/authActions";
 
 export default function OnBoarding() {
   const [step, setStep] = useState(1);
@@ -31,6 +26,7 @@ export default function OnBoarding() {
   const { userDetails, setCurrentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -91,7 +87,8 @@ export default function OnBoarding() {
           profileImage = values.profileImage;
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${userCredential.user.uid
+            `profile_pics/${
+              userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           await uploadBytes(profilePicRef, profileImage);
@@ -115,7 +112,8 @@ export default function OnBoarding() {
           //Upload Images
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${userCredential.user.uid
+            `profile_pics/${
+              userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           const coverImageRef = storageRef(
@@ -150,12 +148,16 @@ export default function OnBoarding() {
           posts: "",
           followers: 0,
           following: 0,
+          settings: {
+            emailShow: true,
+          },
         }).then(() => {
           toast.success("Signup Successfully !!");
           setLoading(false);
           setCurrentUser(userCredential.user);
           navigate("/posts");
-        })
+          dispatch(updateChanges());
+        });
       } else {
         toast.error("Something went wrong, please try again later");
         setLoading(false);
