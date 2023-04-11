@@ -10,7 +10,6 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
   FormErrorMessage,
   HStack,
   Divider,
@@ -26,11 +25,13 @@ import { AuthContext } from "../../context/AuthContext";
 import { showRelevantErrorMessage } from "../../utility/utils";
 import Loader from "../../components/common/Loader";
 import { OAuthButtonGroup } from "../../components/common/OAuthButtonGroup";
-
+import LottieBucket from "../../components/common/LottieBucket";
+import LoginHello from "../../animation/login-hello.json";
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const initialValues = {
     email: "",
     password: "",
@@ -69,6 +70,13 @@ export default function Login() {
       navigate("/posts");
     }
   }, [navigate, currentUser]);
+
+  const [spalsh, setSplash] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setSplash(false), 2900);
+  }, []);
+
   return (
     <>
       {loading && <Loader />}
@@ -76,94 +84,102 @@ export default function Login() {
         minH={"100vh"}
         align={"center"}
         justify={"center"}
-        bg={useColorModeValue("gray.50", "gray.800")}
+        bg="gray.50"
+        _dark={{ background: "gray.800" }}
       >
-        <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-          <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Sign in to your account</Heading>
-            <Text fontSize={"lg"} color={"gray.600"}>
-              to enjoy all of our cool <Link color={"blue.400"}>features</Link>{" "}
-              ✌️
-            </Text>
-          </Stack>
-          <Box
-            rounded={"lg"}
-            bg={useColorModeValue("white", "gray.700")}
-            boxShadow={"lg"}
-            p={8}
-          >
-            <Stack spacing={4}>
-              <Form onSubmit={formik.handleSubmit}>
-                <FormControl
-                  id="email"
-                  isInvalid={formik.errors.email && formik.touched.email}
-                >
-                  <FormLabel>Email address</FormLabel>
-                  <Input
-                    name="email"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type="email"
-                  />
-                  {formik.touched.email && (
-                    <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-                  )}
-                </FormControl>
-                <FormControl
-                  id="password"
-                  isInvalid={formik.errors.password && formik.touched.password}
-                >
-                  <FormLabel>Password</FormLabel>
-                  <Input
-                    name="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type="password"
-                  />
-                  {formik.touched.password && (
-                    <FormErrorMessage>
-                      {formik.errors.password}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-                <Stack spacing={5}>
-                  <Stack
-                    direction={{ base: "column", sm: "row" }}
-                    align={"start"}
-                    mt={2}
-                    justify={"end"}
-                  >
-                    <NavLink to="/signup" color={"blue.400"}>
-                      <span> New User?</span>
-                    </NavLink>
-                  </Stack>
-                  <Button
-                    type="submit"
-                    bg={"blue.400"}
-                    color={"white"}
-                    _hover={{
-                      bg: "blue.500",
-                    }}
-                  >
-                    Sign in
-                  </Button>
-                </Stack>
-              </Form>
-              <Stack spacing="6">
-                <HStack>
-                  <Divider />
-                  <Text fontSize="sm" whiteSpace="nowrap" color="muted">
-                    or continue with
-                  </Text>
-                  <Divider />
-                </HStack>
-                <OAuthButtonGroup />
-              </Stack>
+        {spalsh ? (
+          <LottieBucket path={LoginHello} />
+        ) : (
+          <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+            <Stack align={"center"}>
+              <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+              <Text fontSize={"lg"} color={"gray.600"}>
+                to enjoy all of our cool{" "}
+                <Link color={"blue.400"}>features</Link> ✌️
+              </Text>
             </Stack>
-          </Box>
-        </Stack>
+            <Box
+              rounded={"lg"}
+              bg={"white"}
+              _dark={{ background: "gray.700" }}
+              boxShadow={"lg"}
+              p={8}
+            >
+              <Stack spacing={4}>
+                <Form onSubmit={formik.handleSubmit}>
+                  <FormControl
+                    id="email"
+                    isInvalid={formik.errors.email && formik.touched.email}
+                  >
+                    <FormLabel>Email address</FormLabel>
+                    <Input
+                      name="email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      type="email"
+                    />
+                    {formik.touched.email && (
+                      <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <FormControl
+                    id="password"
+                    isInvalid={
+                      formik.errors.password && formik.touched.password
+                    }
+                  >
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      name="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      type="password"
+                    />
+                    {formik.touched.password && (
+                      <FormErrorMessage>
+                        {formik.errors.password}
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <Stack spacing={5}>
+                    <Stack
+                      direction={{ base: "column", sm: "row" }}
+                      align={"start"}
+                      mt={2}
+                      justify={"end"}
+                    >
+                      <NavLink to="/signup" color={"blue.400"}>
+                        <span> New User?</span>
+                      </NavLink>
+                    </Stack>
+                    <Button
+                      type="submit"
+                      bg={"blue.400"}
+                      color={"white"}
+                      _hover={{
+                        bg: "blue.500",
+                      }}
+                    >
+                      Sign in
+                    </Button>
+                  </Stack>
+                </Form>
+                <Stack spacing="6">
+                  <HStack>
+                    <Divider />
+                    <Text fontSize="sm" whiteSpace="nowrap" color="muted">
+                      or continue with
+                    </Text>
+                    <Divider />
+                  </HStack>
+                  <OAuthButtonGroup />
+                </Stack>
+              </Stack>
+            </Box>
+          </Stack>
+        )}
       </Flex>
     </>
   );

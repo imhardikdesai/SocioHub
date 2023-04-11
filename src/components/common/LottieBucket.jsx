@@ -7,7 +7,11 @@ const LottieBucket = ({ path }) => {
   };
 
   const { View } = useLottie(options);
-  return View;
+  return (
+    <>
+      <div className="h-animation">{View}</div>
+    </>
+  );
 };
 
 export default LottieBucket;
