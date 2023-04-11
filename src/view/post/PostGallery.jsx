@@ -13,6 +13,8 @@ import { HiDocumentAdd } from "react-icons/hi";
 import PostModal from "../../components/common/PostModal";
 import { AuthContext } from "../../context/AuthContext";
 import { InfinitySpin } from "react-loader-spinner";
+import LottieBucket from "../../components/common/LottieBucket";
+import NoData from "../../animation/no-data.json";
 const PostGallery = () => {
   const { userDetails } = useContext(AuthContext);
   const OverlayOne = () => (
@@ -62,7 +64,9 @@ const PostGallery = () => {
                   );
                 })
             ) : (
-              <h1>No Posts Available</h1>
+              <div>
+                <LottieBucket path={NoData} />
+              </div>
             )
           ) : (
             <InfinitySpin width="200" color="#3182CE" />
