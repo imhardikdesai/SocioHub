@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   SimpleGrid,
@@ -13,17 +13,29 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { Form } from "react-bootstrap";
+import { AuthContext } from "../../context/AuthContext";
+import { UpdateSetting } from "../../utility/utils";
+import { useDispatch } from "react-redux";
+import { updateChanges } from "../../redux/actions/authActions";
+import { toast } from "react-hot-toast";
 const SettingProfile = () => {
+  const { currentUser, userDetails } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const [isShowEmail] = useState(userDetails && userDetails.settings.emailShow);
   const initialValues = {
-    emailShow: false,
+    emailShow: isShowEmail ? isShowEmail : false,
   };
   const handleSaveSetting = (values) => {
-    console.log(values);
+    UpdateSetting(values, currentUser).then(() => {
+      toast.success("Settings saved successfully!");
+      dispatch(updateChanges());
+    });
   };
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues,
     onSubmit: handleSaveSetting,
   });
+
   return (
     <>
       <Box mt={[10, 0]}>
@@ -92,6 +104,7 @@ const SettingProfile = () => {
                     <Flex alignItems="start">
                       <Flex alignItems="center" h={5}>
                         <Checkbox
+                          defaultChecked={isShowEmail}
                           value={values.emailShow}
                           borderColor="brand.700"
                           _dark={{
@@ -104,7 +117,7 @@ const SettingProfile = () => {
                       </Flex>
                       <Box ml={3} fontSize="sm">
                         <chakra.label
-                          htmlFor="comments"
+                          htmlFor="emailShow"
                           fontWeight="md"
                           color="gray.700"
                           _dark={{

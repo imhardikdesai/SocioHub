@@ -18,12 +18,16 @@ import Form2 from "../../components/forms/OnBoarding/Form2";
 import Form3 from "../../components/forms/OnBoarding/Form3";
 import { useDispatch } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";
+import LottieBucket from "../../components/common/LottieBucket";
+import SignupHelllo from "../../animation/signup-hello.json";
+import AccountCraetion from "../../animation/account-creation-success.json";
 
 export default function OnBoarding() {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
   const [loading, setLoading] = useState(false);
   const { userDetails, setCurrentUser } = useContext(AuthContext);
+  const [spalsh2, setSplash2] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -152,11 +156,14 @@ export default function OnBoarding() {
             emailShow: true,
           },
         }).then(() => {
-          toast.success("Signup Successfully !!");
-          setLoading(false);
-          setCurrentUser(userCredential.user);
-          navigate("/posts");
-          dispatch(updateChanges());
+          setSplash2(true);
+          setTimeout(() => {
+            setLoading(false);
+            setCurrentUser(userCredential.user);
+            navigate("/posts");
+            dispatch(updateChanges());
+            setSplash2(false);
+          }, 3100);
         });
       } else {
         toast.error("Something went wrong, please try again later");
@@ -180,83 +187,100 @@ export default function OnBoarding() {
       navigate("/posts");
     }
   }, [userDetails, navigate]);
+  // for splash screen
+  const [spalsh1, setSplash1] = useState(false);
 
+  useEffect(() => {
+    setTimeout(() => setSplash1(false), 3000);
+  }, []);
   return (
     <>
-      {loading && <Loader />}
-      <Box
-        borderWidth="1px"
-        rounded="lg"
-        shadow="1px 1px 3px rgba(0,0,0,0.3)"
-        maxWidth={800}
-        p={6}
-        m="100px auto"
-        as="form"
-        onSubmit={formik.handleSubmit}
-      >
-        <Progress
-          hasStripe
-          value={progress}
-          mb="5%"
-          mx="5%"
-          isAnimated
-        ></Progress>
-        {step === 1 ? (
-          <Form1 action={formik} />
-        ) : step === 2 ? (
-          <Form2 action={formik} />
-        ) : (
-          <Form3 action={formik} />
-        )}
-        <ButtonGroup mt="5%" w="100%">
-          <Flex w="100%" justifyContent="space-between">
-            <Flex>
-              <Button
-                onClick={() => {
-                  setStep(step - 1);
-                  setProgress(progress - 33.33);
-                }}
-                isDisabled={step === 1}
-                colorScheme="teal"
-                variant="solid"
-                w="7rem"
-                mr="5%"
-              >
-                Back
-              </Button>
-              <Button
-                w="7rem"
-                isDisabled={step === 3}
-                onClick={() => {
-                  setStep(step + 1);
-                  if (step === 3) {
-                    setProgress(100);
-                  } else {
-                    setProgress(progress + 33.33);
-                  }
-                }}
-                colorScheme="teal"
-                variant="outline"
-              >
-                Next
-              </Button>
-            </Flex>
-            {step === 3 && (
-              <>
-                <Button
-                  isDisabled={Object.keys(formik.errors).length !== 0}
-                  w="7rem"
-                  colorScheme="red"
-                  variant="solid"
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </>
+      {spalsh2 ? (
+        <div className="vh-90 d-flex flex-column justify-content-center m-5">
+          <LottieBucket path={AccountCraetion} />
+        </div>
+      ) : spalsh1 ? (
+        <div className="vh-90 d-flex flex-column justify-content-center m-5">
+          <LottieBucket path={SignupHelllo} />
+        </div>
+      ) : (
+        <>
+          {loading && <Loader />}
+          <Box
+            borderWidth="1px"
+            rounded="lg"
+            shadow="1px 1px 3px rgba(0,0,0,0.3)"
+            maxWidth={800}
+            p={6}
+            m="100px auto"
+            as="form"
+            onSubmit={formik.handleSubmit}
+          >
+            <Progress
+              hasStripe
+              value={progress}
+              mb="5%"
+              mx="5%"
+              isAnimated
+            ></Progress>
+            {step === 1 ? (
+              <Form1 action={formik} />
+            ) : step === 2 ? (
+              <Form2 action={formik} />
+            ) : (
+              <Form3 action={formik} />
             )}
-          </Flex>
-        </ButtonGroup>
-      </Box>
+            <ButtonGroup mt="5%" w="100%">
+              <Flex w="100%" justifyContent="space-between">
+                <Flex>
+                  <Button
+                    onClick={() => {
+                      setStep(step - 1);
+                      setProgress(progress - 33.33);
+                    }}
+                    isDisabled={step === 1}
+                    colorScheme="teal"
+                    variant="solid"
+                    w="7rem"
+                    mr="5%"
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    w="7rem"
+                    isDisabled={step === 3}
+                    onClick={() => {
+                      setStep(step + 1);
+                      if (step === 3) {
+                        setProgress(100);
+                      } else {
+                        setProgress(progress + 33.33);
+                      }
+                    }}
+                    colorScheme="teal"
+                    variant="outline"
+                  >
+                    Next
+                  </Button>
+                </Flex>
+                {step === 3 && (
+                  <>
+                    <Button
+                      isDisabled={Object.keys(formik.errors).length !== 0}
+                      w="7rem"
+                      colorScheme="red"
+                      variant="solid"
+                      type="submit"
+                    >
+                      Submit
+                    </Button>
+                  </>
+                )}
+              </Flex>
+            </ButtonGroup>
+          </Box>
+        </>
+      )}
     </>
   );
 }
