@@ -36,6 +36,7 @@ const ShareMenu = () => {
             const { ShareComponent, handle, icon, bg, color } = item;
             return (
               <ShareComponent
+                key={bg}
                 url={BASE_URL + "/" + (userDetails && userDetails.username)}
               >
                 <MenuItem

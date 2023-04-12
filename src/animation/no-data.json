@@ -7,7 +7,7 @@
   "layers": [
     {
       "ty": 4,
-      "nm": "No Post Found Outlines",
+      "nm": "No Data Found Outlines",
       "sr": 1,
       "st": 0,
       "op": 160.000006516934,
@@ -1874,7 +1874,7 @@
     },
     {
       "ty": 5,
-      "nm": "No Post Found",
+      "nm": "No Data Found",
       "sr": 1,
       "st": 0,
       "op": 160.000006516934,
@@ -1904,7 +1904,7 @@
               "s": {
                 "f": "Roboto-Black",
                 "s": 30,
-                "t": "No Post Found",
+                "t": "No Data Found",
                 "fc": [0, 0, 0],
                 "lh": 36,
                 "tr": 45,

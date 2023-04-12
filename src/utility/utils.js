@@ -121,9 +121,9 @@ export async function UserDetailsFromURL(username) {
         if (snapshot.exists()) {
             const users = snapshot.val();
             const userId = Object.keys(users)[0]
-            const { firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts } = Object.values(users)[0];
+            const { firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings } = Object.values(users)[0];
             const user = {
-                userId, firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts
+                userId, firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings
             }
             return user;
         }
@@ -193,6 +193,13 @@ export async function GetAllExploreList() {
     });
 }
 
+// Functions For Update Settings
+export async function UpdateSetting(settingObj, currentUser) {
+    await update(dbRef(database, "users/" + currentUser.uid + '/settings/'), settingObj);
+}
+
+
+
 //Google Sign in Providers
 
 // export const handleGoogleSignIn = async () => {
@@ -216,3 +223,5 @@ export async function GetAllExploreList() {
 //             // ...
 //         });
 // }
+
+
