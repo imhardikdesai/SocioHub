@@ -14,10 +14,11 @@ import React, { useContext, useState } from "react";
 import { ButtonToolbar, OverlayTrigger, Popover } from "react-bootstrap";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 const PostCard = ({ item, isPublic }) => {
-  const { title, description, url, likes = 0 } = item;
+  const { title, description, url, likes = 0, username } = item;
   const { userDetails } = useContext(AuthContext);
   // const { firstName, lastName, occupation, profileURL } = userDetails;
   const [like, setLike] = useState(false);
@@ -116,16 +117,18 @@ const PostCard = ({ item, isPublic }) => {
                     placement="right"
                     overlay={popoverHoverFocus}
                   >
-                    <Avatar
-                      size="sm"
-                      name="Prosper Otemuyiwa"
-                      src={
-                        isPublic
-                          ? item.profileURL
-                          : userDetails && userDetails.profileURL
-                      }
-                      // src={"https://i.pravatar.cc/300"}
-                    />
+                    <NavLink to={"/profile/" + username}>
+                      <Avatar
+                        size="sm"
+                        name="Prosper Otemuyiwa"
+                        src={
+                          isPublic
+                            ? item.profileURL
+                            : userDetails && userDetails.profileURL
+                        }
+                        // src={"https://i.pravatar.cc/300"}
+                      />
+                    </NavLink>
                   </OverlayTrigger>
                 </ButtonToolbar>
                 <Text className="mx-2">

@@ -60,17 +60,8 @@ export default function OnBoarding() {
     let profileURL,
       coverURL = "";
     let coverImage, profileImage;
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      country,
-      city,
-      state,
-      bio,
-      occupation,
-    } = values;
+    const { firstName, lastName, country, city, state, bio, occupation } =
+      values;
 
     setLoading(true);
     try {
@@ -140,8 +131,6 @@ export default function OnBoarding() {
           username,
           firstName,
           lastName,
-          email,
-          password,
           country,
           city,
           state,
@@ -150,6 +139,7 @@ export default function OnBoarding() {
           profileURL,
           coverURL,
           posts: "",
+          isAdmin: false,
           followers: 0,
           following: 0,
           settings: {

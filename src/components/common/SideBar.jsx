@@ -14,6 +14,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FiHome, FiCompass, FiSettings, FiMenu } from "react-icons/fi";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import logo from "../../assets/img/Logo.png";
@@ -70,7 +71,8 @@ export default function SideBar({ children }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const [loading, setLoading] = useState(false);
-  const { setCurrentUser, setUserDetails } = useContext(AuthContext);
+  const { userDetails, setCurrentUser, setUserDetails } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogOut = async () => {
     setLoading(true);
@@ -121,6 +123,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
             {link.name}
           </NavItem>
         ))}
+
+        {userDetails && userDetails.isAdmin && (
+          <NavItem
+            path={"/admin"}
+            key={"admin"}
+            icon={MdOutlineAdminPanelSettings}
+          >
+            Admin
+          </NavItem>
+        )}
         <Button
           id="logout"
           onClick={handleLogOut}
@@ -131,8 +143,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
             boxShadow: "lg",
           }}
           left="5%"
-          //   bottom="10%"
-          //   top={"85vh"}
         >
           Logout
         </Button>
