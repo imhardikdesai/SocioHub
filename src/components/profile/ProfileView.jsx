@@ -206,8 +206,7 @@ export default function ProfileView({
                   : "Loading..."}
               </chakra.h1>
             </Flex>
-
-            {userDetails && userDetails.settings.emailShow && (
+            {userDetails.settings.emailShow && (
               <Flex
                 alignItems="center"
                 mt={4}
