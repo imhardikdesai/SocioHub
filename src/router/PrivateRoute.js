@@ -4,7 +4,9 @@ import { AuthContext } from '../context/AuthContext';
 
 const PrivateRoute = () => {
     const { currentUser } = useContext(AuthContext);
-
+    if (currentUser === null) {
+        return null
+    }
     return currentUser ? (
         <Outlet />
     ) : (

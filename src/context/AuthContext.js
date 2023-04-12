@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(null)
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -28,13 +29,14 @@ export function AuthProvider({ children }) {
             get(userRef).then((snapshot) => {
                 const userData = snapshot.val();
                 setUserDetails(userData);
+                setIsAdmin(userData.isAdmin)
             });
         });
     }, [status]);
 
 
     return (
-        <AuthContext.Provider value={{ currentUser, setCurrentUser, setUserDetails, userDetails, loading }}>
+        <AuthContext.Provider value={{ currentUser, setCurrentUser, isAdmin, setUserDetails, userDetails, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );

@@ -151,13 +151,6 @@ export async function GetAllUserList() {
         const starCountRef = dbRef(database, 'users');
         onValue(starCountRef, (snapshot) => {
             const users = snapshot.val();
-
-            // if (!users) {
-            //     resolve([]);
-            // } else {
-            //     const userList = Object.values(users);
-            //     resolve(userList);
-            // }
             resolve(users)
         });
     });

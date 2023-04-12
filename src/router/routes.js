@@ -25,11 +25,11 @@ const RouteLinks = () => {
                         <Route path='/explore' element={<Explore />} />
                         <Route path='/activity' element={<ErrorPage />} />
                         <Route path='/setting' element={<Setting />} />
-                    </Route>
-                    <Route element={<PrivateAdmin />}>
-                        <Route exact path="/admin" element={<AdminDashboard />} >
-                            <Route path="/admin" element={<Navigate to='/dashboard' />} />
-                            <Route path="dashboard" element={<AdminDashboard />} />
+                        <Route element={<PrivateAdmin />}>
+                            <Route exact path="/admin" element={<AdminDashboard />} >
+                                <Route path="/admin" element={<Navigate to='/dashboard' />} />
+                                {/* <Route path="dashboard" element={<AdminDashboard />} /> */}
+                            </Route>
                         </Route>
                     </Route>
                 </Route>
