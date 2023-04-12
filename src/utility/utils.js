@@ -193,6 +193,13 @@ export async function GetAllExploreList() {
     });
 }
 
+// Functions For Update Settings
+export async function UpdateSetting(settingObj, currentUser) {
+    await update(dbRef(database, "users/" + currentUser.uid + '/settings/'), settingObj);
+}
+
+
+
 //Google Sign in Providers
 
 // export const handleGoogleSignIn = async () => {
@@ -216,3 +223,5 @@ export async function GetAllExploreList() {
 //             // ...
 //         });
 // }
+
+

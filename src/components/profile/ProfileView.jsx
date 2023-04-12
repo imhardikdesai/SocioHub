@@ -125,7 +125,7 @@ export default function ProfileView({
                   bg: "blue.500",
                 }}
               >
-                Edit Profile <AiTwotoneEdit size={18} className='ms-1'/>
+                Edit Profile <AiTwotoneEdit size={18} className="ms-1" />
               </Button>
             ) : (
               <Button
@@ -207,20 +207,22 @@ export default function ProfileView({
               </chakra.h1>
             </Flex>
 
-            <Flex
-              alignItems="center"
-              mt={4}
-              color="gray.700"
-              _dark={{
-                color: "gray.200",
-              }}
-            >
-              <Icon as={MdEmail} h={6} w={6} mr={2} />
+            {userDetails && userDetails.settings.emailShow && (
+              <Flex
+                alignItems="center"
+                mt={4}
+                color="gray.700"
+                _dark={{
+                  color: "gray.200",
+                }}
+              >
+                <Icon as={MdEmail} h={6} w={6} mr={2} />
 
-              <chakra.h1 px={2} fontSize="sm">
-                {userDetails ? userDetails.email : "loading..."}
-              </chakra.h1>
-            </Flex>
+                <chakra.h1 px={2} fontSize="sm">
+                  {userDetails ? userDetails.email : "loading..."}
+                </chakra.h1>
+              </Flex>
+            )}
           </Box>
         </Box>
       </Center>
