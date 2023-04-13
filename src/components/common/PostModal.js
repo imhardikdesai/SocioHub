@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import PicDropZone from "./PicDropZone";
 import { useFormik } from "formik";
-import Loader from "../common/Loader";
+import Loader from "./Loader";
 import {
   FormControl,
   FormErrorMessage,
@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
 import PostUploadSchema from "../../validation/PostUploadSchema";
-import {  UploadFileAndGetDownloadUrl } from "../../utility/utils";
+import { UploadFileAndGetDownloadUrl } from "../../utility/utils";
 import { AuthContext } from "../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";

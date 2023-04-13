@@ -1,4 +1,10 @@
-import { Avatar, useDisclosure } from "@chakra-ui/react";
+import {
+  Avatar,
+  useDisclosure,
+  Button,
+  AvatarBadge,
+  Icon,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { GetAllUserList } from "../../utility/utils";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
@@ -7,12 +13,13 @@ import { deleteUserWithUsername } from "../../utility/admin";
 import { useDispatch, useSelector } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";
 import UserEditModal from "./UserEditModal";
+import { FaCrown } from "react-icons/fa";
 
 const AdminDashboard = () => {
+  const dispatch = useDispatch();
   const [people, setPeople] = useState([]);
   const [currentPeople, setCurrentPeople] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useDispatch();
   const status = useSelector((state) => state.auth.status);
   const columns = [
     {
@@ -27,7 +34,18 @@ const AdminDashboard = () => {
           css={{
             border: "2px solid white",
           }}
-        />
+        >
+          {user.isAdmin && (
+            <AvatarBadge
+              boxSize="0.9em"
+              bg="yellow.500"
+              borderColor="white"
+              borderWidth="2px"
+            >
+              <Icon as={FaCrown} color="white" boxSize="0.5em" />
+            </AvatarBadge>
+          )}
+        </Avatar>
       ),
     },
     {
@@ -63,12 +81,15 @@ const AdminDashboard = () => {
         };
         return (
           <>
-            <button
+            <Button
+              isDisabled={user.isAdmin}
+              className="admin-edit"
+              rightIcon={<AiFillEdit size={20} />}
+              colorScheme="blue"
+              variant="outline"
               onClick={handleUserEdit}
-              style={{ padding: "4px", fontSize: "14px" }} // add styles to the button
-            >
-              <AiFillEdit size={20} />
-            </button>
+              p={0}
+            />
           </>
         );
       },
@@ -85,12 +106,15 @@ const AdminDashboard = () => {
           });
         };
         return (
-          <button
+          <Button
+            isDisabled={user.isAdmin}
+            className="admin-edit"
+            rightIcon={<AiFillDelete size={20} />}
+            colorScheme="blue"
+            variant="outline"
             onClick={handleDeleteUser}
-            style={{ padding: "4px", fontSize: "14px" }} // add styles to the button
-          >
-            <AiFillDelete size={20} />
-          </button>
+            p={0}
+          />
         );
       },
       ignoreRowClick: true,
@@ -104,6 +128,7 @@ const AdminDashboard = () => {
   }, [status]);
   return (
     <>
+      
       <div>
         {currentPeople && (
           <UserEditModal
