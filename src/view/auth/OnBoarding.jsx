@@ -60,8 +60,16 @@ export default function OnBoarding() {
     let profileURL,
       coverURL = "";
     let coverImage, profileImage;
-    const { firstName, lastName, country, city, state, bio, occupation } =
-      values;
+    const {
+      firstName,
+      email,
+      lastName,
+      country,
+      city,
+      state,
+      bio,
+      occupation,
+    } = values;
 
     setLoading(true);
     try {
@@ -135,6 +143,7 @@ export default function OnBoarding() {
           city,
           state,
           bio,
+          email,
           occupation,
           profileURL,
           coverURL,

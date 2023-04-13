@@ -1,15 +1,17 @@
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { GetAllUserList } from "../../utility/utils";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-
 import ChakraDataTable from "../../theme/DataTables-chakra";
 import { deleteUserWithUsername } from "../../utility/admin";
 import { useDispatch, useSelector } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";
+import UserEditModal from "./UserEditModal";
 
 const AdminDashboard = () => {
   const [people, setPeople] = useState([]);
+  const [currentPeople, setCurrentPeople] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const status = useSelector((state) => state.auth.status);
   const columns = [
@@ -33,6 +35,10 @@ const AdminDashboard = () => {
       selector: (user) => user.firstName + " " + user.lastName,
     },
     {
+      name: "Email",
+      selector: (user) => user.email,
+    },
+    {
       name: "Username",
       selector: (user) => "@" + user.username,
     },
@@ -50,32 +56,43 @@ const AdminDashboard = () => {
     },
     {
       name: "Edit",
-      cell: (user) => (
-        <button
-          onClick={() => console.log(user)}
-          style={{ padding: "4px", fontSize: "14px" }} // add styles to the button
-        >
-          <AiFillEdit size={20} />
-        </button>
-      ),
+      cell: (user) => {
+        const handleUserEdit = () => {
+          onOpen();
+          setCurrentPeople(user);
+        };
+        return (
+          <>
+            <button
+              onClick={handleUserEdit}
+              style={{ padding: "4px", fontSize: "14px" }} // add styles to the button
+            >
+              <AiFillEdit size={20} />
+            </button>
+          </>
+        );
+      },
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
     },
     {
       name: "Delete",
-      cell: (user) => (
-        <button
-          onClick={() =>
-            deleteUserWithUsername(user.username).then(() =>
-              dispatch(updateChanges())
-            )
-          }
-          style={{ padding: "4px", fontSize: "14px" }} // add styles to the button
-        >
-          <AiFillDelete size={20} />
-        </button>
-      ),
+      cell: (user) => {
+        const handleDeleteUser = () => {
+          deleteUserWithUsername(user.username).then(() => {
+            dispatch(updateChanges());
+          });
+        };
+        return (
+          <button
+            onClick={handleDeleteUser}
+            style={{ padding: "4px", fontSize: "14px" }} // add styles to the button
+          >
+            <AiFillDelete size={20} />
+          </button>
+        );
+      },
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -88,6 +105,14 @@ const AdminDashboard = () => {
   return (
     <>
       <div>
+        {currentPeople && (
+          <UserEditModal
+            setCurrentPeople={setCurrentPeople}
+            user={currentPeople}
+            isOpen={isOpen}
+            onClose={onClose}
+          />
+        )}
         <ChakraDataTable columns={columns} data={people} />
       </div>
     </>
