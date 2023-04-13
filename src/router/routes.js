@@ -9,8 +9,8 @@ import Profile from '../view/home/Profile';
 import Setting from '../view/home/Setting';
 import PostGallery from '../view/post/PostGallery';
 import PrivateRoute from './PrivateRoute';
-import AdminDashboard from '../admin/dashboard/AdminDashboard';
 import PrivateAdmin from './PrivateAdmin';
+import Admin from '../admin';
 
 const RouteLinks = () => {
     return (
@@ -26,7 +26,7 @@ const RouteLinks = () => {
                         <Route path='/activity' element={<ErrorPage />} />
                         <Route path='/setting' element={<Setting />} />
                         <Route element={<PrivateAdmin />}>
-                            <Route exact path="/admin" element={<AdminDashboard />} >
+                            <Route exact path="/admin" element={<Admin />} >
                                 <Route path="/admin" element={<Navigate to='/dashboard' />} />
                                 {/* <Route path="dashboard" element={<AdminDashboard />} /> */}
                             </Route>

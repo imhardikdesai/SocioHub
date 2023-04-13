@@ -14,7 +14,12 @@
 }
 
 .main-content {
-  width: 73%;
+  width: 81%;
+  // width: 73%;
+
+  @media (max-width: 1200px) {
+    width: 70%;
+  }
 
   @media (max-width: 768px) {
     width: 100%;
