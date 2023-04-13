@@ -1,15 +1,28 @@
+import React, { useContext } from 'react'
 import { Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react'
 import { useFormik } from 'formik'
-import React from 'react'
 import { Form } from 'react-bootstrap'
+import { checkIfEmailExists } from '../../utility/admin'
 import AdminEmailUpdateSchema from '../../validation/AdminEmailUpdate'
+import { AuthContext } from '../../context/AuthContext'
+import { useDispatch } from 'react-redux'
+import { updateChanges } from '../../redux/actions/authActions'
+import { useNavigate } from 'react-router-dom'
 
 const AdminEmailModal = ({ isOpen, onClose }) => {
+    const dispatch = useDispatch()
+    const { currentUser } = useContext(AuthContext)
+    const navigate = useNavigate()
+
     const initialValues = {
         email: ''
     }
     const handleUpdateEmail = (values) => {
-        console.log(values)
+        checkIfEmailExists(values.email, currentUser, navigate).then(() => {
+            onClose()
+            navigate('/login')
+            dispatch(updateChanges())
+        })
     }
     const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
         initialValues,

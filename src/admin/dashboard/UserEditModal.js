@@ -27,7 +27,7 @@ const UserEditModal = ({ user, isOpen, onClose, setCurrentPeople }) => {
       onClose();
       setCurrentPeople(null);
       dispatch(updateChanges());
-    });
+    })
   };
   const handleClose = () => {
     setCurrentPeople(null);
