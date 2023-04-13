@@ -5,52 +5,62 @@ import {
   AvatarBadge,
   Icon,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { GetAllUserList } from "../../utility/utils";
+import React, { useState } from "react";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import ChakraDataTable from "../../theme/DataTables-chakra";
 import { deleteUserWithUsername } from "../../utility/admin";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";
 import UserEditModal from "./UserEditModal";
 import { FaCrown } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ people }) => {
   const dispatch = useDispatch();
-  const [people, setPeople] = useState([]);
   const [currentPeople, setCurrentPeople] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const status = useSelector((state) => state.auth.status);
+
   const columns = [
     {
       name: "Profile",
-      selector: (user) => (
-        <Avatar
-          size={"lg"}
-          src={user.profileURL}
-          alt={"Author"}
-          margin="3"
-          cursor={"pointer"}
-          css={{
-            border: "2px solid white",
-          }}
-        >
-          {user.isAdmin && (
-            <AvatarBadge
-              boxSize="0.9em"
-              bg="yellow.500"
-              borderColor="white"
-              borderWidth="2px"
+      selector: (user) => {
+        return (
+          <NavLink to={'/profile/' + user.username}>
+            <Avatar
+              size={"lg"}
+              src={user.profileURL}
+              alt={"Author"}
+              margin="3"
+              cursor={"pointer"}
+              css={{
+                border: "2px solid white",
+              }}
             >
-              <Icon as={FaCrown} color="white" boxSize="0.5em" />
-            </AvatarBadge>
-          )}
-        </Avatar>
-      ),
+              {user.isAdmin && (
+                <AvatarBadge
+                  boxSize="0.9em"
+                  bg="yellow.500"
+                  borderColor="white"
+                  borderWidth="2px"
+                >
+                  <Icon as={FaCrown} color="white" boxSize="0.5em" />
+                </AvatarBadge>
+              )}
+            </Avatar>
+          </NavLink>
+        )
+      },
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
     },
     {
       name: "Name",
       selector: (user) => user.firstName + " " + user.lastName,
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      sortable: true
     },
     {
       name: "Email",
@@ -123,12 +133,9 @@ const AdminDashboard = () => {
     },
   ];
 
-  useEffect(() => {
-    GetAllUserList().then((user) => setPeople(Object.values(user)));
-  }, [status]);
+
   return (
     <>
-      
       <div>
         {currentPeople && (
           <UserEditModal

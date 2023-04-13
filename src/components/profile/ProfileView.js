@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {
   Avatar,
   Box,
@@ -16,14 +16,14 @@ import { AiTwotoneEdit } from "react-icons/ai";
 import { BsFillBriefcaseFill } from "react-icons/bs";
 import ShareMenu from "../common/ShareMenu";
 // import { UpdateUserFollower } from "../../utility/utils";
-import { AuthContext } from "../../context/AuthContext";
+// import { AuthContext } from "../../context/AuthContext";
 
 export default function ProfileView({
   setisEditProfile,
   userDetails,
   isPublic,
 }) {
-  const { currentUser } = useContext(AuthContext);
+  // const { currentUser } = useContext(AuthContext);
   // const [currentFollowState, setCurrentFollowState] = useState(null);
   const [isFollow, setIsFollow] = useState(true);
   // const handleFollowButton = () => {
@@ -199,10 +199,10 @@ export default function ProfileView({
               <chakra.h1 px={2} fontSize="sm">
                 {userDetails
                   ? userDetails.city +
-                    ", " +
-                    userDetails.state +
-                    ", " +
-                    userDetails.country
+                  ", " +
+                  userDetails.state +
+                  ", " +
+                  userDetails.country
                   : "Loading..."}
               </chakra.h1>
             </Flex>
@@ -217,7 +217,7 @@ export default function ProfileView({
               >
                 <Icon as={MdEmail} h={6} w={6} mr={2} />
                 <chakra.h1 px={2} fontSize="sm">
-                  {currentUser ? currentUser.email : "loading..."}
+                  {userDetails ? userDetails.email : "loading..."}
                 </chakra.h1>
               </Flex>
             )}

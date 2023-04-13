@@ -57,8 +57,7 @@ export default function OnBoarding() {
   };
 
   const handleSubmit = async (values) => {
-    let profileURL,
-      coverURL = "";
+    let profileURL, coverURL;
     let coverImage, profileImage;
     const {
       firstName,
@@ -79,7 +78,7 @@ export default function OnBoarding() {
         values.password
       );
       if (userCredential) {
-        if ((values.coverImage && values.profileImage) === null) {
+        if (values.coverImage === null && values.profileImage === null) {
           profileURL =
             "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png";
           coverURL =
@@ -133,8 +132,8 @@ export default function OnBoarding() {
           await uploadBytes(coverImageRef, coverImage);
           coverURL = await getDownloadURL(coverImageRef);
         }
-        //End Upload Images
         const username = generateUsername(firstName, lastName);
+        //End Upload Images
         set(ref(database, "users/" + userCredential.user.uid), {
           username,
           firstName,
@@ -187,7 +186,7 @@ export default function OnBoarding() {
     }
   }, [userDetails, navigate]);
   // for splash screen
-  const [spalsh1, setSplash1] = useState(false);
+  const [spalsh1, setSplash1] = useState(true);
 
   useEffect(() => {
     setTimeout(() => setSplash1(false), 3000);

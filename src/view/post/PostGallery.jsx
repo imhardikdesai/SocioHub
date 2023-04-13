@@ -17,7 +17,6 @@ import LottieBucket from "../../components/common/LottieBucket";
 import NoData from "../../animation/no-data.json";
 const PostGallery = () => {
   const { userDetails } = useContext(AuthContext);
-
   const OverlayOne = () => (
     <ModalOverlay
       bg="blackAlpha.300"
@@ -27,7 +26,6 @@ const PostGallery = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = useState(<OverlayOne />);
-
   return (
     <>
       <PostModal isOpen={isOpen} overlay={overlay} onClose={onClose} />
