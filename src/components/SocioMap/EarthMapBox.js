@@ -1,8 +1,11 @@
-import { Box } from '@chakra-ui/react'
+import { Box, useColorMode } from '@chakra-ui/react'
 import mapboxgl from 'mapbox-gl';
 import React, { useEffect } from 'react'
 
 const EarthMapBox = () => {
+    const darkMap = 'mapbox://styles/mapbox/satellite-streets-v12'
+    const lightMap = 'mapbox://styles/mapbox/streets-v12'
+    const { colorMode } = useColorMode()
     useEffect(() => {
         mapboxgl.accessToken = 'pk.eyJ1Ijoibm92YWJpbDQ2NiIsImEiOiJjbGdnaDk5OWgwM2IzM2RwN3dhZW9tYXdrIn0.3ECgUtQ0bqNsbKe1ctDmIw';
         const geojson = {
@@ -31,7 +34,7 @@ const EarthMapBox = () => {
                     }
                 },
                 {
-                    'type': 'Hardik Desai',
+                    'type': 'Feature',
                     'properties': {
                         'message': 'Hardik desai',
                         'iconSize': [50, 50]
@@ -58,7 +61,7 @@ const EarthMapBox = () => {
         const map = new mapboxgl.Map({
             container: 'map',
             // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-            style: 'mapbox://styles/mapbox/streets-v12',
+            style: colorMode === 'light' ? lightMap : darkMap,
             center: [72.6032779, 23.192825],
             zoom: 5
         });
@@ -85,10 +88,10 @@ const EarthMapBox = () => {
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(map);
         }
-    }, []);
+    }, [colorMode]);
     return (
         <div>
-            <Box id="map" height={'600px'} width='100%' ></Box>
+            <Box id="map" height={'900px'} width='100%' ></Box>
         </div>
     )
 }
