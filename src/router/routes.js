@@ -11,6 +11,7 @@ import PostGallery from '../view/post/PostGallery';
 import PrivateRoute from './PrivateRoute';
 import PrivateAdmin from './PrivateAdmin';
 import Admin from '../admin';
+import SocioMap from '../view/home/SocioMap';
 
 const RouteLinks = () => {
     return (
@@ -23,6 +24,7 @@ const RouteLinks = () => {
                         <Route path='/profile' element={<Profile />} />
                         <Route path='/profile/:username' element={<Profile />} />
                         <Route path='/explore' element={<Explore />} />
+                        <Route path='/socio-map' element={<SocioMap />} />
                         <Route path='/activity' element={<ErrorPage />} />
                         <Route path='/setting' element={<Setting />} />
                         <Route element={<PrivateAdmin />}>
