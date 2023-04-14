@@ -21,6 +21,7 @@ import { updateChanges } from "../../redux/actions/authActions";
 import LottieBucket from "../../components/common/LottieBucket";
 import SignupHelllo from "../../animation/signup-hello.json";
 import AccountCraetion from "../../animation/account-creation-success.json";
+import { DUMMY_USER_COVER, DUMMY_USER_PROFILE } from "../../constant/URL";
 
 export default function OnBoarding() {
   const [step, setStep] = useState(1);
@@ -79,13 +80,10 @@ export default function OnBoarding() {
       );
       if (userCredential) {
         if (values.coverImage === null && values.profileImage === null) {
-          profileURL =
-            "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png";
-          coverURL =
-            "https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg";
+          profileURL = DUMMY_USER_PROFILE;
+          coverURL = DUMMY_USER_COVER;
         } else if (values.coverImage === null) {
-          coverURL =
-            "https://i.pinimg.com/originals/4a/88/7e/4a887e68509737452a38ba244079b8a0.jpg";
+          coverURL = DUMMY_USER_COVER;
           profileImage = values.profileImage;
           const profilePicRef = storageRef(
             storage,
@@ -96,8 +94,7 @@ export default function OnBoarding() {
           await uploadBytes(profilePicRef, profileImage);
           profileURL = await getDownloadURL(profilePicRef);
         } else if (values.profileImage === null) {
-          profileURL =
-            "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png";
+          profileURL = DUMMY_USER_PROFILE;
           coverImage = values.coverImage;
           const coverImageRef = storageRef(
             storage,

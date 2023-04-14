@@ -18,7 +18,7 @@ export default function ProfileAvatar() {
             >
                 <NavLink to='/profile'>
                     <Avatar
-                        src={userDetails ? userDetails.profileURL : "https://i.pravatar.cc/300"}
+                        src={userDetails ? userDetails.profileURL :"https://www.clipartmax.com/png/middle/171-1717870_stockvader-predicted-cron-for-may-user-profile-icon-png.png"}
                         size="full"
                         position="absolute"
                         top={0}
