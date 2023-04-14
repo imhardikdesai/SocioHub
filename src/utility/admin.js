@@ -2,6 +2,7 @@ import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import { equalTo, get, orderByChild, query, ref as dbRef, remove, update } from 'firebase/database';
 import { toast } from 'react-hot-toast';
 import { auth, database } from '../firebase/firebase-config';
+import { updateChanges } from '../redux/actions/authActions';
 
 
 
@@ -83,7 +84,7 @@ export const updateUser = async (userData, username) => {
  * @param email - The email parameter is a string that represents the email address that needs to be
  * checked for existence in the authentication system.
  */
-export async function checkIfEmailExists(email, currentUser) {
+export async function checkIfEmailExists(email, currentUser, navigate, dispatch) {
     fetchSignInMethodsForEmail(auth, email)
         .then((methods) => {
             if (methods.length > 0) {
@@ -102,6 +103,9 @@ export async function checkIfEmailExists(email, currentUser) {
                     })
                     update(dbRef(database, 'users/' + currentUser.uid), {
                         isAdmin: false
+                    }).then(() => {
+                        navigate('/login')
+                        dispatch(updateChanges())
                     })
                 } catch (error) {
                     toast.error("Failed to Update Email")
