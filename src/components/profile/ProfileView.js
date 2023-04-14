@@ -232,7 +232,7 @@ export default function ProfileView({
         <>
           <Divider />
           <div className="container-fluid mt-4">
-            <div className="row justify-content-around">
+            <div className="row">
               {
                 isPublic &&
                   userDetails ?

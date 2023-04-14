@@ -13,7 +13,7 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FiHome, FiCompass, FiSettings, FiMenu } from "react-icons/fi";
+import { FiHome, FiMap, FiCompass, FiSettings, FiMenu } from "react-icons/fi";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -31,6 +31,7 @@ const LinkItems = [
   { name: "Profile", icon: FaRegUserCircle, path: "/profile" },
   { name: "Explore", icon: FiCompass, path: "/explore" },
   { name: "Activity", icon: AiOutlineHeart, path: "/activity" },
+  { name: "SocioMap", icon: FiMap, path: "/socio-map" },
   { name: "Setting", icon: FiSettings, path: "/setting" },
 ];
 

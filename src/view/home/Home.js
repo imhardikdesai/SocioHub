@@ -14,12 +14,12 @@ const Home = () => {
     <MyHelmet userDetails={userDetails} />
       <main className="d-flex flex-column flex-xxl-row flex-xl-row flex-lg-row flex-md-row">
         <Sidebar />
-        <section className="main-content px-3 mt-sm-4">
+        <section className="main-content px-3">
           <header className="d-flex">
             <SearchBar />
             <ProfileAvatar />
           </header>
-          <Divider my={8} />
+          <Divider my={5} />
           <div className="outlet-area">
             <Outlet />
           </div>
