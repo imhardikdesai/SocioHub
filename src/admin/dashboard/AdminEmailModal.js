@@ -6,7 +6,6 @@ import { checkIfEmailExists } from '../../utility/admin'
 import AdminEmailUpdateSchema from '../../validation/AdminEmailUpdate'
 import { AuthContext } from '../../context/AuthContext'
 import { useDispatch } from 'react-redux'
-import { updateChanges } from '../../redux/actions/authActions'
 import { useNavigate } from 'react-router-dom'
 
 const AdminEmailModal = ({ isOpen, onClose }) => {
@@ -18,10 +17,8 @@ const AdminEmailModal = ({ isOpen, onClose }) => {
         email: ''
     }
     const handleUpdateEmail = (values) => {
-        checkIfEmailExists(values.email, currentUser, navigate).then(() => {
+        checkIfEmailExists(values.email, currentUser, navigate, dispatch).then(() => {
             onClose()
-            navigate('/login')
-            dispatch(updateChanges())
         })
     }
     const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
