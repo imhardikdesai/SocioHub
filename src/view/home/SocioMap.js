@@ -20,9 +20,6 @@ const SocioMap = () => {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-      },
-      (error) => {
-        toast.error("Unable to retrieve your location. Please enable location services and try again.");
       }
     );
   }, []);
