@@ -23,15 +23,15 @@ const SearchBar = () => {
     const style =
       colorMode === "light"
         ? {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          }
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        }
         : {
-            borderRadius: "10px",
-            background: "#fff",
-            color: "#333",
-          };
+          borderRadius: "10px",
+          background: "#fff",
+          color: "#333",
+        };
 
     toast(msg, {
       icon: icon,
@@ -56,27 +56,23 @@ const SearchBar = () => {
             {people &&
               Object.values(people).map((person, index) => {
                 return (
-                //   <h1>
-                //     hello
-                //     {console.log(person)}
-                //   </h1>
-                    <Link key={index} to={`/profile/${person.username}`}>
-                      <AutoCompleteItem
-                        key={`option-${index}`}
-                        value={person.username}
-                        textTransform="capitalize"
-                        align="center"
-                      >
-                        <Avatar
-                          size="sm"
-                          name={person.username}
-                          src={person.profileURL}
-                        />
-                        <Text ml="4">
-                          {person.firstName + " " + person.lastName}
-                        </Text>
-                      </AutoCompleteItem>
-                    </Link>
+                  <Link key={index} to={`/profile/${person.username}`}>
+                    <AutoCompleteItem
+                      key={`option-${index}`}
+                      value={person.username}
+                      textTransform="capitalize"
+                      align="center"
+                    >
+                      <Avatar
+                        size="sm"
+                        name={person.username}
+                        src={person.profileURL}
+                      />
+                      <Text ml="4">
+                        {person.firstName + " " + person.lastName}
+                      </Text>
+                    </AutoCompleteItem>
+                  </Link>
                 );
               })}
           </AutoCompleteList>
