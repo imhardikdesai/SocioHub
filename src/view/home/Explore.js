@@ -16,7 +16,14 @@ const Explore = () => {
       <div className="row">
         {explore ? (
           explore.map((item) => {
-            return <PostCard key={item.postId} item={item} isPublic={true} />;
+            return (
+              <PostCard
+                key={item.postId}
+                item={item}
+                isProfileView={false}
+                isPublic={true}
+              />
+            );
           })
         ) : (
           <InfinitySpin width="200" color="#3182CE" />

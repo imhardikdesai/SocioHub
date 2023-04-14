@@ -10,11 +10,14 @@ import {
   chakra,
   Icon,
   Button,
+  Divider,
 } from "@chakra-ui/react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { BsFillBriefcaseFill } from "react-icons/bs";
 import ShareMenu from "../common/ShareMenu";
+import PostCard from "../../view/post/PostCard";
+import { InfinitySpin } from "react-loader-spinner";
 // import { UpdateUserFollower } from "../../utility/utils";
 // import { AuthContext } from "../../context/AuthContext";
 
@@ -224,6 +227,28 @@ export default function ProfileView({
           </Box>
         </Box>
       </Center>
+      {
+        isPublic &&
+        <>
+          <Divider />
+          <div className="container-fluid mt-4">
+            <div className="row justify-content-around">
+              {
+                isPublic &&
+                  userDetails ?
+                  Object.values(userDetails.posts).reverse().map(item => {
+                    return <PostCard isProfileView={true} isPublic={true} key={item.postId} item={item} />
+                  })
+                  :
+                  <InfinitySpin width="200" color="#3182CE" />
+              }
+              {
+                userDetails && Object.values(userDetails.posts).length === 0 && <Text mb={12} textAlign={'center'} fontSize='2xl'>{userDetails.firstName + " Have No Post Yet"}</Text>
+              }
+            </div>
+          </div>
+        </>
+      }
     </>
   );
 }

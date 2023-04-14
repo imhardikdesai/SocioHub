@@ -10,19 +10,21 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ButtonToolbar, OverlayTrigger, Popover } from "react-bootstrap";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { UserDetailsFromURL } from "../../utility/utils";
 
-const PostCard = ({ item, isPublic }) => {
+const PostCard = ({ item, isPublic, isProfileView }) => {
+  const data = useParams();
+  const [publicUser, setPublicUser] = useState(null);
   const { title, description, url, likes = 0, username } = item;
   const { userDetails } = useContext(AuthContext);
   // const { firstName, lastName, occupation, profileURL } = userDetails;
   const [like, setLike] = useState(false);
-
   const popoverHoverFocus = (
     <Popover id="popover-trigger-hover-focus" title="Popover bottom">
       <Flex p={50} w="full" alignItems="center" justifyContent="center">
@@ -41,7 +43,11 @@ const PostCard = ({ item, isPublic }) => {
             height={"84px"}
             fit="cover"
             src={
-              isPublic ? item.profileURL : userDetails && userDetails.profileURL
+              isPublic
+                ? isProfileView
+                  ? publicUser && publicUser.profileURL
+                  : item.profileURL
+                : userDetails && userDetails.profileURL
             }
             alt="avatar"
             mx={"auto"}
@@ -59,9 +65,11 @@ const PostCard = ({ item, isPublic }) => {
               fontWeight="bold"
             >
               {isPublic
-                ? item.name
-                : userDetails &&
-                  userDetails.firstName + " " + userDetails.lastName}
+                ? isProfileView
+                  ? publicUser &&
+                    publicUser.firstName + " " + publicUser.lastName
+                  : item.name
+                : userDetails.firstName + " " + userDetails.lastName}
             </Link>
             <chakra.span
               fontSize="sm"
@@ -71,7 +79,9 @@ const PostCard = ({ item, isPublic }) => {
               }}
             >
               {isPublic
-                ? item.occupation
+                ? isProfileView
+                  ? publicUser && publicUser.occupation
+                  : item.occupation
                 : userDetails && userDetails.occupation}
             </chakra.span>
           </Box>
@@ -79,7 +89,11 @@ const PostCard = ({ item, isPublic }) => {
       </Flex>
     </Popover>
   );
-
+  useEffect(() => {
+    UserDetailsFromURL(data.username).then((user) => {
+      setPublicUser(user);
+    });
+  }, [data.username]);
   return (
     <>
       <div className="col-sm-12 col-lg-6 col-xxl-4">
@@ -117,25 +131,37 @@ const PostCard = ({ item, isPublic }) => {
                     placement="right"
                     overlay={popoverHoverFocus}
                   >
-                    <NavLink to={"/profile/" + username}>
+                    <NavLink
+                      to={
+                        "/profile/" +
+                        (isPublic
+                          ? isProfileView
+                            ? data.username
+                            : username
+                          : userDetails && userDetails.username)
+                      }
+                    >
                       <Avatar
                         size="sm"
                         name="Prosper Otemuyiwa"
                         src={
                           isPublic
-                            ? item.profileURL
+                            ? isProfileView
+                              ? publicUser && publicUser.profileURL
+                              : item.profileURL
                             : userDetails && userDetails.profileURL
                         }
-                        // src={"https://i.pravatar.cc/300"}
                       />
                     </NavLink>
                   </OverlayTrigger>
                 </ButtonToolbar>
                 <Text className="mx-2">
                   {isPublic
-                    ? item.name
-                    : userDetails &&
-                      userDetails.firstName + " " + userDetails.lastName}
+                    ? isProfileView
+                      ? publicUser &&
+                        publicUser.firstName + " " + publicUser.lastName
+                      : item.name
+                    : userDetails.firstName + " " + userDetails.lastName}
                 </Text>
               </div>
               <div className="flex">

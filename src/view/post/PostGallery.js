@@ -60,7 +60,12 @@ const PostGallery = () => {
                 .reverse()
                 .map((item) => {
                   return (
-                    <PostCard key={item.postId} item={item} isPublic={false} />
+                    <PostCard
+                      key={item.postId}
+                      item={item}
+                      isProfileView={false}
+                      isPublic={false}
+                    />
                   );
                 })
             ) : (
