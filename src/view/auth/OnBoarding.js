@@ -87,8 +87,7 @@ export default function OnBoarding() {
           profileImage = values.profileImage;
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${
-              userCredential.user.uid
+            `profile_pics/${userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           await uploadBytes(profilePicRef, profileImage);
@@ -111,8 +110,7 @@ export default function OnBoarding() {
           //Upload Images
           const profilePicRef = storageRef(
             storage,
-            `profile_pics/${
-              userCredential.user.uid
+            `profile_pics/${userCredential.user.uid
             }/${profileImage.name.replace(/\./g, "-")}`
           );
           const coverImageRef = storageRef(
@@ -150,6 +148,10 @@ export default function OnBoarding() {
           settings: {
             emailShow: true,
           },
+          location: {
+            lat: '',
+            lng: ''
+          }
         }).then(() => {
           setSplash2(true);
           setTimeout(() => {
