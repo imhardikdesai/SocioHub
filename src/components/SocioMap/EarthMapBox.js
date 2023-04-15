@@ -4,7 +4,8 @@ import React, { useEffect } from 'react'
 
 const EarthMapBox = () => {
     const darkMap = 'mapbox://styles/mapbox/satellite-streets-v12'
-    const lightMap = 'mapbox://styles/mapbox/streets-v12'
+    const lightMap = 'mapbox://styles/mapbox/navigation-day-v1'
+    // const lightMap = 'mapbox://styles/mapbox/streets-v12'
     const { colorMode } = useColorMode()
     useEffect(() => {
         mapboxgl.accessToken = 'pk.eyJ1Ijoibm92YWJpbDQ2NiIsImEiOiJjbGdnaDk5OWgwM2IzM2RwN3dhZW9tYXdrIn0.3ECgUtQ0bqNsbKe1ctDmIw';
