@@ -149,8 +149,8 @@ export default function OnBoarding() {
             emailShow: true,
           },
           location: {
-            lat: '',
-            lng: ''
+            lat: 0,
+            lng: 0
           }
         }).then(() => {
           setSplash2(true);
