@@ -10,6 +10,7 @@ import {
   Box,
   Flex,
   Divider,
+  Skeleton,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { ButtonToolbar, OverlayTrigger, Popover } from "react-bootstrap";
@@ -17,9 +18,11 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
 import { NavLink, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { getTimeDifference } from "../../utility/functions";
 import { UserDetailsFromURL } from "../../utility/utils";
 
 const PostCard = ({ item, isPublic, isProfileView }) => {
+  const [load, setLoad] = useState(false)
   const data = useParams();
   const [publicUser, setPublicUser] = useState(null);
   const { title, description, url, likes = 0, username } = item;
@@ -96,95 +99,102 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
       setPublicUser(user);
     });
   }, [data.username]);
+  setTimeout(() => {
+    setLoad(true)
+  }, 1000)
   return (
     <>
       <div className="col-sm-12 col-lg-6 col-xxl-4">
-        <Card
-          minH={"430px"}
-          maxW={"sm"}
-          my={2}
-          className="post-card mx-sm-auto"
-        >
-          <CardBody p={2} className="card-image-parent">
-            <Image
-              objectFit={"contain"}
-              width={"100%"}
-              height={"230px"}
-              src={url}
-              alt="Green double couch with wooden legs"
-              borderRadius="lg"
-              className="card-image"
-            />
+        <Skeleton isLoaded={load}>
+          <Card
+            minH={"430px"}
+            maxW={"sm"}
+            my={2}
+            className="post-card mx-sm-auto"
+          >
+            <CardBody p={2} className="card-image-parent">
+              <Image
+                objectFit={"contain"}
+                width={"100%"}
+                height={"230px"}
+                src={url}
+                alt="Green double couch with wooden legs"
+                borderRadius="lg"
+                className="card-image"
+              />
 
-            <Text className="px-3 py-2" fontSize="xl">
-              {title.substr(0, 30)}...
-            </Text>
-            <Text fontSize="sm" className="px-3 py-1">
-              {description.substr(0, 130)}...
-            </Text>
-          </CardBody>
-          <Divider />
-          <CardFooter p={2}>
-            <div className="flex justify-content-between w-100 px-3">
-              <div className="flex">
-                <ButtonToolbar>
-                  <OverlayTrigger
-                    trigger={["hover", "focus"]}
-                    placement="right"
-                    overlay={popoverHoverFocus}
-                  >
-                    <NavLink
-                      to={
-                        "/profile/" +
-                        (isPublic
-                          ? isProfileView
-                            ? data.username
-                            : username
-                          : userDetails && userDetails.username)
-                      }
+              <Text className="px-3 py-2" fontSize="xl">
+                {title.substr(0, 30)}...
+              </Text>
+              <Text fontSize="sm" className="px-3 py-1">
+                {description.substr(0, 100)}...
+              </Text>
+            </CardBody>
+            <Divider />
+            <CardFooter p={2}>
+              <div className="flex justify-content-between w-100 px-3">
+                <div className="flex">
+                  <ButtonToolbar>
+                    <OverlayTrigger
+                      trigger={["hover", "focus"]}
+                      placement="right"
+                      overlay={popoverHoverFocus}
                     >
-                      <Avatar
-                        size="sm"
-                        name="Prosper Otemuyiwa"
-                        src={
-                          isPublic
+                      <NavLink
+                        to={
+                          "/profile/" +
+                          (isPublic
                             ? isProfileView
-                              ? publicUser && publicUser.profileURL
-                              : item.profileURL
-                            : userDetails && userDetails.profileURL
+                              ? data.username
+                              : username
+                            : userDetails && userDetails.username)
                         }
-                      />
-                    </NavLink>
-                  </OverlayTrigger>
-                </ButtonToolbar>
-                <Text className="mx-2">
-                  {isPublic
-                    ? isProfileView
-                      ? publicUser &&
-                      publicUser.firstName + " " + publicUser.lastName
-                      : item.name
-                    : userDetails.firstName + " " + userDetails.lastName}
-                </Text>
-              </div>
-              <div className="flex">
-                <div className="like flex mx-2">
-                  <button onClick={() => setLike((prev) => !prev)}>
-                    {like ? (
-                      <AiFillHeart color="red" size={18} />
-                    ) : (
-                      <AiOutlineHeart color="red" size={18} />
-                    )}
-                  </button>
-                  <span className="px-1">{like ? likes + 1 : likes}</span>
+                      >
+                        <Avatar
+                          size="sm"
+                          name="Prosper Otemuyiwa"
+                          src={
+                            isPublic
+                              ? isProfileView
+                                ? publicUser && publicUser.profileURL
+                                : item.profileURL
+                              : userDetails && userDetails.profileURL
+                          }
+                        />
+                      </NavLink>
+                    </OverlayTrigger>
+                  </ButtonToolbar>
+                  <Text className="mx-2">
+                    {isPublic
+                      ? isProfileView
+                        ? publicUser &&
+                        publicUser.firstName + " " + publicUser.lastName
+                        : item.name
+                      : userDetails.firstName + " " + userDetails.lastName}
+                    <br /><span className="text-time"><small>{getTimeDifference(item.postId)}</small></span>
+                  </Text>
                 </div>
-                <div className="comment flex mx-2">
-                  <FaRegCommentDots color="green" size={18} />
-                  <span className="px-1">{20}</span>
+                <div className="flex">
+                  <div className="like flex mx-2">
+                    <button onClick={() => setLike((prev) => !prev)}>
+                      {like ? (
+                        <AiFillHeart color="red" size={18} />
+                      ) : (
+                        <AiOutlineHeart color="red" size={18} />
+                      )}
+                    </button>
+                    <span className="px-1">{like ? likes + 1 : likes}</span>
+                  </div>
+                  <div className="comment flex mx-2">
+                    <FaRegCommentDots color="green" size={18} />
+                    <span className="px-1">{20}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardFooter>
-        </Card>
+            </CardFooter>
+          </Card>
+        </Skeleton>
+
       </div>
     </>
   );

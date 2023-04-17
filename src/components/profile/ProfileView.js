@@ -12,6 +12,7 @@ import {
   Button,
   Divider,
   AvatarBadge,
+  Skeleton,
 } from "@chakra-ui/react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { AiTwotoneEdit } from "react-icons/ai";
@@ -64,16 +65,18 @@ export default function ProfileView({
           rounded={"md"}
           overflow={"hidden"}
         >
-          <Image
-            h={"120px"}
-            w={"full"}
-            src={
-              userDetails
-                ? userDetails.coverURL
-                : "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            }
-            objectFit={"cover"}
-          />
+          <Skeleton isLoaded={userDetails}>
+            <Image
+              h={"120px"}
+              w={"full"}
+              src={
+                userDetails
+                  ? userDetails.coverURL
+                  : "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+              }
+              objectFit={"cover"}
+            />
+          </Skeleton>
           <Flex justify={"center"} mt={-12}>
             <Avatar
               size={"xl"}
