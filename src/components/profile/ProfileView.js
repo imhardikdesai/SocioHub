@@ -11,6 +11,7 @@ import {
   Icon,
   Button,
   Divider,
+  AvatarBadge,
 } from "@chakra-ui/react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { AiTwotoneEdit } from "react-icons/ai";
@@ -26,9 +27,9 @@ export default function ProfileView({
   userDetails,
   isPublic,
 }) {
+  const [isFollow, setIsFollow] = useState(true);
   // const { currentUser } = useContext(AuthContext);
   // const [currentFollowState, setCurrentFollowState] = useState(null);
-  const [isFollow, setIsFollow] = useState(true);
   // const handleFollowButton = () => {
   //   setIsFollow((prev) => !prev);
   //   if (isFollow) {
@@ -85,7 +86,13 @@ export default function ProfileView({
               css={{
                 border: "2px solid white",
               }}
-            />
+            >
+              {
+                userDetails && (userDetails.isActive ?
+                  <AvatarBadge boxSize='0.8em' bg='green.500' />
+                  : <AvatarBadge borderWidth={4} borderColor='papayawhip' bg='tomato' boxSize='0.7em' />)
+              }
+            </Avatar>
           </Flex>
           {/* Username  */}
           <Box my={2} textAlign={"center"}>

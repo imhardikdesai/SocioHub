@@ -23,7 +23,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase-config";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../context/AuthContext";
-import { showRelevantErrorMessage } from "../../utility/utils";
+import { showRelevantErrorMessage, UpdateCurrentActiveStatus } from "../../utility/utils";
 import Loader from "./Loader";
 
 const LinkItems = [
@@ -72,13 +72,14 @@ export default function SideBar({ children }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const [loading, setLoading] = useState(false);
-  const { userDetails, setCurrentUser, setUserDetails } =
+  const { userDetails, setCurrentUser, currentUser, setUserDetails } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogOut = async () => {
     setLoading(true);
     try {
       await auth.signOut();
+      UpdateCurrentActiveStatus(currentUser, false)
       setCurrentUser(null);
       setUserDetails(null);
       toast.success("Successfully Logged out");

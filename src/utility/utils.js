@@ -121,9 +121,9 @@ export async function UserDetailsFromURL(username) {
         if (snapshot.exists()) {
             const users = snapshot.val();
             const userId = Object.keys(users)[0]
-            const { firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings } = Object.values(users)[0];
+            const { firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings, isActive } = Object.values(users)[0];
             const user = {
-                userId, firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings
+                userId, firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings, isActive
             }
             return user;
         }
@@ -189,6 +189,14 @@ export async function GetAllExploreList() {
 // Functions For Update Settings
 export async function UpdateSetting(settingObj, currentUser) {
     await update(dbRef(database, "users/" + currentUser.uid + '/settings/'), settingObj);
+}
+
+
+// Functions For Update User Current Active Status
+export async function UpdateCurrentActiveStatus(currentUser, status) {
+    await update(dbRef(database, "users/" + currentUser.uid), {
+        isActive: status
+    });
 }
 
 

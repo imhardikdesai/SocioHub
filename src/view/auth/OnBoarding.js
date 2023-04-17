@@ -143,6 +143,7 @@ export default function OnBoarding() {
           coverURL,
           posts: "",
           isAdmin: false,
+          isActive: true,
           followers: 0,
           following: 0,
           settings: {
