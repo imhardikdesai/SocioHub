@@ -41,6 +41,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
         >
           <Image
             height={"84px"}
+            width="84px"
             fit="cover"
             src={
               isPublic
@@ -67,7 +68,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
               {isPublic
                 ? isProfileView
                   ? publicUser &&
-                    publicUser.firstName + " " + publicUser.lastName
+                  publicUser.firstName + " " + publicUser.lastName
                   : item.name
                 : userDetails.firstName + " " + userDetails.lastName}
             </Link>
@@ -118,7 +119,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
               {title.substr(0, 30)}...
             </Text>
             <Text fontSize="sm" className="px-3 py-1">
-              {description.substr(0, 70)}...
+              {description.substr(0, 180)}...
             </Text>
           </CardBody>
 
@@ -159,7 +160,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
                   {isPublic
                     ? isProfileView
                       ? publicUser &&
-                        publicUser.firstName + " " + publicUser.lastName
+                      publicUser.firstName + " " + publicUser.lastName
                       : item.name
                     : userDetails.firstName + " " + userDetails.lastName}
                 </Text>

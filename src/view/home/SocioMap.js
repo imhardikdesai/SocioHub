@@ -28,7 +28,6 @@ const SocioMap = () => {
       );
     }
   }, [currentUser]);
-
   return (
     <>
       <Heading mb={4} as="h2">SocioMap</Heading>

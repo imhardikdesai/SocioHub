@@ -8,3 +8,6 @@ export function generateUsername(firstname, lastname) {
 export function shuffleArray(arr = []) {
     return arr.sort(() => (Math.random() - 0.5))
 }
+export function getRandomSizeImageNumber() {
+    return Math.floor(Math.random() * (70 - 50 + 1)) + 50;
+}
