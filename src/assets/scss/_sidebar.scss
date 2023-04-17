@@ -34,8 +34,8 @@
 }
 
 .active {
-  div {
-    background-color: #0bc5ea;
+  :first-child {
+    background: #0bc5ea;
     color: black;
   }
 }

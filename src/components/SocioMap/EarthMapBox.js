@@ -66,7 +66,7 @@ const EarthMapBox = () => {
 
                         const popupContent = `<div style="color: #000;text-align:center;width:200px;display:flex;justify-content:center" >
                                                 <img style="object-fit: cover;width: 100px;height: 100px;border-radius:50px;" src="${profileURL}" alt="No Image">
-                                                <div style="text-align:center;margin:3px;">
+                                                <div style="text-align:center;margin-top:5px;">
                                                     <strong style="font-size:15px">${name}</strong>
                                                     <div style="font-size:12px"><i>@${username}</i></div>
                                                     <div style="font-size:14px"><strong>${occupation}</strong></div>

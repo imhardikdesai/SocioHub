@@ -127,6 +127,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         {userDetails && userDetails.isAdmin && (
           <NavItem
+            onClose={onClose}
             path={"/admin"}
             key={"admin"}
             icon={MdOutlineAdminPanelSettings}
@@ -170,7 +171,7 @@ const NavItem = ({ onClose, path, icon, children, ...rest }) => {
         cursor="pointer"
         _hover={{
           bg: "cyan.400",
-          color: "white",
+          color: "black",
         }}
         {...rest}
       >

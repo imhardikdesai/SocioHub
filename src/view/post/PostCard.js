@@ -9,6 +9,7 @@ import {
   Link,
   Box,
   Flex,
+  Divider,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { ButtonToolbar, OverlayTrigger, Popover } from "react-bootstrap";
@@ -99,7 +100,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
     <>
       <div className="col-sm-12 col-lg-6 col-xxl-4">
         <Card
-          minH={"450px"}
+          minH={"430px"}
           maxW={"sm"}
           my={2}
           className="post-card mx-sm-auto"
@@ -119,10 +120,10 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
               {title.substr(0, 30)}...
             </Text>
             <Text fontSize="sm" className="px-3 py-1">
-              {description.substr(0, 180)}...
+              {description.substr(0, 130)}...
             </Text>
           </CardBody>
-
+          <Divider />
           <CardFooter p={2}>
             <div className="flex justify-content-between w-100 px-3">
               <div className="flex">
