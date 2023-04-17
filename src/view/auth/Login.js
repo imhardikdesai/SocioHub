@@ -22,7 +22,7 @@ import LoginSchema from "../../validation/LoginSchema";
 import { auth } from "../../firebase/firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../../context/AuthContext";
-import { showRelevantErrorMessage } from "../../utility/utils";
+import { showRelevantErrorMessage, UpdateCurrentActiveStatus } from "../../utility/utils";
 import Loader from "../../components/common/Loader";
 import { OAuthButtonGroup } from "../../components/common/OAuthButtonGroup";
 import LottieBucket from "../../components/common/LottieBucket";
@@ -46,6 +46,7 @@ export default function Login() {
       );
       if (userCredential) {
         setCurrentUser(userCredential.user);
+        UpdateCurrentActiveStatus(userCredential.user, true)
         toast.success("Login Successfully !!");
         navigate("/posts");
         setLoading(false);

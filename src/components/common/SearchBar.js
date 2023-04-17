@@ -14,7 +14,6 @@ import { GetAllUserList } from "../../utility/utils";
 const SearchBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [people, setPeople] = useState(null);
-
   const handleBtnClick = () => {
     toggleColorMode();
     const msg =
@@ -55,11 +54,12 @@ const SearchBar = () => {
           <AutoCompleteList>
             {people &&
               Object.values(people).map((person, index) => {
+                const name = person.firstName + " " + person.lastName
                 return (
                   <Link key={index} to={`/profile/${person.username}`}>
                     <AutoCompleteItem
                       key={`option-${index}`}
-                      value={person.username}
+                      value={name}
                       textTransform="capitalize"
                       align="center"
                     >
@@ -69,7 +69,7 @@ const SearchBar = () => {
                         src={person.profileURL}
                       />
                       <Text ml="4">
-                        {person.firstName + " " + person.lastName}
+                        {name}
                       </Text>
                     </AutoCompleteItem>
                   </Link>

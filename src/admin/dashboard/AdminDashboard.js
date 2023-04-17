@@ -36,7 +36,7 @@ const AdminDashboard = ({ people }) => {
                 border: "2px solid white",
               }}
             >
-              {user.isAdmin && (
+              {user.isAdmin ? (
                 <AvatarBadge
                   boxSize="0.9em"
                   bg="yellow.500"
@@ -45,7 +45,14 @@ const AdminDashboard = ({ people }) => {
                 >
                   <Icon as={FaCrown} color="white" boxSize="0.5em" />
                 </AvatarBadge>
-              )}
+              ) :
+                (
+                  user.isActive ?
+                    <AvatarBadge borderWidth={3} boxSize='0.8em' bg='green.500' />
+                    : <AvatarBadge borderWidth={3} borderColor='papayawhip' bg='tomato' boxSize='0.7em' />
+                )
+
+              }
             </Avatar>
           </NavLink>
         )

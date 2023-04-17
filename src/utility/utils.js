@@ -2,6 +2,7 @@ import { toast } from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, database } from "../firebase/firebase-config";
 import { ref as dbRef, equalTo, get, orderByChild, push, query, update, onValue, set } from 'firebase/database';
+import { updateChanges } from "../redux/actions/authActions";
 // import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 // For Showing Relevant Messages 
@@ -121,9 +122,9 @@ export async function UserDetailsFromURL(username) {
         if (snapshot.exists()) {
             const users = snapshot.val();
             const userId = Object.keys(users)[0]
-            const { firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings } = Object.values(users)[0];
+            const { firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings, isActive } = Object.values(users)[0];
             const user = {
-                userId, firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings
+                userId, firstName, lastName, email, occupation, followers, following, bio, city, country, state, profileURL, coverURL, username, posts, settings, isActive
             }
             return user;
         }
@@ -187,8 +188,22 @@ export async function GetAllExploreList() {
 }
 
 // Functions For Update Settings
-export async function UpdateSetting(settingObj, currentUser) {
+export async function UpdateSetting(settingObj, currentUser, dispatch) {
     await update(dbRef(database, "users/" + currentUser.uid + '/settings/'), settingObj);
+    await update(dbRef(database, "users/" + currentUser.uid + '/location/'), {
+        lan: 0,
+        lat: 0
+    }).then(() => {
+        dispatch(updateChanges())
+    })
+}
+
+
+// Functions For Update User Current Active Status
+export async function UpdateCurrentActiveStatus(currentUser, status) {
+    await update(dbRef(database, "users/" + currentUser.uid), {
+        isActive: status
+    });
 }
 
 

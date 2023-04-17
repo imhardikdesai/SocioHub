@@ -11,6 +11,8 @@ import {
   Icon,
   Button,
   Divider,
+  AvatarBadge,
+  Skeleton,
 } from "@chakra-ui/react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { AiTwotoneEdit } from "react-icons/ai";
@@ -26,9 +28,9 @@ export default function ProfileView({
   userDetails,
   isPublic,
 }) {
+  const [isFollow, setIsFollow] = useState(true);
   // const { currentUser } = useContext(AuthContext);
   // const [currentFollowState, setCurrentFollowState] = useState(null);
-  const [isFollow, setIsFollow] = useState(true);
   // const handleFollowButton = () => {
   //   setIsFollow((prev) => !prev);
   //   if (isFollow) {
@@ -63,16 +65,18 @@ export default function ProfileView({
           rounded={"md"}
           overflow={"hidden"}
         >
-          <Image
-            h={"120px"}
-            w={"full"}
-            src={
-              userDetails
-                ? userDetails.coverURL
-                : "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            }
-            objectFit={"cover"}
-          />
+          <Skeleton isLoaded={userDetails}>
+            <Image
+              h={"120px"}
+              w={"full"}
+              src={
+                userDetails
+                  ? userDetails.coverURL
+                  : "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+              }
+              objectFit={"cover"}
+            />
+          </Skeleton>
           <Flex justify={"center"} mt={-12}>
             <Avatar
               size={"xl"}
@@ -85,7 +89,13 @@ export default function ProfileView({
               css={{
                 border: "2px solid white",
               }}
-            />
+            >
+              {
+                userDetails && (userDetails.isActive ?
+                  <AvatarBadge boxSize='0.8em' bg='green.500' />
+                  : <AvatarBadge borderWidth={4} borderColor='papayawhip' bg='tomato' boxSize='0.7em' />)
+              }
+            </Avatar>
           </Flex>
           {/* Username  */}
           <Box my={2} textAlign={"center"}>

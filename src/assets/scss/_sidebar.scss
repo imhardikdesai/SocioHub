@@ -32,3 +32,10 @@
     top: 85vh;
   }
 }
+
+.active {
+  :first-child {
+    background: #0bc5ea;
+    color: black;
+  }
+}

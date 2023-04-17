@@ -23,7 +23,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase-config";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../context/AuthContext";
-import { showRelevantErrorMessage } from "../../utility/utils";
+import { showRelevantErrorMessage, UpdateCurrentActiveStatus } from "../../utility/utils";
 import Loader from "./Loader";
 
 const LinkItems = [
@@ -72,13 +72,14 @@ export default function SideBar({ children }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const [loading, setLoading] = useState(false);
-  const { userDetails, setCurrentUser, setUserDetails } =
+  const { userDetails, setCurrentUser, currentUser, setUserDetails } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogOut = async () => {
     setLoading(true);
     try {
       await auth.signOut();
+      UpdateCurrentActiveStatus(currentUser, false)
       setCurrentUser(null);
       setUserDetails(null);
       toast.success("Successfully Logged out");
@@ -120,13 +121,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
           />
         </Flex>
         {LinkItems.map((link) => (
-          <NavItem path={link.path} key={link.name} icon={link.icon}>
+          <NavItem onClose={onClose} path={link.path} key={link.name} icon={link.icon}>
             {link.name}
           </NavItem>
         ))}
 
         {userDetails && userDetails.isAdmin && (
           <NavItem
+            onClose={onClose}
             path={"/admin"}
             key={"admin"}
             icon={MdOutlineAdminPanelSettings}
@@ -152,9 +154,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ path, icon, children, ...rest }) => {
+const NavItem = ({ onClose, path, icon, children, ...rest }) => {
   return (
     <NavLink
+      onClick={onClose}
       to={path}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
@@ -163,12 +166,13 @@ const NavItem = ({ path, icon, children, ...rest }) => {
         align="center"
         p="4"
         mx="4"
+        my={1}
         borderRadius="lg"
         role="group"
         cursor="pointer"
         _hover={{
           bg: "cyan.400",
-          color: "white",
+          color: "black",
         }}
         {...rest}
       >
