@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Avatar,
   Box,
@@ -20,8 +20,9 @@ import { BsFillBriefcaseFill } from "react-icons/bs";
 import ShareMenu from "../common/ShareMenu";
 import PostCard from "../../view/post/PostCard";
 import { InfinitySpin } from "react-loader-spinner";
-// import { UpdateUserFollower } from "../../utility/utils";
-// import { AuthContext } from "../../context/AuthContext";
+import { GetFollowerAndFollowingNumbers, UpdateUserFollower } from "../../utility/community";
+import { AuthContext } from "../../context/AuthContext";
+import { useDispatch } from "react-redux";
 
 export default function ProfileView({
   setisEditProfile,
@@ -29,30 +30,34 @@ export default function ProfileView({
   isPublic,
 }) {
   const [isFollow, setIsFollow] = useState(true);
-  // const { currentUser } = useContext(AuthContext);
-  // const [currentFollowState, setCurrentFollowState] = useState(null);
-  // const handleFollowButton = () => {
-  //   setIsFollow((prev) => !prev);
-  //   if (isFollow) {
-  //     setCurrentFollowState((prev) => prev + 1);
-  //   } else {
-  //     setCurrentFollowState((prev) => prev - 1);
-  //   }
-  // };
-  // useEffect(() => {
-  //   if (userDetails) {
-  //     setCurrentFollowState(userDetails.followers);
-  //   }
-  // }, [userDetails]);
+  const [followData, setFollowData] = useState(null)
+  const { currentUser } = useContext(AuthContext);
+  const dispatch = useDispatch()
+  const handleFollowButton = () => {
+    setIsFollow((prev) => !prev);
+    UpdateUserFollower(currentUser, userDetails, dispatch)
+  };
+  useEffect(() => {
+    if (userDetails) {
+      if (userDetails.followers) {
+        if (Object.keys(userDetails.followers).includes(currentUser.uid)) {
+          setIsFollow(false)
+        } else {
+          setIsFollow(true)
+        }
+      }
+    }
+  }, [userDetails, currentUser.uid]);
 
-  // useEffect(() => {
-  //   if (userDetails) {
-  //     UpdateUserFollower(currentUser, {
-  //       username: userDetails.username,
-  //       followers: currentFollowState,
-  //     });
-  //   }
-  // }, [currentFollowState, currentUser, userDetails]);
+  useEffect(() => {
+    GetFollowerAndFollowingNumbers(isPublic ? userDetails.userId : currentUser.uid).then(res => {
+      setFollowData({
+        followers: res.followers ? Object.values(res.followers).length : 0,
+        following: res.following ? Object.values(res.following).length : 0
+      })
+    })
+    // eslint-disable-next-line
+  }, [isPublic, currentUser.uid])
   return (
     <>
       <Center py={6}>
@@ -108,7 +113,8 @@ export default function ProfileView({
             <Stack direction={"row"} justify={"center"} spacing={6}>
               <Stack spacing={0} align={"center"}>
                 <Text fontSize={"2xl"} fontWeight={600}>
-                  {userDetails ? userDetails.followers : "loading..."}
+                  {/* {userDetails ? userDetails.followers : "loading..."} */}
+                  {followData ? followData.followers : 'loading...'}
                 </Text>
                 <Text fontSize={"sm"} color={"gray.500"}>
                   Followers
@@ -116,7 +122,8 @@ export default function ProfileView({
               </Stack>
               <Stack spacing={0} align={"center"}>
                 <Text fontSize={"2xl"} fontWeight={600}>
-                  {userDetails ? userDetails.following : "loading..."}
+                  {/* {userDetails ? userDetails.following : "loading..."} */}
+                  {followData ? followData.following : 'loading...'}
                 </Text>
                 <Text fontSize={"sm"} color={"gray.500"}>
                   Following
@@ -143,8 +150,8 @@ export default function ProfileView({
             ) : (
               <Button
                 isDisabled={!userDetails}
-                onClick={() => setIsFollow((prev) => !prev)}
-                // onClick={handleFollowButton}
+                // onClick={() => setIsFollow((prev) => !prev)}
+                onClick={handleFollowButton}
                 width="150px"
                 height="27px"
                 bg={"blue.400"}

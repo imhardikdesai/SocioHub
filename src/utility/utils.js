@@ -133,19 +133,6 @@ export async function UserDetailsFromURL(username) {
     }
 }
 
-// Define the function that update User Followers and Following
-// export async function UpdateUserFollower(currentUserDetail, targetUserDetails) {
-//     // const { userDetails } = useContext(AuthContext)
-//     // UserDetailsFromURL(targetUserDetails.username).then(user => {
-//     //     update(dbRef(database, 'users/' + user.userId), {
-//     //         followers: targetUserDetails.followers
-//     //     });
-//     // })
-//     // update(dbRef(database, 'users/' + currentUserDetail.userId), {
-//     //     // followers: targetUserDetails.followers
-//     //     following: userDetails.following + 1
-//     // });
-// }
 
 export async function GetAllUserList() {
     return new Promise((resolve) => {
