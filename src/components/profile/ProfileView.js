@@ -22,20 +22,25 @@ import PostCard from "../../view/post/PostCard";
 import { InfinitySpin } from "react-loader-spinner";
 import { GetFollowerAndFollowingNumbers, UpdateUserFollower } from "../../utility/community";
 import { AuthContext } from "../../context/AuthContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateChanges } from "../../redux/actions/authActions";
 
 export default function ProfileView({
   setisEditProfile,
   userDetails,
   isPublic,
 }) {
+  const [id, setId] = useState(null)
   const [isFollow, setIsFollow] = useState(true);
   const [followData, setFollowData] = useState(null)
   const { currentUser } = useContext(AuthContext);
   const dispatch = useDispatch()
+  const status = useSelector(state => state.auth.status)
   const handleFollowButton = () => {
     setIsFollow((prev) => !prev);
-    UpdateUserFollower(currentUser, userDetails, dispatch)
+    UpdateUserFollower(currentUser, userDetails, dispatch).then((() => {
+      dispatch(updateChanges())
+    }))
   };
   useEffect(() => {
     if (userDetails) {
@@ -50,14 +55,22 @@ export default function ProfileView({
   }, [userDetails, currentUser.uid]);
 
   useEffect(() => {
-    GetFollowerAndFollowingNumbers(isPublic ? userDetails.userId : currentUser.uid).then(res => {
+    if (!id) return
+    GetFollowerAndFollowingNumbers(id).then(res => {
       setFollowData({
         followers: res.followers ? Object.values(res.followers).length : 0,
         following: res.following ? Object.values(res.following).length : 0
       })
     })
-    // eslint-disable-next-line
-  }, [isPublic, currentUser.uid])
+  }, [id, status, userDetails])
+
+  useEffect(() => {
+    if (isPublic) {
+      setId(userDetails.userId)
+    } else {
+      setId(currentUser.uid)
+    }
+  }, [currentUser.uid, userDetails.userId, isPublic])
   return (
     <>
       <Center py={6}>
