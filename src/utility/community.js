@@ -3,12 +3,18 @@ import { database } from '../firebase/firebase-config';
 
 // function for follow and unfollow functionality
 
-export async function UpdateUserFollower(currentUserDetail, targetUserDetails, dispatch) {
+export async function UpdateUserFollower(currentUserDetail, targetUserDetails, userData) {
     const targetDetails = {
-        uid: currentUserDetail.uid
+        uid: currentUserDetail.uid,
+        name: userData.firstName + ' ' + userData.lastName,
+        username: userData.username,
+        profileURL: userData.profileURL,
     }
     const currentDetails = {
-        uid: targetUserDetails.userId
+        uid: targetUserDetails.userId,
+        name: targetUserDetails.firstName + ' ' + targetUserDetails.lastName,
+        username: targetUserDetails.username,
+        profileURL: targetUserDetails.profileURL,
     }
     return Promise.all([
         //Update Target User Data

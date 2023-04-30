@@ -114,6 +114,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
           >
             <CardBody p={2} className="card-image-parent">
               <Image
+                onDoubleClick={() => alert('like')}
                 objectFit={"contain"}
                 width={"100%"}
                 height={"230px"}
@@ -123,11 +124,12 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
                 className="card-image"
               />
 
+
               <Text className="px-3 py-2" fontSize="xl">
                 {title.substr(0, 30)}...
               </Text>
               <Text fontSize="sm" className="px-3 py-1">
-                {description.substr(0, 100)}...
+                {description.substr(0, 70)}...
               </Text>
             </CardBody>
             <Divider />

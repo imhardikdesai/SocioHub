@@ -6,7 +6,6 @@ import {
   Image,
   Flex,
   Text,
-  Stack,
   chakra,
   Icon,
   Button,
@@ -24,12 +23,15 @@ import { GetFollowerAndFollowingNumbers, UpdateUserFollower } from "../../utilit
 import { AuthContext } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";
+import FollowerBox from "./FollowerBox";
+import Account from "../../_mock/account";
 
 export default function ProfileView({
   setisEditProfile,
   userDetails,
   isPublic,
 }) {
+  const [userData] = useState(Account())
   const [id, setId] = useState(null)
   const [isFollow, setIsFollow] = useState(true);
   const [followData, setFollowData] = useState(null)
@@ -38,7 +40,7 @@ export default function ProfileView({
   const status = useSelector(state => state.auth.status)
   const handleFollowButton = () => {
     setIsFollow((prev) => !prev);
-    UpdateUserFollower(currentUser, userDetails, dispatch).then((() => {
+    UpdateUserFollower(currentUser, userDetails, userData).then((() => {
       dispatch(updateChanges())
     }))
   };
@@ -70,7 +72,8 @@ export default function ProfileView({
     } else {
       setId(currentUser.uid)
     }
-  }, [currentUser.uid, userDetails.userId, isPublic])
+    // eslint-disable-next-line
+  }, [currentUser.uid, isPublic])
   return (
     <>
       <Center py={6}>
@@ -122,28 +125,7 @@ export default function ProfileView({
             </Text>
           </Box>
           {/* Followers Box  */}
-          <Box px={6} py={4}>
-            <Stack direction={"row"} justify={"center"} spacing={6}>
-              <Stack spacing={0} align={"center"}>
-                <Text fontSize={"2xl"} fontWeight={600}>
-                  {/* {userDetails ? userDetails.followers : "loading..."} */}
-                  {followData ? followData.followers : 'loading...'}
-                </Text>
-                <Text fontSize={"sm"} color={"gray.500"}>
-                  Followers
-                </Text>
-              </Stack>
-              <Stack spacing={0} align={"center"}>
-                <Text fontSize={"2xl"} fontWeight={600}>
-                  {/* {userDetails ? userDetails.following : "loading..."} */}
-                  {followData ? followData.following : 'loading...'}
-                </Text>
-                <Text fontSize={"sm"} color={"gray.500"}>
-                  Following
-                </Text>
-              </Stack>
-            </Stack>
-          </Box>
+          <FollowerBox isPublic={isPublic} testimonials={userDetails} followData={followData} />
           {/* Edit Profile  */}
           <Flex justifyContent={"space-around"}>
             {!isPublic ? (
