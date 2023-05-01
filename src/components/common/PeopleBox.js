@@ -57,6 +57,7 @@ function TestimonialCard({ name, profileURL, username }) {
 }
 
 export default function PeopleBox({ testimonials }) {
+    console.log('mapped data', testimonials)
     return (
         <Flex
             textAlign={'center'}
