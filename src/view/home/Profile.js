@@ -6,9 +6,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { UserDetailsFromURL } from "../../utility/utils";
 import { InfinitySpin } from "react-loader-spinner";
 import UserNotFound from "../../components/common/UserNotFound";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const [isEditProfile, setisEditProfile] = useState(true);
+  const status = useSelector(state => state.auth.status)
   const [notFound, setNotFound] = useState(false);
   const { userDetails } = useContext(AuthContext);
   const [publicUser, setPublicUser] = useState(null);
@@ -20,11 +22,11 @@ const Profile = () => {
         setNotFound(true);
       }
     });
-  }, [username]);
+  }, [username, status]);
   return (
     <>
       {!username ? (
-        // if paramter have not username then show my profile
+        // if parameter have not username then show my profile
         isEditProfile ? (
           <ProfileView
             userDetails={userDetails}
