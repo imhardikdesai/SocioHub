@@ -3,14 +3,11 @@ import { Box, Button, Stack, Text, useDisclosure } from '@chakra-ui/react'
 import PeoplePreview from './PeoplePreview';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { updateChanges } from '../../redux/actions/authActions';
 
 const FollowerBox = ({ followData, testimonials, isPublic }) => {
     const [follower, setFollowers] = useState(null)
     const [following, setFollowing] = useState(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const dispatch = useDispatch()
     const [type, setType] = useState('')
     const handlePeopleClicked = (action) => {
         setType(action)
@@ -25,18 +22,13 @@ const FollowerBox = ({ followData, testimonials, isPublic }) => {
             setFollowing(Object.values(testimonials.following))
         }
     }, [testimonials, isPublic])
-    const handleClose = () => {
-        onClose()
-        setType('')
-        dispatch(updateChanges())
-    }
     return (
         <>
             <PeoplePreview
                 testimonials={type === 'Followers' ? follower : following}
                 type={type}
                 isOpen={isOpen}
-                onClose={handleClose}
+                onClose={onClose}
             />
             <Box px={6} py={4}>
                 <Stack direction={"row"} justify={"center"} spacing={6}>

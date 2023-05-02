@@ -25,7 +25,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateChanges } from "../../redux/actions/authActions";
 import FollowerBox from "./FollowerBox";
 import Account from "../../_mock/account";
-import { useParams } from "react-router-dom";
 
 export default function ProfileView({
   setisEditProfile,
@@ -38,7 +37,6 @@ export default function ProfileView({
   const [followData, setFollowData] = useState(null)
   const { currentUser } = useContext(AuthContext);
   const dispatch = useDispatch()
-  const { username } = useParams()
   const status = useSelector(state => state.auth.status)
   const handleFollowButton = () => {
     setIsFollow((prev) => !prev);
@@ -54,11 +52,10 @@ export default function ProfileView({
         } else {
           setIsFollow(true)
         }
-      } else {
-        setIsFollow(true)
       }
     }
   }, [userDetails, currentUser.uid]);
+
   useEffect(() => {
     if (!id) return
     GetFollowerAndFollowingNumbers(id).then(res => {
@@ -67,7 +64,7 @@ export default function ProfileView({
         following: res.following ? Object.values(res.following).length : 0
       })
     })
-  }, [id, status, userDetails, username])
+  }, [id, status, userDetails])
 
   useEffect(() => {
     if (isPublic) {
@@ -75,7 +72,8 @@ export default function ProfileView({
     } else {
       setId(currentUser.uid)
     }
-  }, [currentUser.uid, isPublic, userDetails])
+    // eslint-disable-next-line
+  }, [currentUser.uid, isPublic])
   return (
     <>
       <Center py={6}>
@@ -257,7 +255,7 @@ export default function ProfileView({
                   <InfinitySpin width="200" color="#3182CE" />
               }
               {
-                userDetails && Object.values(userDetails.posts).length === 0 && <Text mb={12} textAlign={'center'} fontSize='2xl'>{userDetails.firstName + " has not yet made any post 🤔"}</Text>
+                userDetails && Object.values(userDetails.posts).length === 0 && <Text mb={12} textAlign={'center'} fontSize='2xl'>{userDetails.firstName + " Have No Post Yet"}</Text>
               }
             </div>
           </div>
