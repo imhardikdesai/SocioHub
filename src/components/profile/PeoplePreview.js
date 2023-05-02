@@ -3,7 +3,6 @@ import { Modal, ModalOverlay, ModalBody, ModalCloseButton, ModalContent, ModalHe
 import PeopleBox from '../common/PeopleBox'
 
 const PeoplePreview = ({ isOpen, onClose, type, testimonials }) => {
-    console.log('in preview', testimonials)
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
