@@ -8,10 +8,10 @@ import MyHelmet from "../../seo/MyHelmet";
 import { AuthContext } from "../../context/AuthContext";
 
 const Home = () => {
-  const {userDetails} = useContext(AuthContext)
+  const { userDetails } = useContext(AuthContext)
   return (
     <>
-    <MyHelmet userDetails={userDetails} />
+      <MyHelmet userDetails={userDetails} />
       <main className="d-flex flex-column flex-xxl-row flex-xl-row flex-lg-row flex-md-row">
         <Sidebar />
         <section className="main-content px-3">
