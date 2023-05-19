@@ -13,7 +13,7 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
-import { ButtonToolbar, OverlayTrigger, Popover } from "react-bootstrap";
+import { ButtonToolbar, Col, OverlayTrigger, Popover } from "react-bootstrap";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
 import { NavLink, useParams } from "react-router-dom";
@@ -31,7 +31,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
   const [like, setLike] = useState(false);
   const popoverHoverFocus = (
     <Popover id="popover-trigger-hover-focus" title="Popover bottom">
-      <Flex p={50} w="full" alignItems="center" justifyContent="center">
+      <Flex p={50} w="full" alignItems="center" justifyContent="center" >
         <Box
           w="xs"
           bg="white"
@@ -104,7 +104,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
   }, 1000)
   return (
     <>
-      <div className="col-sm-12 col-lg-6 col-xxl-4">
+      <Col sm={12} lg={6} xxl={4}>
         <Skeleton isLoaded={load}>
           <Card
             minH={"430px"}
@@ -197,7 +197,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
           </Card>
         </Skeleton>
 
-      </div>
+      </Col>
     </>
   );
 };
