@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# SocioHub - Social Media Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to SocioHub, the ultimate social media platform for connecting with friends, sharing your thoughts and ideas, and discovering new content. SocioHub provides a sleek and user-friendly interface that allows you to create a profile, follow your favorite users, and stay up-to-date with the latest trends and news. Join our vibrant community today and start sharing your world!
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- User Registration and Authentication
+- User Profiles
+- User Socio Map
+- Post Creation
+- Follow/Unfollow Users
+- Like and Comment
+- Trending Section
+- Notifications
+- Search Functionality
+- Privacy Settings
 
-### `npm start`
+## Screenshots
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- SignIn  ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/3185861c-182d-4a23-acd9-8531c862c982)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- SignUp  ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/23f1d154-b692-458e-99dc-1ddc170d7951)
 
-### `npm test`
+- Home  ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/613156fb-1f96-43e9-b2f8-b0ab2074a8ed)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- User Profile ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/de2fd372-ae44-420a-9d86-0517aa937482)
 
-### `npm run build`
+- Followers/Following ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/204da00a-a6a2-4b74-b25b-c61c238ae774)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Explore Post ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/7fe522aa-d7f4-4a73-ac4d-b3fc85a6173e)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Socio Map ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/be020508-ca78-4839-8f53-9289d7915b0a)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Setting ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/f866db63-8514-4320-bb06-edb67beb852b)
 
-### `npm run eject`
+- Admin Pannel ![image](https://github.com/imhardikdesai/SocioHub/assets/87645745/427852a5-7c39-43ad-9090-5b50340f5b1b)
+ 
+## Technologies Used
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Front-end: React JS, Chakra UI, JavaScript 
+- Back-end: Firebase
+- Database: Firebase Firestore
+- Authentication: Google Auth
+- Other Libraries/Frameworks: Redux, Axios, MapBox
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Getting Started
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clone the repository: `git clone https://github.com/imhardikdesai/SocioHub.git`
+2. Install the dependencies: `npm install`
+3. Set up environment variables with firebase credentials 
+4. Start the server: `npm start`
+5. Access the application in your browser at `http://localhost:3000`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Contribution Guidelines
 
-## Learn More
+Thank you for considering contributing to SocioHub! If you wish to contribute, please follow these guidelines:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Fork the repository.
+2. Create a new branch for your feature/fix: `git checkout -b feature-name`.
+3. Commit your changes: `git commit -m "Add feature/fix name"`.
+4. Push to the branch: `git push origin feature-name`.
+5. Open a pull request with a detailed description of your changes.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
+This project is licensed under the [MIT License](LICENSE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Feel free to explore, modify, and use this codebase to create your own social media platform. We hope you enjoy using SocioHub as much as we enjoyed building it!
 
-### Analyzing the Bundle Size
+For any questions or feedback, please contact our support team at support@sociohub.com.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Let's connect, share, and inspire on SocioHub!
