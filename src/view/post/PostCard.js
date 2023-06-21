@@ -11,6 +11,7 @@ import {
   Flex,
   Divider,
   Skeleton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { ButtonToolbar, Col, OverlayTrigger, Popover } from "react-bootstrap";
@@ -20,8 +21,11 @@ import { NavLink, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { getTimeDifference } from "../../utility/functions";
 import { UserDetailsFromURL } from "../../utility/utils";
+import PostPreview from "../../components/post/PostPreview";
 
 const PostCard = ({ item, isPublic, isProfileView }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   const [load, setLoad] = useState(false)
   const data = useParams();
   const [publicUser, setPublicUser] = useState(null);
@@ -102,11 +106,14 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
   setTimeout(() => {
     setLoad(true)
   }, 1000)
+
   return (
     <>
+      <PostPreview isOpen={isOpen} item={item} onClose={onClose} />
       <Col sm={12} lg={6} xxl={4}>
         <Skeleton isLoaded={load}>
           <Card
+            onClick={onOpen}
             minH={"430px"}
             maxW={"sm"}
             my={2}
@@ -114,7 +121,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
           >
             <CardBody p={2} className="card-image-parent">
               <Image
-                onDoubleClick={() => alert('like')}
+                onDoubleClick={() => console.log('like')}
                 objectFit={"contain"}
                 width={"100%"}
                 height={"230px"}
