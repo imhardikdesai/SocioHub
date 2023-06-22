@@ -38,7 +38,7 @@ export default function ProfileView({
   const { currentUser } = useContext(AuthContext);
   const dispatch = useDispatch()
   const status = useSelector(state => state.auth.status)
-  const handleFollowButton = () => {
+  const handleFollowButton = () => {  
     setIsFollow((prev) => !prev);
     UpdateUserFollower(currentUser, userDetails, userData).then((() => {
       dispatch(updateChanges())

@@ -107,19 +107,22 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
     setLoad(true)
   }, 1000)
 
+  const handleLikePost = () => {
+    setLike((prev) => !prev)
+  }
+
   return (
     <>
       <PostPreview isOpen={isOpen} item={item} onClose={onClose} />
       <Col sm={12} lg={6} xxl={4}>
         <Skeleton isLoaded={load}>
           <Card
-            onClick={onOpen}
             minH={"430px"}
             maxW={"sm"}
             my={2}
             className="post-card mx-sm-auto"
           >
-            <CardBody p={2} className="card-image-parent">
+            <CardBody onClick={onOpen} p={2} className="card-image-parent">
               <Image
                 onDoubleClick={() => console.log('like')}
                 objectFit={"contain"}
@@ -185,7 +188,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
                 </div>
                 <div className="flex">
                   <div className="like flex mx-2">
-                    <button onClick={() => setLike((prev) => !prev)}>
+                    <button onClick={handleLikePost}>
                       {like ? (
                         <AiFillHeart color="red" size={18} />
                       ) : (
@@ -196,7 +199,7 @@ const PostCard = ({ item, isPublic, isProfileView }) => {
                   </div>
                   <div className="comment flex mx-2">
                     <FaRegCommentDots color="green" size={18} />
-                    <span className="px-1">{20}</span>
+                    <span className="px-1">{0}</span>
                   </div>
                 </div>
               </div>
