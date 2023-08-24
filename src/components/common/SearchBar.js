@@ -17,20 +17,20 @@ const SearchBar = () => {
   const handleBtnClick = () => {
     toggleColorMode();
     const msg =
-      colorMode === "light" ? "Light mode Activated" : "Dark mode Activated";
-    const icon = colorMode === "light" ? "🌞" : "🌚";
+      colorMode === "light" ? "Dark mode Activated" : "Light mode Activated";
+    const icon = colorMode === "light" ? "🌚" : "🌞";
     const style =
       colorMode === "light"
         ? {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        }
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          }
         : {
-          borderRadius: "10px",
-          background: "#fff",
-          color: "#333",
-        };
+            borderRadius: "10px",
+            background: "#fff",
+            color: "#333",
+          };
 
     toast(msg, {
       icon: icon,
@@ -54,7 +54,7 @@ const SearchBar = () => {
           <AutoCompleteList>
             {people &&
               Object.values(people).map((person, index) => {
-                const name = person.firstName + " " + person.lastName
+                const name = person.firstName + " " + person.lastName;
                 return (
                   <Link key={index} to={`/profile/${person.username}`}>
                     <AutoCompleteItem
@@ -68,9 +68,7 @@ const SearchBar = () => {
                         name={person.username}
                         src={person.profileURL}
                       />
-                      <Text ml="4">
-                        {name}
-                      </Text>
+                      <Text ml="4">{name}</Text>
                     </AutoCompleteItem>
                   </Link>
                 );
