@@ -109,7 +109,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
               fontSize="2xl"
               fontFamily="monospace"
               fontWeight="bold"
-              style={{ transform: "translateY(3px)" }}
+              style={{ transform: "translateY(8px)" }}
             >
               SocioHub
             </Text>
