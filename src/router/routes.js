@@ -12,6 +12,7 @@ import PrivateRoute from './PrivateRoute';
 import PrivateAdmin from './PrivateAdmin';
 import Admin from '../admin';
 import SocioMap from '../view/home/SocioMap';
+import ForgotPassword from '../view/auth/ForgetPassword';
 
 const RouteLinks = () => {
     return (
@@ -37,6 +38,7 @@ const RouteLinks = () => {
                 </Route>
 
                 <Route path='/login' element={<Login />} />
+                <Route path='/forget-password' element={<ForgotPassword />} />
                 <Route path='/signup' element={<OnBoarding />} />
                 <Route path='*' element={<ErrorPage />} />
             </Routes>

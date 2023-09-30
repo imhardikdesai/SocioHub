@@ -11,8 +11,6 @@ import {
   Heading,
   Text,
   FormErrorMessage,
-  HStack,
-  Divider,
 } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -24,7 +22,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../../context/AuthContext";
 import { showRelevantErrorMessage, UpdateCurrentActiveStatus } from "../../utility/utils";
 import Loader from "../../components/common/Loader";
-import { OAuthButtonGroup } from "../../components/common/OAuthButtonGroup";
 import LottieBucket from "../../components/common/LottieBucket";
 import LoginHello from "../../animation/login-hello.json";
 export default function Login() {
@@ -149,10 +146,13 @@ export default function Login() {
                       direction={{ base: "column", sm: "row" }}
                       align={"start"}
                       mt={2}
-                      justify={"end"}
+                      justify={"space-between"}
                     >
+                      <NavLink to="/forget-password" color={"blue.400"}>
+                        <span>Forget Password</span>
+                      </NavLink>
                       <NavLink to="/signup" color={"blue.400"}>
-                        <span> New User?</span>
+                        <span>New User?</span>
                       </NavLink>
                     </Stack>
                     <Button
@@ -167,7 +167,7 @@ export default function Login() {
                     </Button>
                   </Stack>
                 </Form>
-                <Stack spacing="6">
+                {/* <Stack spacing="6">
                   <HStack>
                     <Divider />
                     <Text fontSize="sm" whiteSpace="nowrap" color="muted">
@@ -176,7 +176,7 @@ export default function Login() {
                     <Divider />
                   </HStack>
                   <OAuthButtonGroup />
-                </Stack>
+                </Stack> */}
               </Stack>
             </Box>
           </Stack>
