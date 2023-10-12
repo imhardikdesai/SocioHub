@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import {
   Box,
   SimpleGrid,
-  Button,
+  //Button,
   Stack,
   GridItem,
 } from "@chakra-ui/react";
@@ -32,6 +32,11 @@ const SettingProfile = () => {
     initialValues,
     onSubmit: handleSaveSetting,
   });
+  const originalHandleChange = handleChange;
+  const customHandleChange = (e) => {
+  originalHandleChange(e);
+  handleSubmit();
+};
 
   return (
     <>
@@ -68,15 +73,15 @@ const SettingProfile = () => {
                 spacing={6}
               >
                 {/* Email Visibility  */}
-                <EmailSetting values={values} handleChange={handleChange} isShowEmail={isShowEmail} />
+                <EmailSetting values={values} handleChange={customHandleChange} isShowEmail={isShowEmail} />
 
                 {/* Location Ghost  Mode */}
-                <LocationSetting values={values} handleChange={handleChange} isGhostMode={isGhostMode} />
+                <LocationSetting values={values} handleChange={customHandleChange} isGhostMode={isGhostMode} />
 
               </Stack>
 
               {/* Save Button  */}
-              <Box
+              {/* <Box
                 px={{
                   base: 4,
                   sm: 6,
@@ -97,7 +102,7 @@ const SettingProfile = () => {
                 >
                   Save
                 </Button>
-              </Box>
+              </Box> */}
             </GridItem>
           </SimpleGrid>
         </Form>
