@@ -27,7 +27,7 @@ const EmailSetting = ({ values, isShowEmail, handleChange }) => {
                                 }}
                                 id="emailShow"
                                 rounded="md"
-                                onChange={handleChange}                                
+                                onChange={handleChange}
                             />
                         </Flex>
                         <Box ml={3} fontSize="sm">
