@@ -247,6 +247,7 @@ export default function OnBoarding() {
                   <Button
                     w="7rem"
                     isDisabled={step === 3}
+                    pointerEvents= {step === 3 ? "none" : "auto"} 
                     onClick={() => {
                       setStep(step + 1);
                       if (step === 3) {
@@ -255,11 +256,11 @@ export default function OnBoarding() {
                         setProgress(progress + 33.33);
                       }
                     }}
-                    colorScheme="teal"
-                    variant="outline"
+                    colorScheme={step === 3 ? "1a202c" : "teal"}
+                    variant={step === 3 ? "none" : "outline"}
                   >
-                    Next
-                  </Button>
+                   {step === 3 ? "" : "Next"} 
+                  </Button> 
                 </Flex>
                 {step === 3 && (
                   <>
